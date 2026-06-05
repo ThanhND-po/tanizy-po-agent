@@ -1,0 +1,11 @@
+description = "Tanizy PO: refine a vague product idea into an approved feature spec."
+prompt = """
+# Tanizy PO Brainstorming
+
+Use the brainstorming workflow below.
+
+@{skills/brainstorming/SKILL.md}
+
+User request:
+{{args}}
+"""

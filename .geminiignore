@@ -1,0 +1,10 @@
+.git/
+node_modules/
+dist/
+build/
+coverage/
+.env
+.env.*
+.DS_Store
+*.swp
+*.swo

@@ -1,0 +1,11 @@
+description = "Tanizy PO: create requirement artifacts such as Epic, User Story, Use Case, Basic Design, API Spec, or NFR."
+prompt = """
+# Tanizy PO Requirements
+
+Use the writing-requirements workflow below.
+
+@{skills/writing-requirements/SKILL.md}
+
+User request:
+{{args}}
+"""

@@ -1,0 +1,23 @@
+description = "Tanizy PO: route a Product Owner request to the right workflow."
+prompt = """
+# Tanizy PO Router
+
+Use the router and available workflow instructions below. Choose the workflow that matches the request, then follow that workflow.
+
+@{skills/using-tanizy-agent/SKILL.md}
+
+## Brainstorming Workflow
+
+@{skills/brainstorming/SKILL.md}
+
+## Requirements Workflow
+
+@{skills/writing-requirements/SKILL.md}
+
+## Diagram Workflow
+
+@{skills/creating-diagrams/SKILL.md}
+
+User request:
+{{args}}
+"""

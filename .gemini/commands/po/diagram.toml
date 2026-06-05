@@ -1,0 +1,11 @@
+description = "Tanizy PO: create diagrams such as Use Case, Sequence, BPMN, Activity, or State diagrams."
+prompt = """
+# Tanizy PO Diagram
+
+Use the creating-diagrams workflow below.
+
+@{skills/creating-diagrams/SKILL.md}
+
+User request:
+{{args}}
+"""
