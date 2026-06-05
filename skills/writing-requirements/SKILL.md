@@ -10,7 +10,7 @@ Transform a feature spec or business request into formal requirement artifacts.
 ## Hard Gates
 
 - Do not show a requirement artifact until the relevant template or research fallback has been applied.
-- For User Stories, apply `templates/user-story-invest.md` and pass `templates/user-story-quality-checklist.md` before showing the result.
+- For User Stories, apply `templates/user-story-invest.md` and pass `templates/user-story-quality-checklist.md` before showing the result. If it failed in the checklist, refine it and pass the checklist again until it passes.   
 - Do not write a file until the user approves the artifact and confirms the output path.
 - Do not run version-control actions.
 
