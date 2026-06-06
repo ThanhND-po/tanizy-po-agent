@@ -5,6 +5,7 @@ Tanizy PO Agent is a portable Gemini CLI workflow package for Product Owners. It
 ## What It Supports
 
 - Brainstorming vague product ideas into approved feature specs.
+- Understanding Lock, explicit assumptions, non-functional requirements, and Decision Log before writing specs.
 - Writing requirements such as Epic, User Story, Use Case, Basic Design, API Spec, and Non-functional Requirements.
 - Creating diagrams such as Use Case, Sequence, BPMN-style process flow, Activity, and State diagrams.
 - Research fallback when a requested artifact type has no local template.
