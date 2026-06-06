@@ -15,9 +15,28 @@ As a **[specific persona]**, I want to **[perform one clear goal/action]** so th
 
 ## Acceptance Criteria
 
-- [Observable condition that must be true for the story to be complete.]
-- [Business rule, permission rule, validation rule, or state behavior.]
-- [Relevant alternate or exception behavior.]
+### Happy Path
+
+- [Observable condition that must be true when the primary workflow succeeds.]
+
+### Business Rules / Validation
+
+- [Rule, validation, limit, state transition, or data condition that constrains the story.]
+
+### Alternative / Edge Cases
+
+- [Relevant valid variation, boundary condition, empty state, duplicate action, timeout, retry, or edge behavior.]
+- `N/A` only if there is truly no meaningful alternative or edge behavior; include the reason.
+
+### Exception / Negative Cases
+
+- [Invalid input, unauthorized access, unavailable dependency, conflicting state, or failure behavior.]
+- `N/A` only if there is truly no meaningful exception or negative behavior; include the reason.
+
+### Permission / Security
+
+- [Actor permission, privacy, audit, visibility, or access rule if relevant.]
+- `N/A` only if there is no permission or security implication; include the reason.
 
 ## Usage Scenarios
 

@@ -1,6 +1,17 @@
 # User Story Quality Checklist
 
-Run this checklist before showing a User Story to the user. Fix all blocking issues silently first.
+Run this checklist before showing a User Story to the user when detailed review is needed. Fix all blocking issues silently first.
+
+## Blocking Gate
+
+A User Story is not ready to show if any item below fails.
+
+- [ ] Story statement has a specific persona, one clear goal, and distinct business/user value.
+- [ ] Acceptance Criteria include happy path behavior.
+- [ ] Acceptance Criteria include alternative or edge behavior, or explicitly say `N/A` with a reason.
+- [ ] Acceptance Criteria include exception or negative behavior, or explicitly say `N/A` with a reason.
+- [ ] Usage Scenarios include Happy Path, Alternative/Edge, and Exception/Negative scenarios.
+- [ ] Unknown business rules are listed as open questions, not invented as facts.
 
 ## Story Statement
 
@@ -26,8 +37,8 @@ If `Small` fails, propose a split. If `Estimable` fails, ask for missing context
 ## Acceptance Criteria
 
 - [ ] Includes happy path behavior.
-- [ ] Includes at least one relevant edge or alternate path when applicable.
-- [ ] Includes negative, validation, permission, or failure behavior when applicable.
+- [ ] Includes at least one relevant edge or alternate path, or explicitly marks it `N/A` with a reason.
+- [ ] Includes negative, validation, permission, or failure behavior, or explicitly marks it `N/A` with a reason.
 - [ ] Uses measurable, observable language.
 - [ ] Avoids vague terms such as `fast`, `easy`, `nice`, `user-friendly`, or `etc.`.
 - [ ] Avoids UI pixel details, framework names, API names, or database schema unless explicitly requested.

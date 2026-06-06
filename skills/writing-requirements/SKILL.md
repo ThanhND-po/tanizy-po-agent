@@ -10,9 +10,23 @@ Transform a feature spec or business request into formal requirement artifacts.
 ## Hard Gates
 
 - Do not show a requirement artifact until the relevant template or research fallback has been applied.
-- For User Stories, apply `templates/user-story-invest.md` and pass `templates/user-story-quality-checklist.md` before showing the result. If the checklist fails, refine the story and run the checklist again until it passes.
+- For User Stories, apply `templates/user-story-invest.md` and pass the **User Story Quality Gate** below before showing the result.
 - Do not write a file until the user approves the artifact and confirms the output path.
 - Do not run version-control actions.
+
+## User Story Quality Gate
+
+A User Story fails quality gate if any condition below is true. If it fails, refine it silently and run the gate again until it passes.
+
+- Story statement has a generic persona, unclear goal, repeated value, or multiple unrelated goals.
+- Acceptance Criteria do not include happy path behavior.
+- Acceptance Criteria do not include alternative or edge behavior, unless explicitly marked `N/A` with a reason.
+- Acceptance Criteria do not include exception or negative behavior, unless explicitly marked `N/A` with a reason.
+- Usage Scenarios do not include Happy Path, Alternative/Edge, and Exception/Negative scenarios.
+- Any Acceptance Criterion is vague, untestable, or combines multiple behaviors.
+- Unknown business rules are invented instead of listed as open questions.
+
+Use `templates/user-story-quality-checklist.md` as the detailed review reference when the gate is hard to evaluate.
 
 ## Workflow
 
@@ -78,8 +92,9 @@ Transform a feature spec or business request into formal requirement artifacts.
 
 - Read `templates/user-story-invest.md`.
 - Draft using `templates/user-story.md`.
-- Validate with `templates/user-story-quality-checklist.md`.
-- Fix checklist issues silently before showing the output.
+- Validate with the User Story Quality Gate.
+- Use `templates/user-story-quality-checklist.md` for detailed self-review when needed.
+- Fix gate or checklist issues silently before showing the output.
 
 ### Use Case
 
