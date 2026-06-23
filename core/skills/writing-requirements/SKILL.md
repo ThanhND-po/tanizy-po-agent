@@ -25,6 +25,13 @@ A User Story fails quality gate if any condition below is true. If it fails, ref
 - Usage Scenarios do not include Happy Path, Alternative/Edge, and Exception/Negative scenarios.
 - Any Acceptance Criterion is vague, untestable, or combines multiple behaviors.
 - Unknown business rules are invented instead of listed as open questions.
+- **[Negotiable]** Any section of the artifact — including story statement, Acceptance Criteria, and Scenarios — contains implementation-binding technical terms. Implementation-binding terms include, but are not limited to:
+  - UI component names: `Combobox`, `Dropdown`, `Modal`, `Checkbox`, `RadioButton`, `DataGrid`, specific icon names, etc.
+  - Cloud or infrastructure services: `AWS Lambda`, `S3`, `Firebase`, `Kafka`, `Redis`, etc.
+  - Framework or library names: `React`, `Vue`, `Spring Boot`, `FastAPI`, etc.
+  - Database technology or schema details: `PostgreSQL`, `MongoDB`, table names, column names, etc.
+  - Specific API endpoints, HTTP methods, or protocol constraints unless the story is explicitly about an API contract.
+  - When such terms appear in user input context, rephrase them as behavior or capability descriptions (e.g., `select from a list` instead of `use a Combobox`; `serverless processing` instead of `AWS Lambda`).
 
 Use `templates/user-story-quality-checklist.md` as the detailed review reference when the gate is hard to evaluate.
 
@@ -64,7 +71,7 @@ Use `templates/user-story-quality-checklist.md` as the detailed review reference
 5. **Draft and review**
    - Fill all meaningful sections.
    - Do not invent unknown business rules; list them as open questions when needed.
-   - Keep requirements implementation-neutral unless the artifact type requires technical detail.
+   - Keep requirements implementation-neutral unless the artifact type requires technical detail. This applies to every section: story statement, Acceptance Criteria, and Scenarios. If the user mentioned specific UI components, services, or frameworks during discussion, convert them to behavior or capability descriptions in the artifact.
    - Remove accidental placeholders before showing the user.
 
 6. **Approval and save**
