@@ -123,7 +123,25 @@ A Basic Design document describes a **single screen** from the user and business
 2. **Read `templates/basic-design.md`** before drafting.
 
 3. **Fill Section 1 — Metadata**
-   - Assign a Screen ID in the format `BD-[module]-[sequence]`, e.g. `BD-AUTH-01`.
+3. **Fill Section 1 — Metadata**
+   - Assign a Screen ID using the format `BD-[MODULE]-[TYPE][SEQ]`, where:
+     - `[MODULE]` = short module/feature code in UPPERCASE (e.g. `AUTH`, `STL`, `ORD`)
+     - `[TYPE]` = single letter identifying the screen type:
+
+       | Letter | Screen Type | Example |
+       |---|---|---|
+       | `L` | List / Search results | `BD-STL-L01` |
+       | `D` | Detail / View | `BD-STL-D01` |
+       | `C` | Create / New | `BD-STL-C01` |
+       | `E` | Edit / Update | `BD-STL-E01` |
+       | `X` | Delete confirmation | `BD-STL-X01` |
+       | `W` | Wizard / Multi-step flow | `BD-STL-W01` |
+       | `P` | Preview / Read-only variant | `BD-STL-P01` |
+       | `S` | Settings / Configuration | `BD-STL-S01` |
+       | `O` | Other / Unclassified | `BD-STL-O01` |
+
+     - `[SEQ]` = 2-digit sequence within the same module+type (01, 02 …)
+     - **Modals and child overlays** append `-M[n]` to their parent screen ID, e.g. `BD-STL-L01-M1`, `BD-STL-L01-M2`. Modal IDs do not have their own top-level entry.
    - Ask the user for the related ticket or User Story ID if not already known.
 
 4. **Fill Section 2 — Specs Overview**

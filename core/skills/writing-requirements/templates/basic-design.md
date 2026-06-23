@@ -4,7 +4,7 @@
 
 | Field | Value |
 |---|---|
-| Screen ID | [BD-XXX-XX] |
+| Screen ID | [BD-MODULE-TYPESEQ — e.g. BD-STL-L01 / BD-STL-L01-M1] |
 | Screen Name | [Full name of the screen] |
 | Related Ticket | [Link or ID — e.g. Jira/Backlog ticket, User Story ID] |
 | Author | [Name] |
