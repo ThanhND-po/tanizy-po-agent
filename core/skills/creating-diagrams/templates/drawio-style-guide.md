@@ -1,22 +1,22 @@
 # Draw.io Style Guide — Adaptive Theme (Light & Dark Mode)
 
-> **⚡ AI Agent: Đọc file này trước khi tạo hoặc chỉnh sửa bất kỳ file `.drawio` nào.**
+> **⚡ AI Agent: Read this file before creating or editing any `.drawio` file.**
 >
-> Mục đích: Đảm bảo mọi diagram hiển thị hoàn hảo trên cả **Light Mode** và **Dark Mode** trong draw.io desktop, app.diagrams.net, và VS Code extension.
+> Purpose: Ensure every diagram renders correctly on both **Light Mode** and **Dark Mode** in draw.io desktop, app.diagrams.net, and the VS Code extension.
 
 ---
 
-## 1. Nguyên tắc cốt lõi: Adaptive Theme First
+## 1. Core Principle: Adaptive Theme First
 
-Draw.io tự động chuyển đổi màu Text và Stroke (đen ↔ trắng) khi người dùng đổi theme **nếu và chỉ nếu** những thuộc tính đó không bị hardcode.
+Draw.io automatically converts Text and Stroke colors (black ↔ white) when the user switches themes — **if and only if** those properties are not hardcoded.
 
-| Vị trí phần tử | Quy tắc `fontColor` | Quy tắc `strokeColor` | Lý do |
+| Element location | `fontColor` rule | `strokeColor` rule | Reason |
 |---|---|---|---|
-| **Trên Canvas** (Arrow label, Edge label, UML Actor label, floating text) | ❌ KHÔNG khai báo | ❌ KHÔNG khai báo | Draw.io tự đổi theo theme |
-| **Trong Box** (Actor, Phase Header, Note, Database box) | ✅ BẮT BUỘC `#333333` | ✅ Dùng màu semantic của zone | Nền pastel cố định, cần chữ tối để có contrast |
-| **Semantic Line** (mũi tên có màu ngữ nghĩa: đỏ/xanh) | ❌ KHÔNG khai báo | ✅ Dùng màu semantic | Label vẫn tự đổi màu theo theme |
+| **On canvas** (arrow label, edge label, UML actor label, floating text) | ❌ DO NOT set | ❌ DO NOT set | draw.io auto-adapts to theme |
+| **Inside a box** (actor, phase header, note, database box) | ✅ MUST be `#333333` | ✅ Use semantic zone color | Pastel fill does not adapt; dark text ensures contrast |
+| **Semantic line** (colored arrow: error/success) | ❌ DO NOT set | ✅ Use semantic color only | Label still adapts; only the line color is fixed |
 
-**Quy tắc vàng**: Nếu phần tử nằm TRÊN nền canvas → bỏ trống fontColor/strokeColor. Nếu phần tử nằm TRONG box có nền màu → hardcode fontColor=#333333.
+**Golden rule**: If an element sits directly ON the canvas background → omit `fontColor`/`strokeColor`. If an element sits INSIDE a box with a fill color → hardcode `fontColor=#333333`.
 
 ---
 
@@ -24,31 +24,31 @@ Draw.io tự động chuyển đổi màu Text và Stroke (đen ↔ trắng) khi
 
 ### 2.1 Fill Colors — Actor Zones / Semantic Groups
 
-| Token | fillColor | strokeColor (border của box) | Ý nghĩa |
+| Token | fillColor | strokeColor (box border) | Meaning |
 |---|---|---|---|
-| 🟢 User / Client Side | `#d5e8d4` | `#82b366` | Xanh lá nhạt — phía người dùng, client app |
-| 🔵 Core System / CMS | `#dae8fc` | `#6c8ebf` | Xanh dương nhạt — core system, shared data |
-| 🟣 Backend Services | `#e1d5e7` | `#9673a6` | Tím nhạt — service layer, backend |
-| 🟡 Batch / External | `#fff2cc` | `#d6b656` | Vàng nhạt — batch jobs, external services |
-| 🔴 Critical / Error | `#f8cecc` | `#b85450` | Đỏ nhạt — security-critical, error states |
-| ⬜ Infra / Database | `#F5F5F5` | `#999999` | Xám nhạt — infrastructure, DB |
-| 🔷 Title Background | `#f5f5f5` | `#CCCCCC` | Xám nhạt — title bar, section header |
+| 🟢 User / Client Side | `#d5e8d4` | `#82b366` | Light green — user-facing, client app |
+| 🔵 Core System / CMS | `#dae8fc` | `#6c8ebf` | Light blue — core system, shared data |
+| 🟣 Backend Services | `#e1d5e7` | `#9673a6` | Light purple — service layer, backend |
+| 🟡 Batch / External | `#fff2cc` | `#d6b656` | Light yellow — batch jobs, external services |
+| 🔴 Critical / Error | `#f8cecc` | `#b85450` | Light red — security-critical, error states |
+| ⬜ Infra / Database | `#F5F5F5` | `#999999` | Light grey — infrastructure, DB |
+| 🔷 Title Background | `#f5f5f5` | `#CCCCCC` | Light grey — title bar, section header |
 
 ### 2.2 Connection / Edge Colors
 
-| Loại | strokeColor | fontColor (label) | strokeWidth | Ghi chú |
+| Type | strokeColor | fontColor (label) | strokeWidth | Notes |
 |---|---|---|---|---|
-| Request (plain solid) | *(bỏ trống)* | *(bỏ trống)* | 1 | Tự adaptive |
-| Response (plain dashed) | *(bỏ trống)* | *(bỏ trống)* | 1 | dashed=1 |
-| Critical / Error path | `#b85450` | *(bỏ trống)* | 2 | Đỏ semantic, label vẫn adaptive |
-| Success path | `#82b366` | *(bỏ trống)* | 2 | Xanh semantic, label vẫn adaptive |
-| Lifeline (Sequence) | *(bỏ trống)* | — | 1 | dashed=1 dashPattern=5 5 |
+| Request (plain solid) | *(omit)* | *(omit)* | 1 | Auto-adapts |
+| Response (plain dashed) | *(omit)* | *(omit)* | 1 | dashed=1 |
+| Critical / Error path | `#b85450` | *(omit)* | 2 | Semantic red; label still adapts |
+| Success path | `#82b366` | *(omit)* | 2 | Semantic green; label still adapts |
+| Lifeline (Sequence) | *(omit)* | — | 1 | dashed=1 dashPattern=5 5 |
 
 ---
 
 ## 3. XML Style Snippets
 
-> **Lưu ý**: Để "bỏ trống" một thuộc tính, không viết nó vào chuỗi `style=""` — **không phải** viết `fontColor=none` hay `strokeColor=default`.
+> **Important note**: To "omit" a property, simply do not write it in the `style=""` string. Do **not** write `fontColor=none` or `strokeColor=default`.
 
 ### 3.1 Title / Section Header
 
@@ -56,20 +56,20 @@ Draw.io tự động chuyển đổi màu Text và Stroke (đen ↔ trắng) khi
 style="text;html=1;align=center;fontSize=14;fontStyle=1;fillColor=#f5f5f5;strokeColor=#CCCCCC;rounded=1;fontColor=#333333;"
 ```
 
-### 3.2 Actor Box (Rounded, nền pastel)
+### 3.2 Actor Box (Rounded, pastel fill)
 
 ```xml
 style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;fontColor=#333333;"
 ```
 
-### 3.3 UML Actor Icon (Label ngoài canvas — adaptive)
+### 3.3 UML Actor Icon (Label on canvas — adaptive)
 
 ```xml
 style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;"
 ```
-*(Không có `fontColor` — label tự đổi theo theme)*
+*(No `fontColor` — label auto-adapts to theme)*
 
-### 3.4 Phase Header / Swimlane Header (nền xám nhạt)
+### 3.4 Phase Header / Swimlane Header (light grey fill)
 
 ```xml
 style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F0F4F8;strokeColor=#CCCCCC;fontSize=11;fontStyle=1;fontColor=#333333;"
@@ -80,21 +80,21 @@ style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F0F4F8;strokeColor=#CCCCCC;fo
 ```xml
 style="endArrow=none;dashed=1;dashPattern=5 5;"
 ```
-*(Không có `strokeColor` — tự adaptive)*
+*(No `strokeColor` — auto-adapts)*
 
 ### 3.6 Request Arrow (Solid)
 
 ```xml
 style="html=1;endArrow=block;endFill=1;fontSize=10;"
 ```
-*(Không có `strokeColor`, không có `fontColor`)*
+*(No `strokeColor`, no `fontColor`)*
 
 ### 3.7 Response Arrow (Dashed)
 
 ```xml
 style="html=1;endArrow=open;dashed=1;fontSize=10;"
 ```
-*(Không có `strokeColor`, không có `fontColor`)*
+*(No `strokeColor`, no `fontColor`)*
 
 ### 3.8 Note Box
 
@@ -116,44 +116,44 @@ style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;font
 
 ---
 
-## 4. Layout & Spacing Rules (Chống Overlap)
+## 4. Layout & Spacing Rules (Preventing Overlap)
 
-### 4.1 Kích thước tối thiểu
+### 4.1 Minimum Element Sizes
 
-| Element | Width (px) | Height (px) | Ghi chú |
+| Element | Width (px) | Height (px) | Notes |
 |---|---|---|---|
-| Actor Box | 120 | 40 | Tăng nếu label > 15 ký tự |
+| Actor Box | 120 | 40 | Increase if label exceeds 15 characters |
 | Phase Header | 160 | 30 | — |
-| Note Box | 140 | 50 | Tăng nếu text dài |
-| UML Actor Icon | 30 | 60 | Cộng thêm ~20px cho label phía dưới |
+| Note Box | 140 | 50 | Increase for long text |
+| UML Actor Icon | 30 | 60 | Add ~20px below for the label |
 | Decision Gateway | 60 | 60 | — |
 | Swimlane Lane | ≥ 120 | Variable | — |
 
-### 4.2 Khoảng cách
+### 4.2 Spacing
 
-- **Giữa các box liền kề trên cùng hàng**: tối thiểu **30px** horizontal gap
-- **Giữa các row liên tiếp (top-to-bottom)**: tối thiểu **40px** vertical gap
-- **Edge label** không được chồng lên box: dùng `align=center` và `labelBackgroundColor=#ffffff` khi label bị che
+- **Between adjacent boxes on the same row**: minimum **30px** horizontal gap
+- **Between consecutive rows (top-to-bottom)**: minimum **40px** vertical gap
+- **Edge labels** must not overlap a box: use `align=center` and `labelBackgroundColor=#ffffff` when a label is obscured
 
-### 4.3 Tự động phát hiện overlap
+### 4.3 Overlap Detection
 
-Trước khi save, kiểm tra:
-- Có bất kỳ hai box nào có toạ độ `(x, y, width, height)` giao nhau không?
-- Arrow label có nằm trong vùng box khác không?
-- Nếu có → điều chỉnh `x`, `y` để tách ra, ưu tiên tăng spacing theo chiều dọc.
+Before saving, verify:
+- Do any two boxes have `(x, y, width, height)` coordinates that intersect?
+- Does any arrow label fall inside another box's bounding area?
+- If yes → adjust `x`, `y` to separate them, preferring increased vertical spacing.
 
 ---
 
-## 5. Pre-Save Checklist (Bắt buộc trước khi xuất XML)
+## 5. Pre-Save Checklist (Required before exporting XML)
 
-- [ ] Mũi tên thông thường (Request/Response): **KHÔNG** có `strokeColor` trong style
-- [ ] Label của mũi tên và text trên canvas: **KHÔNG** có `fontColor` trong style
-- [ ] Text bên trong box (Actor, Phase, Note, DB): có `fontColor=#333333`
-- [ ] Lifelines: **KHÔNG** có `strokeColor`
-- [ ] UML Actor label (ngoài box): **KHÔNG** có `fontColor`
-- [ ] Không có hai phần tử nào bị overlap (giao nhau về toạ độ)
-- [ ] Mọi box có kích thước đủ để hiển thị text bên trong (không bị cắt)
-- [ ] File XML bắt đầu bằng `<mxGraphModel>` và có cấu trúc hợp lệ
+- [ ] Plain arrows (Request/Response): **NO** `strokeColor` in style
+- [ ] Arrow labels and canvas-level text: **NO** `fontColor` in style
+- [ ] Text inside boxes (actor, phase, note, DB): has `fontColor=#333333`
+- [ ] Lifelines: **NO** `strokeColor`
+- [ ] UML Actor labels (outside box): **NO** `fontColor`
+- [ ] No two elements overlap (bounding boxes do not intersect)
+- [ ] Every box is large enough to display its label without clipping
+- [ ] File XML starts with `<mxGraphModel>` and has valid structure
 
 ---
 
@@ -172,11 +172,11 @@ Trước khi save, kiểm tra:
 </mxGraphModel>
 ```
 
-**Quy tắc ID**:
-- `id="0"` và `id="1"` là bắt buộc, không được xoá
-- Các element bắt đầu từ `id="2"` trở đi, tăng dần, không trùng lặp
-- Edge (mũi tên) dùng `source="X"` và `target="Y"` tham chiếu id của node
+**ID rules**:
+- `id="0"` and `id="1"` are required and must not be removed
+- All other elements start from `id="2"` and increment sequentially with no duplicates
+- Edges (arrows) reference node IDs via `source="X"` and `target="Y"`
 
 ---
 
-*Version: 1.0 | Dựa trên draft/guidelines/DIAGRAM_STYLE_GUIDE.md*
+*Version: 1.0 | Based on draft/guidelines/DIAGRAM_STYLE_GUIDE.md*

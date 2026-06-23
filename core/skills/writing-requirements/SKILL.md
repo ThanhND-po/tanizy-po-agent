@@ -60,6 +60,7 @@ Use `templates/user-story-quality-checklist.md` as the detailed review reference
    - Use Case numbered steps: `templates/use-case-numbered-step.md`
    - User Story INVEST guide: `templates/user-story-invest.md`
    - User Story checklist: `templates/user-story-quality-checklist.md`
+   - Basic Design: `templates/basic-design.md`
 
 4. **Research fallback when no local template exists**
    - For Basic Design, API Spec, NFR, or any unsupported artifact, research current common industry structure before drafting when web access is available.
@@ -111,8 +112,50 @@ Use `templates/user-story-quality-checklist.md` as the detailed review reference
 
 ### Basic Design
 
-- Use research fallback unless a project-specific template exists.
-- Cover purpose, scope, component responsibilities, data/interface touchpoints, behavior, error handling, and traceability to requirements.
+A Basic Design document describes a **single screen** from the user and business perspective (外部設計 — external design). It is the handoff artifact from BA to Developer and QA. It does **not** cover database schema, API internals, or class structure — those belong to Detail Design.
+
+**Scope of one Basic Design file = one screen or one closely related screen group.**
+
+#### Workflow
+
+1. **Ask for the output language** at the start: English (default), Japanese, or Vietnamese. Use the chosen language for all human-readable content in the output file. Keep column headers in English for consistency.
+
+2. **Read `templates/basic-design.md`** before drafting.
+
+3. **Fill Section 1 — Metadata**
+   - Assign a Screen ID in the format `BD-[module]-[sequence]`, e.g. `BD-AUTH-01`.
+   - Ask the user for the related ticket or User Story ID if not already known.
+
+4. **Fill Section 2 — Specs Overview**
+   - Answer all three questions: purpose/business goal, what the user can do, how the user reaches this screen.
+   - Do not invent facts; list unknowns as open questions.
+
+5. **Fill Section 3 — Screen Image**
+   - Ask the user if a wireframe, mockup, screen flow, or prototype is available.
+   - If yes: insert the link or embed the file reference.
+   - If no: leave the table cells blank. Do not fabricate a placeholder image or ASCII diagram.
+
+6. **Fill Section 4 — Screen Inventory & Element Specs**
+   - List every visible UI element on the screen.
+   - Use hierarchical numbering: top-level items are `1, 2, 3 …`; child elements of a container (e.g. columns in a table, fields in a card) are `1.1, 1.2, 3.1 …`
+   - For each element, fill all columns: Item Name, Classification, Required, Max Length, I/O, Data Type, Input Constraint, Initial State, Remarks.
+   - Allowed Classification values: `label`, `text`, `textarea`, `dropdown`, `combobox`, `checkbox`, `radio`, `button`, `table`, `badge`, `icon`, `link`, `image`, `date-picker`, `toggle`, `tab`, `modal`, `card`, `section-header`.
+   - Classification names are UI-component terms and are **allowed** in this artifact type because they describe the external interface, not the internal implementation.
+   - Required: `Yes` / `No` / `N/A` (use N/A for outputs and non-form elements).
+   - Max Length: number of characters for text inputs; `—` for outputs and non-text elements.
+   - I/O: `Input` (user enters data), `Output` (system displays data), `Both` (editable pre-filled field), `Action` (button/link that triggers a behaviour).
+   - Initial State: the value or visual state when the screen first loads — e.g. `Blank`, `Today's date`, a specific default, `Disabled`, `Active`.
+   - Remarks: business rules, validation logic, conditional behaviour (show/hide/enable/disable conditions), trigger actions, cross-field dependencies.
+   - Do not invent business rules; record unknowns in Section 5 — Open Questions.
+
+7. **Fill Section 5 — Open Questions**
+   - List any ambiguous requirements, missing specs, or stakeholder decisions needed before implementation.
+
+8. **Quality check before showing the output**
+   - Every element in Section 4 has a Classification, Required, I/O, and Initial State filled in.
+   - No business rule has been invented; all unknowns are in Open Questions.
+   - Section 2 answers all three overview questions.
+   - No Detail Design content (DB schema, API routes, class names) has leaked into the document.
 
 ### API Spec
 
