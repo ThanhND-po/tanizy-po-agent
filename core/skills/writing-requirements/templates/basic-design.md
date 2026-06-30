@@ -63,6 +63,9 @@
 > - **Initial State** — The value or visual state the element shows when the screen first loads (e.g. `Blank`, `Today's date`, specific default value, `Disabled`)
 > - **Remarks** — Business rules, validation logic, conditional behaviour, trigger actions, and any additional explanation
 
+**Remark:** When showing info for `Initial State` and `Remarks`, if you need to break info into 2 lines, use `<br>`.
+
+
 | # | Item Name | Classification | Required | Max Length | I/O | Data Type | Input Constraint | Initial State | Remarks |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | [Screen title / page heading] | label | N/A | — | Output | string | — | Text: "[Title text]" | Static label. Always visible. |

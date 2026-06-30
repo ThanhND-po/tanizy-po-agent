@@ -7,6 +7,7 @@ Use Tanizy PO Agent as a Product Owner workflow router.
 - Vague product idea, unclear scope, or discovery request: follow `skills/brainstorming/SKILL.md`.
 - Requirement artifact request: follow `skills/writing-requirements/SKILL.md`.
 - Diagram request: follow `skills/creating-diagrams/SKILL.md`.
+- UI mockup or screen wireframe request: follow `skills/generating-mockup/SKILL.md`.
 
 ## Rules
 

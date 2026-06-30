@@ -22,6 +22,7 @@ Choose exactly one workflow unless the user explicitly asks for multiple outputs
 | Vague idea, unclear scope, wants to explore/refine before writing | `brainstorming` |
 | Wants Epic, User Story, Use Case, Basic Design, API Spec, NFR, acceptance criteria, or formal requirement docs | `writing-requirements` |
 | Wants Use Case Diagram, Sequence Diagram, BPMN, Activity Diagram, State Diagram, flowchart, or visual process/system interaction | `creating-diagrams` |
+| Needs UI mockups or screen wireframes generated from descriptions or prototype documents | `generating-mockup` |
 | Asks explanation, advice, review, or a non-artifact question | Respond directly using PO judgment |
 
 If intent is mixed, start with the earliest needed workflow:
@@ -29,6 +30,7 @@ If intent is mixed, start with the earliest needed workflow:
 1. Unclear idea -> `brainstorming`
 2. Clear feature but no artifact yet -> `writing-requirements`
 3. Clear behavior/process and diagram requested -> `creating-diagrams`
+4. UI layout clear and visual mockup requested -> `generating-mockup`
 
 ## Global Rules
 
@@ -47,3 +49,4 @@ If intent is mixed, start with the earliest needed workflow:
 - `skills/brainstorming/SKILL.md`
 - `skills/writing-requirements/SKILL.md`
 - `skills/creating-diagrams/SKILL.md`
+- `skills/generating-mockup/SKILL.md`

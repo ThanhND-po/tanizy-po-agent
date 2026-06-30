@@ -10,5 +10,6 @@ This project contains portable Product Owner skills for Gemini CLI.
 - Use `/po:brainstorming <idea>` to refine a vague idea before writing artifacts.
 - Use `/po:requirements <request>` to create Epic, User Story, Use Case, Basic Design, API Spec, NFR, or another requirement artifact.
 - Use `/po:diagram <request>` to create Use Case, Sequence, BPMN, Activity, State, or another diagram.
+- Use `/po:mockup <request>` to generate UI mockups or screen wireframes from a description or prototype.
 
 Gemini CLI `@path` syntax injects file or folder context. It is not a skill alias mechanism, so do not expect `@brainstorming` to route by skill name.

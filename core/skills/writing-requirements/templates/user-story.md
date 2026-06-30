@@ -1,3 +1,5 @@
+> **Ticket title**: [MODULE] As a [persona], I want to [action] so that [outcome]
+
 # User Story: [US-XXX-XX] - [Story Name]
 
 ## Metadata
