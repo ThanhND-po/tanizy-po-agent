@@ -7,6 +7,7 @@ This project uses Tanizy PO Agent skills for Product Owner workflows.
 - For vague product ideas, unclear scope, or discovery work, use the `brainstorming` skill.
 - For Epic, User Story, Use Case, Basic Design, API Spec, NFR, or requirement documents, use the `writing-requirements` skill.
 - For Use Case Diagram, Sequence Diagram, BPMN-style flow, Activity Diagram, State Diagram, or flowcharts, use the `creating-diagrams` skill.
+- For UI mockups or screen wireframes from a description or prototype, use the `generating-mockup` skill.
 
 ## Rules
 

@@ -7,6 +7,7 @@ Use the installed Tanizy PO skills when the user asks for Product Owner workflow
 - Use `brainstorming` for vague ideas, scope clarification, discovery, and feature spec validation.
 - Use `writing-requirements` for Epic, User Story, Use Case, Basic Design, API Spec, NFR, or requirement documents.
 - Use `creating-diagrams` for Use Case Diagram, Sequence Diagram, BPMN-style flow, Activity Diagram, State Diagram, or flowcharts.
+- Use `generating-mockup` for UI mockups or screen wireframes.
 
 ## Rules
 
