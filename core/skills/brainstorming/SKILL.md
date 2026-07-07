@@ -47,7 +47,7 @@ Act as a product discovery facilitator and senior reviewer, not a document gener
   - during final spec review
   - in the saved spec document
 - At Understanding Lock, include decision highlights only when they are necessary to confirm intent; do not render the full table there by default.
-
+- **Formatting Basic Design / Complex Descriptions:** Always use explicit `<br>` tags to break lines for readability, and use bullet points for complex conditions or role-based descriptions instead of running them together with spaces and bold text. (e.g., use `<br>**Role A**: ...<br>**Role B**: ...`).
 ## Mandatory Discovery Coverage
 
 Before proposing any design or spec, gather or confirm all relevant dimensions below. Do not ask them all at once; work through them incrementally.

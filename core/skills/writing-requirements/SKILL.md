@@ -171,6 +171,7 @@ A Basic Design document describes a **single screen** from the user and business
    - I/O: `Input` (user enters data), `Output` (system displays data), `Both` (editable pre-filled field), `Action` (button/link that triggers a behaviour).
    - Initial State: the value or visual state when the screen first loads — e.g. `Blank`, `Today's date`, a specific default, `Disabled`, `Active`.
    - Remarks: business rules, validation logic, conditional behaviour (show/hide/enable/disable conditions), trigger actions, cross-field dependencies.
+   - **Formatting:** For `Initial State` and `Remarks`, or any complex descriptions, always use `<br>` tags to explicitly break lines for readability. Use bullet points (`-`) for complex conditions or role-based descriptions instead of running them together with spaces and bold text (e.g., use `<br>- **Admin**: ...<br>- **User**: ...`).
    - Do not invent business rules; record unknowns in Section 5 — Open Questions.
 
 7. **Fill Section 5 — Open Questions**
@@ -181,6 +182,7 @@ A Basic Design document describes a **single screen** from the user and business
    - No business rule has been invented; all unknowns are in Open Questions.
    - Section 2 answers all three overview questions.
    - No Detail Design content (DB schema, API routes, class names) has leaked into the document.
+   - Complex descriptions and role-based logic in the table use `<br>` and bullet points instead of inline spaces and bolding.
 
 ### API Spec
 

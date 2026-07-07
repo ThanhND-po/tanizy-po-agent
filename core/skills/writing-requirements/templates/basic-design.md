@@ -63,7 +63,7 @@
 > - **Initial State** — The value or visual state the element shows when the screen first loads (e.g. `Blank`, `Today's date`, specific default value, `Disabled`)
 > - **Remarks** — Business rules, validation logic, conditional behaviour, trigger actions, and any additional explanation
 
-**Remark:** When showing info for `Initial State` and `Remarks`, if you need to break info into 2 lines, use `<br>`.
+**Remark:** When showing info for `Initial State` and `Remarks`, if you need to describe complex logic, conditions, or role-based access, always use `<br>` to explicitly break lines and use bullet points (`-`) instead of writing inline with bold text. (e.g., `<br>- **Admin**: can edit.<br>- **User**: read-only.`)
 
 
 | # | Item Name | Classification | Required | Max Length | I/O | Data Type | Input Constraint | Initial State | Remarks |
