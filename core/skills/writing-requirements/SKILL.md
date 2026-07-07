@@ -18,6 +18,7 @@ Transform a feature spec or business request into formal requirement artifacts.
 
 A User Story fails quality gate if any condition below is true. If it fails, refine it silently and run the gate again until it passes.
 
+- **[Single-Persona]** Every Acceptance Criterion and Scenario must describe behavior observable from the persona named in the Story Statement. If an AC or Scenario describes behavior of a different persona, it must be split into a separate User Story or moved into `Given` (precondition) context.
 - Story statement has a generic persona, unclear goal, repeated value, or multiple unrelated goals.
 - Acceptance Criteria do not include happy path behavior.
 - Acceptance Criteria do not include alternative or edge behavior, unless explicitly marked `N/A` with a reason.
@@ -69,13 +70,19 @@ Use `templates/user-story-quality-checklist.md` as the detailed review reference
    - State assumptions and the chosen structure before or alongside the artifact.
    - If web access is unavailable, say that current-source verification was not possible and proceed with a conservative standard structure based on available context.
 
-5. **Draft and review**
+5. **Draft**
    - Fill all meaningful sections.
    - Do not invent unknown business rules; list them as open questions when needed.
    - Keep requirements implementation-neutral unless the artifact type requires technical detail. This applies to every section: story statement, Acceptance Criteria, and Scenarios. If the user mentioned specific UI components, services, or frameworks during discussion, convert them to behavior or capability descriptions in the artifact.
-   - Remove accidental placeholders before showing the user.
+   - Remove accidental placeholders before proceeding.
 
-6. **Approval and save**
+6. **Run Quality Gate Checklist (for User Stories)**
+   - Open `templates/user-story-quality-checklist.md` and evaluate each item against the draft.
+   - Record the result of each checklist item (`[x]` pass / `[ ]` fail) in a scratchpad or internal note — this is the **evidence** that the gate was executed.
+   - If any item fails, fix the draft silently and re-run the checklist until all items pass.
+   - Do NOT show the User Story to the user until the checklist is fully passed.
+
+7. **Approval and save**
    - Present the artifact and ask for approval or revisions.
    - After approval, ask where to save it.
    - Suggested folders:
@@ -84,7 +91,7 @@ Use `templates/user-story-quality-checklist.md` as the detailed review reference
      - `docs/design/`
    - Save only to the user-approved target project path.
 
-7. **Next step**
+8. **Next step**
    - Ask whether the user wants a diagram, another requirement artifact, or to stop.
    - Do not automatically invoke another workflow.
 

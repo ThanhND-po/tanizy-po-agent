@@ -15,6 +15,8 @@
 
 As a **[specific persona]**, I want to **[perform one clear goal/action]** so that **[business or user outcome]**.
 
+> **Single-Persona Rule:** All Acceptance Criteria and Scenarios below must describe behavior observable from this persona only. If another persona's behavior is relevant, express it as a `Given` precondition or create a separate User Story.
+
 ## Acceptance Criteria
 
 ### Happy Path
