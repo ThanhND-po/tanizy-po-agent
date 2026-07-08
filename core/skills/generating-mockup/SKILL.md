@@ -9,10 +9,10 @@ Generate UI mockup images from descriptions, prototype files, or user stories.
 
 ## Hard Gates
 
-- Do not generate a mockup until the screen description, visual style, and target platform are clear.
-- Do not abbreviate, paraphrase, or summarise the prompt before sending it to any image generation tool. Always send the full, detailed prompt.
-- Do not write or save a file until the user approves the generated image.
-- Do not run version-control actions.
+- MUST NOT make any generation tool calls (including checking Stitch MCP) until the screen description, visual style, and target platform are fully clarified and confirmed by the user.
+- MUST NOT abbreviate, paraphrase, or summarise the prompt before sending it to any image generation tool. Always send the full, detailed prompt.
+- MUST NOT write or save a file until the user explicitly approves the generated image.
+- MUST NOT run version-control actions.
 
 ## Tool Priority
 
@@ -25,22 +25,32 @@ Never switch tools mid-session without telling the user.
 
 ## Workflow
 
-1. **Gather context**
+1. **Enforce Hard Gates & Gather Context (CRITICAL)**
    - Read the prototype file, user story, or feature spec relevant to the screen.
-   - Identify: screen name, component list, visual style (colors, typography, spacing), and target platform.
-   - If any of these are missing, ask one question at a time before proceeding.
+   - You MUST identify all of the following:
+     - Screen name
+     - Complete component list
+     - Visual style (colors, typography, spacing, exact hex codes)
+     - Target platform (mobile, web/desktop, tablet)
+   - If ANY of these are missing, STOP. Do not proceed to any tool checks or generation. Ask the user for the missing information. Wait for their response.
 
-2. **Check Stitch MCP availability**
-   - Attempt to call a lightweight Stitch MCP tool (e.g. list available screens or a minimal test call).
-   - If the call succeeds → Stitch is available, continue with Stitch workflow (Step 3).
-   - If the call fails or the tool is not connected → inform the user:
+2. **Audit against Web Design Guidelines**
+   - Once all requirements from Step 1 are gathered, review the proposed components and layout against `skills/web-design-guidelines/SKILL.md`.
+   - Check for common UX/UI violations (e.g., accessibility, form controls, hierarchy).
+   - Proactively suggest corrected structures to the user if guidelines are violated.
+   - Wait for the user to confirm the final, audited requirements before proceeding to Step 3.
+
+3. **Determine Generation Tool (Stitch MCP vs Google Image)**
+   - ONLY AFTER the user has confirmed the full requirements and audited layout in Step 2.
+   - Ask the user whether they want to use Stitch MCP (requires connection) or Google Image generation.
+   - If Stitch MCP is chosen, attempt a test call (e.g. `list_screens`). If it fails or is not connected, inform the user:
 
      > "Stitch MCP is not currently connected. Would you like me to use Google Image generation instead, or would you prefer to set up Stitch first?"
 
-   - Wait for user response before proceeding.
+   - Wait for user response before generating.
 
-3. **Build the full prompt — NEVER abbreviate**
-   - Compose a prompt that contains ALL of the following. If any item is missing, ask the user before generating.
+4. **Build the full prompt — NEVER abbreviate**
+   - Compose a prompt that contains ALL of the following.
 
    **Required prompt sections:**
 
@@ -63,11 +73,12 @@ Never switch tools mid-session without telling the user.
    - If a prototype document is referenced, copy the component list **verbatim** — do not summarise.
    - Preserve all hex color codes, exact text strings (including non-Latin characters), and dimension values.
 
-4. **Pre-flight checklist before generating**
+5. **Pre-flight checklist before generating**
 
    Run this checklist silently. If any item fails, fix it before sending the prompt.
 
    - [ ] Prompt contains the full component list (not summarised)?
+   - [ ] Prompt has been audited against `web-design-guidelines`?
    - [ ] Prompt contains at least one hex color code for the primary action color?
    - [ ] Prompt specifies the platform and screen dimensions?
    - [ ] All exact text strings (button labels, headings) are preserved?
@@ -75,23 +86,23 @@ Never switch tools mid-session without telling the user.
 
    If any item is unchecked → stop, gather the missing information, then rerun the checklist.
 
-5. **Generate**
+6. **Generate**
    - **Stitch path**: call `generate_screen_from_text` with the full prompt and correct `deviceType`. For each screen that requires high accuracy, generate separately rather than in batch.
    - **Google Image path**: call the image generation tool with the full prompt. Do not compress or simplify it.
 
-6. **Verify similarity**
+7. **Verify similarity**
    - After generation, describe what was produced to the user.
    - Ask: "Does this match your prototype? If not, please point out what needs to change."
    - If refinements are needed:
      - **Stitch**: use `edit_screens` with a targeted instruction (do not re-describe everything, only the delta).
      - **Google Image**: regenerate with the corrected prompt.
 
-7. **Approval and save**
+8. **Approval and save**
    - After approval, ask where to save the image file.
    - Suggested folder: `docs/mockups/` or `docs/design/`.
    - Save using the screen name as the filename, e.g. `welcome_screen.png`.
 
-8. **Next step**
+9. **Next step**
    - Ask whether the user wants to generate another screen, create a diagram, or stop.
 
 ## Stitch-Specific Rules
