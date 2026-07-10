@@ -209,6 +209,7 @@ The saved spec must include:
 After the spec is approved and saved, ask what to do next:
 
 - Epic
+- Change Request
 - User Story
 - Use Case
 - Diagram

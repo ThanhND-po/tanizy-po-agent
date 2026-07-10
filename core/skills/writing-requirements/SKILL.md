@@ -36,6 +36,15 @@ A User Story fails quality gate if any condition below is true. If it fails, ref
 
 Use `templates/user-story-quality-checklist.md` as the detailed review reference when the gate is hard to evaluate.
 
+## Estimation Quality Gate
+
+An estimation fails the quality gate if any condition below is true. If it fails, re-evaluate it silently and run the gate again until it passes.
+
+- **[Scale Mismatch]** A User Story uses T-shirt sizing instead of Story Points, or a Change Request/Epic uses Story Points instead of T-shirt sizing.
+- **[Over-sizing]** A User Story is estimated at ≥ 13 SP without being flagged for breakdown, or a Change Request/Epic is estimated at XXL without being flagged for breakdown.
+- **[Missing Context]** The estimation does not account for complexity, effort, and uncertainty (for User Stories), or overall scope impact (for Epics/CRs).
+- **[Total Mismatch]** When breaking down an Epic/CR into User Stories, the total Story Points of child stories significantly exceeds the expected range of the parent T-shirt size (e.g., Parent is `S` but total child SP is `13`) without a re-estimation or scope adjustment.
+
 ## Workflow
 
 1. **Gather context**
@@ -46,6 +55,7 @@ Use `templates/user-story-quality-checklist.md` as the detailed review reference
 2. **Choose artifact type**
    - If the user has not specified a type, ask which artifact to create:
      - Epic
+     - Change Request
      - User Story
      - Use Case
      - Basic Design
@@ -56,12 +66,14 @@ Use `templates/user-story-quality-checklist.md` as the detailed review reference
 
 3. **Use local template when available**
    - Epic: `templates/epic.md`
+   - Change Request: `templates/change-request.md`
    - User Story: `templates/user-story.md`
    - Use Case table: `templates/use-case-table.md`
    - Use Case numbered steps: `templates/use-case-numbered-step.md`
    - User Story INVEST guide: `templates/user-story-invest.md`
    - User Story checklist: `templates/user-story-quality-checklist.md`
    - Basic Design: `templates/basic-design.md`
+   - Estimation guide: `templates/estimation-guide.md`
 
 4. **Research fallback when no local template exists**
    - For Basic Design, API Spec, NFR, or any unsupported artifact, research current common industry structure before drafting when web access is available.
@@ -102,6 +114,16 @@ Use `templates/user-story-quality-checklist.md` as the detailed review reference
 - Describe the product outcome and business value.
 - Break into logically derived user stories only when supported by context.
 - Mark unknown dependencies or risks as open questions, not fake certainty.
+- **Estimation**: Use T-shirt sizing (XS/S/M/L/XL/XXL). Refer to `templates/estimation-guide.md` Section 3 for definitions.
+
+### Change Request
+
+- Read `templates/change-request.md`.
+- A Change Request describes a scope-bounded change to an existing system (enhancement, bug fix, regulatory, or process change).
+- Include Impact Analysis covering affected systems, modules, teams, data, and users.
+- **Estimation**: Use T-shirt sizing (XS/S/M/L/XL/XXL). Refer to `templates/estimation-guide.md` Section 3 for definitions.
+- Link downstream Epics or User Stories in the Requirements Changes section.
+- Do not invent impact assessments; list unknowns as open questions.
 
 ### User Story
 
@@ -110,6 +132,7 @@ Use `templates/user-story-quality-checklist.md` as the detailed review reference
 - Validate with the User Story Quality Gate.
 - Use `templates/user-story-quality-checklist.md` for detailed self-review when needed.
 - Fix gate or checklist issues silently before showing the output.
+- **Estimation**: Use Story Points (Fibonacci: 1/2/3/5/8/13). Refer to `templates/estimation-guide.md` Section 2 for definitions and Section 5 for reference stories.
 
 ### Use Case
 
