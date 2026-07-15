@@ -29,15 +29,36 @@ docs/                     # Install and manual-copy guides
 
 Do not edit copied/generated skill files inside target projects as the source of truth. Update `core/skills/` in this repository, then reinstall into the target project.
 
-## Requirements
+## Install via npm (Recommended)
 
-- Node.js for the installer.
-- No npm dependencies are required.
-- Manual copy works without Node.js.
+No need to clone. Just run:
 
-## Recommended Install
+```bash
+npx @thanhndpo/tanizy-po-agent --target gemini-cli --project /path/to/project
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project
+npx @thanhndpo/tanizy-po-agent --target claude-code --project /path/to/project
+npx @thanhndpo/tanizy-po-agent --target antigravity --project /path/to/project
+```
 
-From this repository:
+Preview the install first:
+
+```bash
+npx @thanhndpo/tanizy-po-agent --target gemini-cli --project /path/to/project --dry-run
+```
+
+If destination files already exist, the installer stops. Re-run with `--force` when you intentionally want to overwrite Tanizy files in the target project.
+
+## Update to Latest Version
+
+When a new version is published, update with:
+
+```bash
+npx @thanhndpo/tanizy-po-agent@latest --target gemini-cli --project /path/to/project --force
+```
+
+## Install from Local Clone
+
+If you cloned this repository locally:
 
 ```bash
 node scripts/install.mjs --target gemini-cli --project /path/to/project
@@ -46,13 +67,11 @@ node scripts/install.mjs --target claude-code --project /path/to/project
 node scripts/install.mjs --target antigravity --project /path/to/project
 ```
 
-Preview the install first:
+Preview first:
 
 ```bash
 node scripts/install.mjs --target gemini-cli --project /path/to/project --dry-run
 ```
-
-If destination files already exist, the installer stops. Re-run with `--force` when you intentionally want to overwrite Tanizy files in the target project.
 
 ## Manual Copy
 

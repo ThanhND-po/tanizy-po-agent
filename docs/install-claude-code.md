@@ -1,6 +1,13 @@
 # Install For Claude Code
 
-## Recommended
+## Install via npm (Recommended)
+
+```bash
+npx @thanhndpo/tanizy-po-agent --target claude-code --project /path/to/project --dry-run
+npx @thanhndpo/tanizy-po-agent --target claude-code --project /path/to/project
+```
+
+## Install from Local Clone
 
 From the `tanizy-po-agent` repository:
 

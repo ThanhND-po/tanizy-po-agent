@@ -1,6 +1,13 @@
 # Install For Gemini CLI
 
-## Recommended
+## Install via npm (Recommended)
+
+```bash
+npx @thanhndpo/tanizy-po-agent --target gemini-cli --project /path/to/project --dry-run
+npx @thanhndpo/tanizy-po-agent --target gemini-cli --project /path/to/project
+```
+
+## Install from Local Clone
 
 From the `tanizy-po-agent` repository:
 

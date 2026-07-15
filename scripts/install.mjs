@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { cpSync, existsSync, mkdirSync, readdirSync, statSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -14,12 +14,15 @@ const aliases = new Map([
 
 function usage() {
   console.log(`Usage:
+  npx @thanhndpo/tanizy-po-agent --target <gemini-cli|codex|claude-code|antigravity> --project <path> [--dry-run] [--force]
+
+Or from a local clone:
   node scripts/install.mjs --target <gemini-cli|codex|claude-code|antigravity> --project <path> [--dry-run] [--force]
 
 Examples:
-  node scripts/install.mjs --target gemini-cli --project ../my-project
-  node scripts/install.mjs --target codex --project /path/to/project --dry-run
-  node scripts/install.mjs --target claude-code --project /path/to/project --force
+  npx @thanhndpo/tanizy-po-agent --target gemini-cli --project ../my-project
+  npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --dry-run
+  npx @thanhndpo/tanizy-po-agent --target claude-code --project /path/to/project --force
 `);
 }
 
@@ -38,6 +41,10 @@ function parseArgs(argv) {
       args.project = argv[++i];
     } else if (arg === "-h" || arg === "--help") {
       args.help = true;
+    } else if (arg === "-v" || arg === "--version") {
+      const pkg = JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf-8"));
+      console.log(pkg.version);
+      process.exit(0);
     } else {
       throw new Error(`Unknown argument: ${arg}`);
     }

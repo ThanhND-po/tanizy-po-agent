@@ -1,0 +1,8 @@
+.DS_Store
+.git/
+draft/
+node_modules/
+*.swp
+*.swo
+.env
+.env.*
