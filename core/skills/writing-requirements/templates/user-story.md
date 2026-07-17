@@ -1,4 +1,4 @@
-> **Ticket title**: [MODULE] As a [persona], I want to [action] so that [outcome]
+> **Ticket title**: [MODULE] Sort description about the feature, limit 120 characters
 
 # User Story: [US-XXX-XX] - [Story Name]
 
