@@ -8,6 +8,7 @@ This project uses Tanizy PO Agent skills for Product Owner workflows.
 - For Epic, User Story, Use Case, Basic Design, API Spec, NFR, or requirement documents, use the `writing-requirements` skill.
 - For Use Case Diagram, Sequence Diagram, BPMN-style flow, Activity Diagram, State Diagram, or flowcharts, use the `creating-diagrams` skill.
 - For UI mockups or screen wireframes from a description or prototype, use the `generating-mockup` skill.
+- For a code-first UI preview or direct shadcn/ui component work, use the `shadcn-ui` skill. The `generating-mockup` skill invokes it automatically when Claude Code or Codex cannot use Stitch or image generation.
 
 ## Rules
 

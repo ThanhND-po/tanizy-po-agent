@@ -5,6 +5,8 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const packageConfig = JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf-8"));
+const fixedTarget = packageConfig.tanizyTarget;
 
 const targets = new Set(["gemini-cli", "codex", "claude-code", "antigravity"]);
 const aliases = new Map([
@@ -13,8 +15,12 @@ const aliases = new Map([
 ]);
 
 function usage() {
+  const command = fixedTarget
+    ? `npx ${packageConfig.name} --project <path> [--dry-run] [--force]`
+    : `npx ${packageConfig.name} --target <gemini-cli|codex|claude-code|antigravity> --project <path> [--dry-run] [--force]`;
+
   console.log(`Usage:
-  npx @thanhndpo/tanizy-po-agent --target <gemini-cli|codex|claude-code|antigravity> --project <path> [--dry-run] [--force]
+  ${command}
 
 Or from a local clone:
   node scripts/install.mjs --target <gemini-cli|codex|claude-code|antigravity> --project <path> [--dry-run] [--force]
@@ -42,8 +48,7 @@ function parseArgs(argv) {
     } else if (arg === "-h" || arg === "--help") {
       args.help = true;
     } else if (arg === "-v" || arg === "--version") {
-      const pkg = JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf-8"));
-      console.log(pkg.version);
+      console.log(packageConfig.version);
       process.exit(0);
     } else {
       throw new Error(`Unknown argument: ${arg}`);
@@ -52,6 +57,10 @@ function parseArgs(argv) {
 
   if (args.target && aliases.has(args.target)) {
     args.target = aliases.get(args.target);
+  }
+
+  if (!args.target && fixedTarget) {
+    args.target = fixedTarget;
   }
 
   return args;
@@ -64,6 +73,9 @@ function ensureValidArgs(args) {
   }
   if (!args.target || !targets.has(args.target)) {
     throw new Error("Missing or invalid --target.");
+  }
+  if (fixedTarget && args.target !== fixedTarget) {
+    throw new Error(`This package only supports --target ${fixedTarget}.`);
   }
   if (!args.project) {
     throw new Error("Missing --project.");

@@ -16,6 +16,7 @@ Tanizy PO Agent is a portable Product Owner workflow package for AI coding agent
 - Writing requirements such as Epic, User Story, Use Case, Basic Design, API Spec, and Non-functional Requirements.
 - User Story quality gates that require happy path, alternative/edge, and exception/negative coverage.
 - Creating diagrams such as Use Case, Sequence, BPMN-style process flow, Activity, and State diagrams.
+- Creating code-first UI mockups with shadcn/ui components when image-generation tools are unavailable.
 - Research fallback when a requested artifact type has no local template.
 
 ## Repository Structure
@@ -24,7 +25,10 @@ Tanizy PO Agent is a portable Product Owner workflow package for AI coding agent
 core/skills/              # Canonical skill source of truth
 adapters/                 # Thin tool-specific entrypoints
 scripts/install.mjs       # No-dependency installer
+scripts/build-target-packages.mjs
+                           # Generates one npm package per supported tool
 docs/                     # Install and manual-copy guides
+dist/packages/             # Generated package output, not source-controlled
 ```
 
 Do not edit copied/generated skill files inside target projects as the source of truth. Update `core/skills/` in this repository, then reinstall into the target project.
@@ -47,6 +51,8 @@ npx @thanhndpo/tanizy-po-agent --target gemini-cli --project /path/to/project --
 ```
 
 If destination files already exist, the installer stops. Re-run with `--force` when you intentionally want to overwrite Tanizy files in the target project.
+
+The universal package intentionally keeps one simple install flow for BA/PO users. It selects the tool-specific destination from `--target`; it does not copy npm metadata, scripts, or documentation into the target project.
 
 ## Update to Latest Version
 
@@ -75,7 +81,7 @@ node scripts/install.mjs --target gemini-cli --project /path/to/project --dry-ru
 
 ## Manual Copy
 
-You can install without scripts by copying the relevant adapter and skill folders. See [docs/manual-copy.md](docs/manual-copy.md).
+You can install without scripts by copying the relevant adapter and skill folders. See the [manual-copy guide](https://github.com/ThanhND-po/tanizy-po-agent/blob/main/docs/manual-copy.md).
 
 Quick summary:
 
@@ -88,10 +94,42 @@ Antigravity: core/skills -> skills, adapters/antigravity/AGENTS.md -> AGENTS.md,
 
 ## Tool Guides
 
-- [Gemini CLI](docs/install-gemini-cli.md)
-- [Codex](docs/install-codex.md)
-- [Claude Code](docs/install-claude-code.md)
-- [Antigravity](docs/install-antigravity.md)
+- [Gemini CLI](https://github.com/ThanhND-po/tanizy-po-agent/blob/main/docs/install-gemini-cli.md)
+- [Codex](https://github.com/ThanhND-po/tanizy-po-agent/blob/main/docs/install-codex.md)
+- [Claude Code](https://github.com/ThanhND-po/tanizy-po-agent/blob/main/docs/install-claude-code.md)
+- [Antigravity](https://github.com/ThanhND-po/tanizy-po-agent/blob/main/docs/install-antigravity.md)
+
+## Build Target-Specific npm Packages
+
+The repository keeps `core/skills/` as the single source of truth. To generate smaller packages for users who already know their tool, run:
+
+```bash
+npm run build:target-packages
+```
+
+This creates ignored build output under `dist/packages/`:
+
+```text
+dist/packages/gemini-cli/
+dist/packages/codex/
+dist/packages/claude-code/
+dist/packages/antigravity/
+```
+
+Each generated package contains only the shared skills, one tool adapter, the installer, `package.json`, `README.md`, and `LICENSE`. The generated package fixes its target, so the user can run:
+
+```bash
+npx @thanhndpo/tanizy-po-agent-codex --project /path/to/project
+```
+
+Publish a generated package only after reviewing its dry-run output:
+
+```bash
+node scripts/check-published-package.mjs dist/packages/codex
+npm publish dist/packages/codex --access public
+```
+
+The GitHub Actions package check validates the universal package and all generated packages. It rejects `.gitignore`, `.npmignore`, and `docs/` from published package contents.
 
 ## Important Behavior
 

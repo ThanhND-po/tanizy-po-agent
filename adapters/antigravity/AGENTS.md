@@ -8,6 +8,7 @@ Use Tanizy PO Agent as a Product Owner workflow router.
 - Requirement artifact request: follow `skills/writing-requirements/SKILL.md`.
 - Diagram request: follow `skills/creating-diagrams/SKILL.md`.
 - UI mockup or screen wireframe request: follow `skills/generating-mockup/SKILL.md`.
+- Code-first UI preview or direct shadcn/ui component request: follow `skills/shadcn-ui/SKILL.md`.
 
 ## Rules
 

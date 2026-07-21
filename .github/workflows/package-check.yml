@@ -1,0 +1,32 @@
+name: Package validation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  npm-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate universal package with npm pack dry run
+        run: npm run pack:check
+
+      - name: Build target-specific packages
+        run: npm run build:target-packages
+
+      - name: Validate target-specific package contents
+        run: |
+          for package_dir in dist/packages/*; do
+            node scripts/check-published-package.mjs "$package_dir"
+          done

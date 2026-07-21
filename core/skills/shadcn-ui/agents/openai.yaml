@@ -1,0 +1,4 @@
+interface:
+  display_name: "shadcn UI"
+  short_description: "Build consistent code-first UI mockups with shadcn/ui components"
+  default_prompt: "Use the shadcn-ui skill to design or build a project-aware UI mockup with shadcn/ui components."
