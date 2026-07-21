@@ -115,9 +115,12 @@ function copyPlan(target, projectRoot) {
   }
 
   return [
-    { from: coreSkills, to: join(projectRoot, "skills") },
+    ...skillDirectories().map((skill) => ({
+      from: join(coreSkills, skill),
+      to: join(projectRoot, ".agents", "skills", skill),
+    })),
     { from: join(repoRoot, "adapters", "antigravity", "AGENTS.md"), to: join(projectRoot, "AGENTS.md") },
-    { from: join(repoRoot, "adapters", "antigravity", ".agents"), to: join(projectRoot, ".agents") },
+    { from: join(repoRoot, "adapters", "antigravity", ".agents", "rules"), to: join(projectRoot, ".agents", "rules") },
   ];
 }
 

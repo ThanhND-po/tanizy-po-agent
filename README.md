@@ -89,7 +89,7 @@ Quick summary:
 Gemini CLI:  core/skills -> skills, adapters/gemini-cli/GEMINI.md -> GEMINI.md, adapters/gemini-cli/.gemini -> .gemini
 Codex:       core/skills/* -> .agents/skills/, adapters/codex/AGENTS.md -> AGENTS.md
 Claude Code: core/skills/* -> .claude/skills/, adapters/claude-code/CLAUDE.md -> CLAUDE.md
-Antigravity: core/skills -> skills, adapters/antigravity/AGENTS.md -> AGENTS.md, adapters/antigravity/.agents -> .agents
+Antigravity: core/skills/* -> .agents/skills/, adapters/antigravity/AGENTS.md -> AGENTS.md, adapters/antigravity/.agents/rules -> .agents/rules
 ```
 
 ## Tool Guides
@@ -130,6 +130,8 @@ npm publish dist/packages/codex --access public
 ```
 
 The GitHub Actions package check validates the universal package and all generated packages. It rejects `.gitignore`, `.npmignore`, and `docs/` from published package contents.
+
+See [docs/publish-npm.md](https://github.com/ThanhND-po/tanizy-po-agent/blob/main/docs/publish-npm.md) for the release checklist, current npm 2FA behavior, and automation guidance.
 
 ## Important Behavior
 

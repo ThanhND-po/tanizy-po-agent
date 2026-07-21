@@ -1,6 +1,6 @@
 {
   "name": "@thanhndpo/tanizy-po-agent",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Portable Product Owner agent workflows for Gemini CLI, Antigravity, Codex, and Claude Code.",
   "license": "MIT",
   "type": "module",

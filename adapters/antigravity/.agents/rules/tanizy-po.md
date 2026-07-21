@@ -2,10 +2,10 @@
 
 When the user asks for Product Owner work, route to the matching local workflow:
 
-- Brainstorming or requirement discovery: `skills/brainstorming/SKILL.md`
-- Requirement artifacts: `skills/writing-requirements/SKILL.md`
-- Diagrams and process/system visuals: `skills/creating-diagrams/SKILL.md`
-- UI mockups or screen wireframes: `skills/generating-mockup/SKILL.md`
+- Brainstorming or requirement discovery: `.agents/skills/brainstorming/SKILL.md`
+- Requirement artifacts: `.agents/skills/writing-requirements/SKILL.md`
+- Diagrams and process/system visuals: `.agents/skills/creating-diagrams/SKILL.md`
+- UI mockups or screen wireframes: `.agents/skills/generating-mockup/SKILL.md`
 
 Always read the relevant workflow before drafting.
 
