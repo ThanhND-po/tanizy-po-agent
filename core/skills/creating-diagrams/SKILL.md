@@ -1,6 +1,6 @@
 ---
 name: creating-diagrams
-description: Use when a Product Owner needs an editable or documented diagram, including Use Case, Sequence, Activity, BPMN-style flow, BPMN 2.0, State, ERD, or system interaction visual. Select the appropriate notation, protect project information, validate syntax locally when local tooling is available, and review business coverage before saving.
+description: Use when a Product Owner needs an editable, shareable, or documented diagram, including Use Case, Sequence, Activity, BPMN-style flow, BPMN 2.0, State, ERD, system interaction visual, or standalone interactive HTML business flow. Select the appropriate notation and format, protect project information, validate locally when available, and review business coverage before saving.
 ---
 
 # Creating Diagrams
@@ -13,6 +13,7 @@ Create clear diagrams for Product Owner communication and downstream delivery wo
 - Do not write a file until the user approves the diagram and confirms the output path.
 - Do not run version-control actions.
 - For draw.io output: read `templates/drawio-style-guide.md` **before** generating any XML. Apply all adaptive theme rules and pre-save checklist. Do not skip.
+- For standalone interactive HTML output: read `references/interactive-html.md` before generating a preview or final artifact. Keep the artifact self-contained and do not add analytics, remote fonts, CDN assets, external images, or third-party scripts.
 - Do not send diagram source, labels, screenshots, or project context to public renderers, diagram websites, paste services, or third-party AI services. Do not use public PlantUML servers, Mermaid Live, dbdiagram.io, or similar services to validate or render project data.
 - Use only local rendering or validation tools already available in the environment. Do not install a dependency unless the user explicitly asks.
 
@@ -43,13 +44,16 @@ Create clear diagrams for Product Owner communication and downstream delivery wo
    - If the user has not specified a type, recommend one based on this table and state why.
 
 4. **Choose output format**
-   - **draw.io** (`.drawio` XML): recommended when the user needs a file they can open, edit, and share. Default choice when no format is specified and a file output is needed.
+   - **Standalone interactive HTML** (`.html`): recommended for a business flow, swimlane, journey, or architecture overview that stakeholders should open and share in a browser without diagram tooling. Use when presentation, responsive viewing, expandable step detail, or lightweight navigation adds value. It is not a replacement for BPMN 2.0 or a source artifact that business users will edit in draw.io.
+   - **draw.io** (`.drawio` XML): recommended when the user needs an editable diagram source, formal review annotations, or ongoing changes in a diagram editor. Default choice when no format is specified and a file output is needed.
    - Mermaid: recommended for Markdown, GitHub, GitLab, Notion, and VS Code previews where inline rendering is preferred.
    - PlantUML: useful for complex UML and teams with PlantUML tooling.
    - BPMN 2.0 XML: use when the user explicitly needs a standards-based BPMN artifact for BPMN tooling.
    - ASCII: use only for quick sketches or environments with no renderer.
 
-5. **If output is draw.io — apply style rules before generating**
+5. **Apply the output-specific rules before generating**
+   - **Standalone interactive HTML:** read `references/interactive-html.md`. Preserve the approved fact list in the visible flow, use CSS Grid lanes for ownership, inline SVG only for connectors, and interaction only to reveal already-approved detail or navigate the diagram. Build a temporary preview outside the target project. Do not make a backend, call an API, or require a browser extension.
+   - **draw.io:** follow the rules below.
    - Read `templates/drawio-style-guide.md` fully.
    - Apply adaptive theme rules: do NOT hardcode `fontColor` or `strokeColor` on canvas-level elements (arrows, lifelines, floating labels).
    - DO hardcode `fontColor=#333333` on all in-box elements (actors, notes, phase headers, swimlanes).
@@ -66,13 +70,18 @@ Create clear diagrams for Product Owner communication and downstream delivery wo
    - Generate the diagram with readable labels and domain-specific names from context.
    - Include happy path first, then alternate or exception paths where appropriate.
    - For draw.io: validate XML structure — file must start with `<mxGraphModel>`, all IDs must be unique, no two elements may overlap.
+   - For standalone interactive HTML: render it locally at desktop and mobile widths. Verify the full happy path is visible without interaction, buttons and disclosure controls work with keyboard, focus is visible, all connectors remain aligned, and the document works with JavaScript disabled unless the approved interaction explicitly requires it.
    - Run three distinct checks before reporting completion:
-     1. **Syntax or structure**: validate draw.io XML, or run an installed local renderer or CLI for Mermaid, PlantUML, D2, DBML, or BPMN 2.0. If no local validator is available, state that runtime validation was not performed.
+     1. **Syntax or structure**: validate draw.io XML, inspect standalone HTML for external URLs and invalid control relationships, or run an installed local renderer or CLI for Mermaid, PlantUML, D2, DBML, or BPMN 2.0. If no local validator is available, state that runtime validation was not performed.
      2. **Business coverage**: compare the diagram with the fact list. Check all actors or lanes, decisions and outcomes, alternate or error paths, terminal states, and critical relationships.
      3. **Readability**: check label length, consistent direction, unclipped text, crossings or overlaps, and one consistent abstraction level. Split the diagram when readability cannot be preserved.
-   - Present for approval (show XML in a code block or summarise the element count and structure).
+   - Present for approval. For HTML, show the local browser preview or screenshot and summarise the lanes, interactions, and file contents. For source formats, show XML in a code block or summarise the element count and structure.
    - After approval, ask where to save it.
-   - Suggested folder: `docs/diagrams/`.
+   - Suggested folder: `docs/diagrams/`, using a descriptive name such as `leave-request-approval-flow.html`.
+
+## Standalone Interactive HTML Guidance
+
+Use this format for communication and review, not to claim BPMN 2.0 compliance. A Swimlane HTML diagram must show every lane owner, handoff, decision outcome, alternate path, and terminal state from the fact list without relying on hover-only or click-only information. Read `references/interactive-html.md` for the complete artifact, accessibility, interaction, and validation rules.
 
 ## Diagram Guidance
 
