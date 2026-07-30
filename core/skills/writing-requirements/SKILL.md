@@ -12,6 +12,7 @@ Transform a feature spec or business request into formal requirement artifacts.
 - Do not show a requirement artifact until the relevant template or research fallback has been applied.
 - For User Stories, apply `templates/user-story-invest.md` and pass the **User Story Quality Gate** below before showing the result.
 - Do not write a file until the user approves the artifact and confirms the output path.
+- For Basic Design, use Local Markdown mode by default. Do not convert, upload, or sync the artifact to a spreadsheet unless the user explicitly requests or confirms it.
 - Do not run version-control actions.
 
 ## User Story Quality Gate
@@ -64,7 +65,14 @@ An estimation fails the quality gate if any condition below is true. If it fails
      - Other
    - The user may choose multiple types; create them in a logical order.
 
-3. **Use local template when available**
+3. **Choose the Basic Design delivery mode**
+   - Use **Local Markdown mode** by default when the user does not mention a spreadsheet. Do not interrupt the workflow to ask about spreadsheet delivery.
+   - Use **Spreadsheet-ready mode** only when the user explicitly asks to manage or share the Basic Design through a spreadsheet.
+   - If the user mentions team sharing, spreadsheet management, or conversion but the intended output is unclear, ask one targeted question: `Should this Basic Design remain a local Markdown artifact, or should it also be prepared for spreadsheet management?`
+   - Treat spreadsheet conversion as a separate delivery step. Preserve the approved content and business rules; change only the table-cell formatting needed for spreadsheet management.
+   - Do not upload or sync to a spreadsheet until the user confirms the destination and requested write scope.
+
+4. **Use local template when available**
    - Epic: `templates/epic.md`
    - Change Request: `templates/change-request.md`
    - User Story: `templates/user-story.md`
@@ -73,39 +81,67 @@ An estimation fails the quality gate if any condition below is true. If it fails
    - User Story INVEST guide: `templates/user-story-invest.md`
    - User Story checklist: `templates/user-story-quality-checklist.md`
    - Basic Design: `templates/basic-design.md`
+   - API Spec: `templates/api-spec.md`
+   - Non-functional Requirement: `templates/nfr.md`
    - Estimation guide: `templates/estimation-guide.md`
 
-4. **Research fallback when no local template exists**
-   - For Basic Design, API Spec, NFR, or any unsupported artifact, research current common industry structure before drafting when web access is available.
+5. **Research fallback when no local template exists**
+   - For any unsupported artifact, research current common industry structure before drafting when web access is available.
    - Prefer primary or authoritative sources such as official standard bodies, major platform documentation, or widely adopted methodology references.
    - Cite sources when the environment supports citations.
    - State assumptions and the chosen structure before or alongside the artifact.
    - If web access is unavailable, say that current-source verification was not possible and proceed with a conservative standard structure based on available context.
 
-5. **Draft**
+6. **Draft**
    - Fill all meaningful sections.
    - Do not invent unknown business rules; list them as open questions when needed.
    - Keep requirements implementation-neutral unless the artifact type requires technical detail. This applies to every section: story statement, Acceptance Criteria, and Scenarios. If the user mentioned specific UI components, services, or frameworks during discussion, convert them to behavior or capability descriptions in the artifact.
    - Remove accidental placeholders before proceeding.
 
-6. **Run Quality Gate Checklist (for User Stories)**
+7. **Run Quality Gate Checklist (for User Stories)**
    - Open `templates/user-story-quality-checklist.md` and evaluate each item against the draft.
    - Record the result of each checklist item (`[x]` pass / `[ ]` fail) in a scratchpad or internal note — this is the **evidence** that the gate was executed.
    - If any item fails, fix the draft silently and re-run the checklist until all items pass.
    - Do NOT show the User Story to the user until the checklist is fully passed.
 
-7. **Approval and save**
+8. **Approval and save**
    - Present the artifact and ask for approval or revisions.
    - After approval, ask where to save it.
-   - Suggested folders:
-     - `docs/requirements/`
-     - `docs/specs/`
-     - `docs/design/`
+   - Apply the filename prefix for the selected artifact type and propose an English lowercase kebab-case descriptive filename.
+   - Keep the business ID in frontmatter and content, not in the filename.
+   - Use the owning module folder defined by the project structure, such as `requirements/`, `designs/`, `epics/`, `feature-specs/` or `api-specs/`.
    - Save only to the user-approved target project path.
+   - Run the project Markdown validator (if it exists) after saving.
 
-8. **Next step**
+9. **Next step**
    - Ask whether the user wants a diagram, another requirement artifact, or to stop.
    - Do not automatically invoke another workflow.
+
+## Artifact Filename Quality Gate
+
+Use the naming convention from the project `README.md` (if it exists), or from the table below:
+
+| Artifact type | Filename format |
+|---|---|
+| User Story or Requirement | `req-<descriptive-name>.md` |
+| Basic Design | `bd-<descriptive-name>.md` |
+| Change Request | `cr-<year>-<descriptive-name>.md` |
+| Epic | `epic-<descriptive-name>.md` |
+| Feature Spec | `fs-<descriptive-name>.md` |
+| API Spec | `api-<descriptive-name>.md` |
+| Non-functional Requirement | `nfr-<descriptive-name>.md` |
+
+An artifact filename fails the gate if any condition below is true:
+
+- The prefix does not match the artifact type.
+- The descriptive name is not English lowercase kebab-case.
+- The filename contains the business ID, module code or sequence.
+- The descriptive name does not identify the primary capability, screen or business change.
+- The descriptive name repeats the artifact prefix or uses a generic name such as `document`, `requirement`, `screen` or `new-file`.
+- The filename conflicts with an existing file in the target directory.
+- A customer-facing product label required for tracking has been translated or replaced, for example `Ikura`.
+
+Business IDs such as `REQ-ATT-001`, `BD-ATT-D01` and `CR-2026-001` remain in frontmatter, H1, Metadata and index labels. They do not determine the filename.
 
 ## Type-Specific Rules
 
@@ -153,7 +189,6 @@ A Basic Design document describes a **single screen** from the user and business
 2. **Read `templates/basic-design.md`** before drafting.
 
 3. **Fill Section 1 — Metadata**
-3. **Fill Section 1 — Metadata**
    - Assign a Screen ID using the format `BD-[MODULE]-[TYPE][SEQ]`, where:
      - `[MODULE]` = short module/feature code in UPPERCASE (e.g. `AUTH`, `STL`, `ORD`)
      - `[TYPE]` = single letter identifying the screen type:
@@ -172,6 +207,9 @@ A Basic Design document describes a **single screen** from the user and business
 
      - `[SEQ]` = 2-digit sequence within the same module+type (01, 02 …)
      - **Modals and child overlays** append `-M[n]` to their parent screen ID, e.g. `BD-STL-L01-M1`, `BD-STL-L01-M2`. Modal IDs do not have their own top-level entry.
+   - Create the output filename independently from the Screen ID using `bd-<descriptive-screen-name>.md`.
+   - Do not include `[MODULE]`, `[TYPE]`, `[SEQ]` or the full Screen ID in the filename.
+   - Example: Screen ID `BD-ATT-D01` with screen name `Attendance Record Details` uses `bd-attendance-record-details.md`.
    - Ask the user for the related ticket or User Story ID if not already known.
 
 4. **Fill Section 2 — Specs Overview**
@@ -194,7 +232,11 @@ A Basic Design document describes a **single screen** from the user and business
    - I/O: `Input` (user enters data), `Output` (system displays data), `Both` (editable pre-filled field), `Action` (button/link that triggers a behaviour).
    - Initial State: the value or visual state when the screen first loads — e.g. `Blank`, `Today's date`, a specific default, `Disabled`, `Active`.
    - Remarks: business rules, validation logic, conditional behaviour (show/hide/enable/disable conditions), trigger actions, cross-field dependencies.
-   - **Formatting:** For `Initial State` and `Remarks`, or any complex descriptions, always use `<br>` tags to explicitly break lines for readability. Use bullet points (`-`) for complex conditions or role-based descriptions instead of running them together with spaces and bold text (e.g., use `<br>- **Admin**: ...<br>- **User**: ...`).
+   - Keep each UI element in exactly one Markdown table row and keep that row on one physical line in both delivery modes.
+   - Apply the formatting for the selected delivery mode consistently across the table:
+     - **Local Markdown mode (default):** For complex descriptions in `Initial State`, `Remarks`, or other cells, use `<br>` to create explicit line breaks. Use `<br>- **Label**: ...` for independent conditions or role-based rules instead of combining them with spaces and bold text.
+     - **Spreadsheet-ready mode:** Do not use HTML line-break tags or literal line breaks inside cells. For structured rules in `Initial State`, `Remarks`, or other cells, start with `• `, use ` • ` between independent rules, and use `; ` between values or sub-conditions of the same rule. Use short labels and rely on automatic cell wrapping.
+   - Do not mix Local Markdown and Spreadsheet-ready formatting in the same table.
    - Do not invent business rules; record unknowns in Section 5 — Open Questions.
 
 7. **Fill Section 5 — Open Questions**
@@ -205,14 +247,29 @@ A Basic Design document describes a **single screen** from the user and business
    - No business rule has been invented; all unknowns are in Open Questions.
    - Section 2 answers all three overview questions.
    - No Detail Design content (DB schema, API routes, class names) has leaked into the document.
-   - Complex descriptions and role-based logic in the table use `<br>` and bullet points instead of inline spaces and bolding.
+   - Every UI element occupies exactly one table row and one physical line.
+   - The table uses only the selected delivery mode:
+     - Local Markdown mode uses `<br>` and bullet points for complex descriptions and role-based logic.
+     - Spreadsheet-ready mode contains no `<br>` tags or literal line breaks inside cells and uses `• ` separators for structured rules.
 
 ### API Spec
 
-- Use research fallback unless a project-specific template exists.
-- Cover endpoints or operations, request/response schemas, status/error handling, authentication/authorization, validation, examples, and compatibility notes.
+- Read `templates/api-spec.md` and `references/api-nfr-authoring.md`.
+- Treat the Markdown tables as the primary review contract. Keep every operation, field, rule, response, and error easy to scan in tables.
+- Use OpenAPI YAML only as a supplementary appendix for developer design and tooling. Do not replace table content with YAML.
+- Follow the project-supported OpenAPI version. If none is defined, state the chosen version as an assumption.
+- Keep the operation summary and detailed operation sections synchronized.
+- Document authentication, authorization, validation, idempotency, pagination/filtering, status and error semantics, compatibility, and examples when relevant.
+- Do not include real credentials, tokens, secrets, personal data, or production-only values in examples.
+- If tables and the OpenAPI appendix conflict, flag the conflict as an open question instead of silently choosing one.
 
 ### Non-functional Requirement
 
-- Use research fallback unless a project-specific template exists.
-- Cover measurable quality attributes such as performance, availability, security, privacy, auditability, scalability, accessibility, localization, maintainability, and observability as relevant.
+- Read `templates/nfr.md` and `references/api-nfr-authoring.md`.
+- Organize requirements by category and maintain a scannable catalog with at least: ID, Category, Item, Description, Target or Threshold, Priority, Status, Verification, and Source.
+- Use the project's category taxonomy when one exists. Otherwise use ISO/IEC 25010:2023 as the baseline and add clearly labeled project-specific categories only when needed.
+- Treat an NFR spec as the detailed source for quality concerns mentioned in a Feature Spec. Trace each source statement to an NFR ID and elaborate its scope, measurable target, verification method, and ownership.
+- Do not invent targets or service levels. Use `TBD` and add an open question when the Feature Spec or stakeholder input is not measurable enough.
+- Keep Priority, implementation Status, and Verification Result as separate concepts.
+- Include only relevant categories. Mark a category `Not Applicable` with a reason when its omission could create material risk.
+- Reject vague requirements such as `fast`, `secure`, `scalable`, or `user-friendly` unless they are converted into measurable and verifiable statements.

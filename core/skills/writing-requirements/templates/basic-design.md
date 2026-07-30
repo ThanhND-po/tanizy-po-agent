@@ -63,7 +63,11 @@
 > - **Initial State** — The value or visual state the element shows when the screen first loads (e.g. `Blank`, `Today's date`, specific default value, `Disabled`)
 > - **Remarks** — Business rules, validation logic, conditional behaviour, trigger actions, and any additional explanation
 
-**Remark:** When showing info for `Initial State` and `Remarks`, if you need to describe complex logic, conditions, or role-based access, always use `<br>` to explicitly break lines and use bullet points (`-`) instead of writing inline with bold text. (e.g., `<br>- **Admin**: can edit.<br>- **User**: read-only.`)
+**Formatting mode:** Keep each UI element in one Markdown table row and keep that row on one physical line.
+
+- **Local Markdown mode (default):** For complex logic, conditions, or role-based access in `Initial State`, `Remarks`, or other cells, use `<br>` for explicit line breaks and `<br>- **Label**: ...` for independent rules.
+- **Spreadsheet-ready mode:** Do not use `<br>` tags or literal line breaks inside cells. Start structured rules with `• `, use ` • ` between independent rules, and use `; ` between values or sub-conditions of the same rule.
+- Use one formatting mode consistently across the table.
 
 
 | # | Item Name | Classification | Required | Max Length | I/O | Data Type | Input Constraint | Initial State | Remarks |
