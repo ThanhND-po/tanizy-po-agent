@@ -1,6 +1,6 @@
-# Publish To npm
+# Maintainer Guide: Publish To npm
 
-Use this guide when releasing `@thanhndpo/tanizy-po-agent` or a generated target-specific package.
+Use this guide when releasing `@thanhndpo/tanizy-po-agent` or a generated target-specific package. This is maintainer documentation; end users only need the installation guides in the README and `docs/install-*.md`.
 
 ## Release Checklist
 

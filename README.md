@@ -46,6 +46,32 @@ npx @thanhndpo/tanizy-po-agent --target claude-code --project /path/to/project
 npx @thanhndpo/tanizy-po-agent --target antigravity --project /path/to/project
 ```
 
+### If `npx` reports `tanizy-po-install: command not found`
+
+Do not run the npm command from inside the `tanizy-assistant` source repository. The repository has the same package name, so npm can resolve the local package context without exposing its executable in `PATH`.
+
+Run the npm command from another directory, such as the target project or `/tmp`:
+
+```bash
+cd /Users/thanhnd/thanhnd_product_owner/Project-TalentBank
+npx --yes @thanhndpo/tanizy-po-agent@latest \
+  --target codex \
+  --project "$PWD" \
+  --skill mtg-memos
+```
+
+When working from a local clone, call the installer directly instead:
+
+```bash
+cd /Users/thanhnd/thanhnd_product_owner/thanhnd-agent/tanizy-assistant
+node scripts/install.mjs \
+  --target codex \
+  --project /Users/thanhnd/thanhnd_product_owner/Project-TalentBank \
+  --skill mtg-memos
+```
+
+This error is related to npm executable resolution. It is not caused by the target project, `--target`, or the selected skill.
+
 Preview the install first:
 
 ```bash
@@ -58,10 +84,17 @@ The universal package intentionally keeps one simple install flow for BA/PO user
 
 ### Install One Skill
 
-Use `--skill` to install only the skill you need:
+Use `--skill` to install only one skill. The commands below list every skill currently included in the package. They use Codex as the target; replace `codex` with `gemini-cli`, `claude-code`, or `antigravity` when needed.
 
 ```bash
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill brainstorming
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill creating-diagrams
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill generating-mockup
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill mtg-memos
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill shadcn-ui
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill using-tanizy-agent
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill web-design-guidelines
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill writing-requirements
 ```
 
 Repeat `--skill` to select multiple skills:
@@ -85,7 +118,7 @@ npx @thanhndpo/tanizy-po-agent@latest --target gemini-cli --project /path/to/pro
 Update one skill without replacing the other installed skills or adapter files:
 
 ```bash
-npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill brainstorming --force
+npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill <skill-name> --force
 ```
 
 `--force` cleanly replaces the selected skill folder, including removal of files that no longer exist in the latest package.
@@ -105,8 +138,16 @@ Install or update one skill from the local clone:
 
 ```bash
 node scripts/install.mjs --target codex --project /path/to/project --skill brainstorming
-node scripts/install.mjs --target codex --project /path/to/project --skill brainstorming --force
+node scripts/install.mjs --target codex --project /path/to/project --skill creating-diagrams
+node scripts/install.mjs --target codex --project /path/to/project --skill generating-mockup
+node scripts/install.mjs --target codex --project /path/to/project --skill mtg-memos
+node scripts/install.mjs --target codex --project /path/to/project --skill shadcn-ui
+node scripts/install.mjs --target codex --project /path/to/project --skill using-tanizy-agent
+node scripts/install.mjs --target codex --project /path/to/project --skill web-design-guidelines
+node scripts/install.mjs --target codex --project /path/to/project --skill writing-requirements
 ```
+
+For an update from the local clone, add `--force` to the command for the selected skill.
 
 Preview first:
 
@@ -160,7 +201,7 @@ npx @thanhndpo/tanizy-po-agent-codex --project /path/to/project
 The target-specific packages support the same selective install options:
 
 ```bash
-npx @thanhndpo/tanizy-po-agent-codex@latest --project /path/to/project --skill brainstorming --force
+npx @thanhndpo/tanizy-po-agent-codex@latest --project /path/to/project --skill <skill-name> --force
 ```
 
 Publish a generated package only after reviewing its dry-run output:
@@ -172,7 +213,9 @@ npm publish dist/packages/codex --access public
 
 The GitHub Actions package check validates the universal package and all generated packages. It rejects `.gitignore`, `.npmignore`, and `docs/` from published package contents.
 
-See [docs/publish-npm.md](https://github.com/ThanhND-po/tanizy-po-agent/blob/main/docs/publish-npm.md) for the release checklist, current npm 2FA behavior, and automation guidance.
+## Maintainer Documentation
+
+[Publish to npm](https://github.com/ThanhND-po/tanizy-po-agent/blob/main/docs/publish-npm.md) is a maintainer-only release guide. It documents this repository's package checks, target-package build flow, npm authentication and release verification. It is not required for installing or using the skills.
 
 ## Important Behavior
 
