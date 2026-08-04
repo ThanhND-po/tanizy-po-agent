@@ -46,32 +46,6 @@ npx @thanhndpo/tanizy-po-agent --target claude-code --project /path/to/project
 npx @thanhndpo/tanizy-po-agent --target antigravity --project /path/to/project
 ```
 
-### If `npx` reports `tanizy-po-install: command not found`
-
-Do not run the npm command from inside the `tanizy-assistant` source repository. The repository has the same package name, so npm can resolve the local package context without exposing its executable in `PATH`.
-
-Run the npm command from another directory, such as the target project or `/tmp`:
-
-```bash
-cd /Users/thanhnd/thanhnd_product_owner/Project-TalentBank
-npx --yes @thanhndpo/tanizy-po-agent@latest \
-  --target codex \
-  --project "$PWD" \
-  --skill mtg-memos
-```
-
-When working from a local clone, call the installer directly instead:
-
-```bash
-cd /Users/thanhnd/thanhnd_product_owner/thanhnd-agent/tanizy-assistant
-node scripts/install.mjs \
-  --target codex \
-  --project /Users/thanhnd/thanhnd_product_owner/Project-TalentBank \
-  --skill mtg-memos
-```
-
-This error is related to npm executable resolution. It is not caused by the target project, `--target`, or the selected skill.
-
 Preview the install first:
 
 ```bash
