@@ -9,6 +9,7 @@ This project uses Tanizy PO Agent skills for Product Owner workflows.
 - For Use Case Diagram, Sequence Diagram, BPMN-style flow, Activity Diagram, State Diagram, or flowcharts, use the `creating-diagrams` skill.
 - For UI mockups or screen wireframes from a description or prototype, use the `generating-mockup` skill.
 - For a code-first UI preview or direct shadcn/ui component work, use the `shadcn-ui` skill. The `generating-mockup` skill invokes it automatically when Claude Code or Codex cannot use Stitch or image generation.
+- For meeting memo or transcript understanding and channel-ready summaries, use the `mtg-memos` skill.
 
 ## Rules
 

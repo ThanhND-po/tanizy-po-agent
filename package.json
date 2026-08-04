@@ -1,6 +1,6 @@
 {
   "name": "@thanhndpo/tanizy-po-agent",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Portable Product Owner agent workflows for Gemini CLI, Antigravity, Codex, and Claude Code.",
   "license": "MIT",
   "type": "module",
@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "install:agent": "node scripts/install.mjs",
+    "test:installer": "node --test tests/install.test.mjs",
     "pack:check": "node scripts/check-published-package.mjs .",
     "build:target-packages": "node scripts/build-target-packages.mjs"
   },

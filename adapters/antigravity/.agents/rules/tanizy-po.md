@@ -6,6 +6,7 @@ When the user asks for Product Owner work, route to the matching local workflow:
 - Requirement artifacts: `.agents/skills/writing-requirements/SKILL.md`
 - Diagrams and process/system visuals: `.agents/skills/creating-diagrams/SKILL.md`
 - UI mockups or screen wireframes: `.agents/skills/generating-mockup/SKILL.md`
+- Meeting memo or transcript summaries: `.agents/skills/mtg-memos/SKILL.md`
 
 Always read the relevant workflow before drafting.
 

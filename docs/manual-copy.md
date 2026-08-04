@@ -4,6 +4,14 @@ Use this guide when you have downloaded or cloned `tanizy-po-agent` locally and 
 
 Replace `/path/to/project` with your target project path.
 
+To install or update one skill manually, copy only its directory to the tool-specific skills root. For example, replace `<skills-root>` below with `skills`, `.agents/skills`, or `.claude/skills` as documented in each section:
+
+```bash
+cp -R core/skills/mtg-memos /path/to/project/<skills-root>/
+```
+
+The npm installer provides the safer cross-platform equivalent with `--skill mtg-memos`.
+
 ## Gemini CLI
 
 macOS / Linux:

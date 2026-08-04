@@ -24,6 +24,7 @@ Choose exactly one workflow unless the user explicitly asks for multiple outputs
 | Wants Use Case Diagram, Sequence Diagram, BPMN, Activity Diagram, State Diagram, flowchart, or visual process/system interaction | `creating-diagrams` |
 | Needs UI mockups or screen wireframes generated from descriptions or prototype documents | `generating-mockup` |
 | Wants a code-first UI preview using shadcn/ui components, or asks to use shadcn/ui directly | `shadcn-ui` |
+| Provides meeting memo or transcript files and wants a summary for sharing | `mtg-memos` |
 | Asks explanation, advice, review, or a non-artifact question | Respond directly using PO judgment |
 
 If intent is mixed, start with the earliest needed workflow:
@@ -53,3 +54,4 @@ If intent is mixed, start with the earliest needed workflow:
 - `skills/creating-diagrams/SKILL.md`
 - `skills/generating-mockup/SKILL.md`
 - `skills/shadcn-ui/SKILL.md`
+- `skills/mtg-memos/SKILL.md`

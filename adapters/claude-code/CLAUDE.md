@@ -9,6 +9,7 @@ Use the installed Tanizy PO skills when the user asks for Product Owner workflow
 - Use `creating-diagrams` for Use Case Diagram, Sequence Diagram, BPMN-style flow, Activity Diagram, State Diagram, or flowcharts.
 - Use `generating-mockup` for UI mockups or screen wireframes.
 - Use `shadcn-ui` for code-first UI previews or direct shadcn/ui component work. `generating-mockup` invokes it automatically when Stitch or image generation is unavailable.
+- Use `mtg-memos` for meeting memo or transcript understanding and channel-ready summaries.
 
 ## Rules
 

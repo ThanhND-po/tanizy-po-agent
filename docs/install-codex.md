@@ -7,6 +7,20 @@ npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --dry-r
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project
 ```
 
+Install only one skill:
+
+```bash
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill mtg-memos
+```
+
+Update only that skill from the latest npm release:
+
+```bash
+npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill mtg-memos --force
+```
+
+Repeat `--skill` to select multiple skills. A selective install changes only `.agents/skills/<skill-name>` and does not copy or overwrite `AGENTS.md`.
+
 ## Install from Local Clone
 
 From the `tanizy-po-agent` repository:
@@ -14,6 +28,7 @@ From the `tanizy-po-agent` repository:
 ```bash
 node scripts/install.mjs --target codex --project /path/to/project --dry-run
 node scripts/install.mjs --target codex --project /path/to/project
+node scripts/install.mjs --target codex --project /path/to/project --skill mtg-memos
 ```
 
 Use `--force` only when you intentionally want to overwrite existing Tanizy files in the target project.

@@ -17,6 +17,7 @@ Tanizy PO Agent is a portable Product Owner workflow package for AI coding agent
 - User Story quality gates that require happy path, alternative/edge, and exception/negative coverage.
 - Creating diagrams such as Use Case, Sequence, BPMN-style process flow, Activity, and State diagrams.
 - Creating code-first UI mockups with shadcn/ui components when image-generation tools are unavailable.
+- Summarizing Japanese, Vietnamese, English, or multilingual meeting memos for team channels.
 - Research fallback when a requested artifact type has no local template.
 
 ## Repository Structure
@@ -27,6 +28,7 @@ adapters/                 # Thin tool-specific entrypoints
 scripts/install.mjs       # No-dependency installer
 scripts/build-target-packages.mjs
                            # Generates one npm package per supported tool
+tests/                    # Installer tests used by GitHub Actions, not published to npm
 docs/                     # Install and manual-copy guides
 dist/packages/             # Generated package output, not source-controlled
 ```
@@ -54,6 +56,24 @@ If destination files already exist, the installer stops. Re-run with `--force` w
 
 The universal package intentionally keeps one simple install flow for BA/PO users. It selects the tool-specific destination from `--target`; it does not copy npm metadata, scripts, or documentation into the target project.
 
+### Install One Skill
+
+Use `--skill` to install only the skill you need:
+
+```bash
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill brainstorming
+```
+
+Repeat `--skill` to select multiple skills:
+
+```bash
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project \
+  --skill brainstorming \
+  --skill writing-requirements
+```
+
+Selective installation copies only the named skill folders. It does not copy or overwrite the tool adapter, such as `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, or Antigravity rules. Use the full install once when the target project still needs those adapter files.
+
 ## Update to Latest Version
 
 When a new version is published, update with:
@@ -61,6 +81,14 @@ When a new version is published, update with:
 ```bash
 npx @thanhndpo/tanizy-po-agent@latest --target gemini-cli --project /path/to/project --force
 ```
+
+Update one skill without replacing the other installed skills or adapter files:
+
+```bash
+npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill brainstorming --force
+```
+
+`--force` cleanly replaces the selected skill folder, including removal of files that no longer exist in the latest package.
 
 ## Install from Local Clone
 
@@ -71,6 +99,13 @@ node scripts/install.mjs --target gemini-cli --project /path/to/project
 node scripts/install.mjs --target codex --project /path/to/project
 node scripts/install.mjs --target claude-code --project /path/to/project
 node scripts/install.mjs --target antigravity --project /path/to/project
+```
+
+Install or update one skill from the local clone:
+
+```bash
+node scripts/install.mjs --target codex --project /path/to/project --skill brainstorming
+node scripts/install.mjs --target codex --project /path/to/project --skill brainstorming --force
 ```
 
 Preview first:
@@ -120,6 +155,12 @@ Each generated package contains only the shared skills, one tool adapter, the in
 
 ```bash
 npx @thanhndpo/tanizy-po-agent-codex --project /path/to/project
+```
+
+The target-specific packages support the same selective install options:
+
+```bash
+npx @thanhndpo/tanizy-po-agent-codex@latest --project /path/to/project --skill brainstorming --force
 ```
 
 Publish a generated package only after reviewing its dry-run output:

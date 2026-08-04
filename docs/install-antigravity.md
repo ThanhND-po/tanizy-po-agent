@@ -7,6 +7,15 @@ npx @thanhndpo/tanizy-po-agent --target antigravity --project /path/to/project -
 npx @thanhndpo/tanizy-po-agent --target antigravity --project /path/to/project
 ```
 
+Install or update only one skill:
+
+```bash
+npx @thanhndpo/tanizy-po-agent --target antigravity --project /path/to/project --skill mtg-memos
+npx @thanhndpo/tanizy-po-agent@latest --target antigravity --project /path/to/project --skill mtg-memos --force
+```
+
+Repeat `--skill` to select multiple skills. A selective install changes only `.agents/skills/<skill-name>` and does not copy or overwrite `AGENTS.md` or `.agents/rules/`.
+
 ## Install from Local Clone
 
 From the `tanizy-po-agent` repository:
@@ -14,6 +23,7 @@ From the `tanizy-po-agent` repository:
 ```bash
 node scripts/install.mjs --target antigravity --project /path/to/project --dry-run
 node scripts/install.mjs --target antigravity --project /path/to/project
+node scripts/install.mjs --target antigravity --project /path/to/project --skill mtg-memos
 ```
 
 Use `--force` only when you intentionally want to overwrite existing Tanizy files in the target project.

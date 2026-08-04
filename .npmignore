@@ -2,6 +2,7 @@
 .git/
 draft/
 node_modules/
+tests/
 *.swp
 *.swo
 .env
