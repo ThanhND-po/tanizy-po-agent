@@ -17,7 +17,6 @@ This project uses Tanizy PO Agent skills for Product Owner workflows.
 - Ask in Vietnamese by default unless the project uses another language.
 - Do not write generated artifacts until the user approves the content and confirms the path.
 - Save outputs in the target project, not inside `.agents/skills/`.
-- Do not run version-control actions unless the user explicitly asks for them.
 
 ## Personalization
 Please support me using the following writing style:

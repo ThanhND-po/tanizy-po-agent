@@ -14,7 +14,6 @@ Turn meeting memos and transcripts into accurate, concise summaries suitable for
 - Ask one focused question at a time when an uncertainty could change the Meeting purpose, Key topics, Key concepts, decisions, or Action Items.
 - Do not produce the final summary until all material uncertainties are resolved.
 - Do not write or modify files unless the user explicitly asks to save the approved summary and confirms the target path.
-- Do not run version-control actions.
 
 ## Workflow
 

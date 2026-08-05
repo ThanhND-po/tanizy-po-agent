@@ -40,7 +40,6 @@ If intent is mixed, start with the earliest needed workflow:
 - Default language is Vietnamese unless the project context or user request uses another language.
 - Ask one question at a time when information is missing.
 - Prefer multiple-choice questions for product decisions.
-- Do not run version-control actions. The user handles source control.
 - Do not write output files until the user approves the artifact content and confirms the path.
 - Save generated artifacts only inside the user's target project, never inside `skills/` or agent-internal folders.
 - If a local template exists, read it before drafting.

@@ -12,7 +12,6 @@ Create diagrams that are correct, readable, editable where needed, and grounded 
 - Do not generate the diagram until the context, diagram type, and output format are clear.
 - If the type or format is missing, ask one focused question at a time and recommend a default based on the request.
 - Do not write a final artifact into the target project until the user approves the proposed diagram and confirms the destination. Temporary local preview files are allowed.
-- Do not run version-control actions.
 - Do not send project content, diagram source, labels, or screenshots to public renderers, diagram websites, paste services, or third-party AI services.
 - Use only local tools already available. Do not install a dependency unless the user explicitly asks.
 - Do not invent actors, systems, decisions, paths, states, entities, relationships, or infrastructure.

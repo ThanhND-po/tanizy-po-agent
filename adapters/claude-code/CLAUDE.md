@@ -17,7 +17,6 @@ Use the installed Tanizy PO skills when the user asks for Product Owner workflow
 - Ask in Vietnamese by default unless the project uses another language.
 - Do not save generated artifacts until the user approves the content and confirms the path.
 - Save outputs in the target project, not inside `.claude/skills/`.
-- Do not run version-control actions unless explicitly requested.
 
 ## Personalization
 Please support me using the following writing style:

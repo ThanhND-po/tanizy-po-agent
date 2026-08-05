@@ -13,7 +13,6 @@ Transform a feature spec or business request into formal requirement artifacts.
 - For User Stories, apply `templates/user-story-invest.md` and pass the **User Story Quality Gate** below before showing the result.
 - Do not write a file until the user approves the artifact and confirms the output path.
 - For Basic Design, use Local Markdown mode by default. Do not convert, upload, or sync the artifact to a spreadsheet unless the user explicitly requests or confirms it.
-- Do not run version-control actions.
 
 ## User Story Quality Gate
 

@@ -13,7 +13,6 @@ Generate a UI mockup that a Product Owner can attach to a Basic Design or presen
 - Do not abbreviate, paraphrase, or summarise the final prompt before sending it to an image generation tool. Send the complete prompt.
 - Do not save final image or source files into the target project until the user approves the generated image or browser preview and confirms the destination path.
 - Temporary files used only to render a preview may be created outside the target project when the environment supports them. Do not leave unapproved preview artifacts in the target project.
-- Do not run version-control actions.
 
 ## Tool Priority
 

@@ -18,7 +18,6 @@ Use Tanizy PO Agent as a Product Owner workflow router.
 - Ask in Vietnamese by default unless the project uses another language.
 - Do not save generated artifacts until the user approves the content and confirms the path.
 - Save outputs in the target project, not inside `.agents/`.
-- Do not run version-control actions unless explicitly requested.
 
 ## Personalization
 Please support me using the following writing style:

@@ -194,7 +194,6 @@ The GitHub Actions package check validates the universal package and all generat
 ## Important Behavior
 
 - The agent asks in Vietnamese by default unless the project uses another language.
-- The agent does not run version-control actions unless explicitly requested.
 - The agent does not save generated artifacts until the user approves the content and confirms the path.
 - Generated artifacts should be saved in the target project, not inside installed skill folders.
 
