@@ -1,20 +1,15 @@
 # Tanizy PO Agent Rule
 
-When the user asks for Product Owner work, route to the matching local workflow:
+For Product Owner work, route to the matching installed skill under `.agents/skills/`:
 
-- Brainstorming or requirement discovery: `.agents/skills/brainstorming/SKILL.md`
-- Requirement artifacts: `.agents/skills/writing-requirements/SKILL.md`
-- Diagrams and process/system visuals: `.agents/skills/creating-diagrams/SKILL.md`
-- UI mockups or screen wireframes: `.agents/skills/generating-mockup/SKILL.md`
-- Meeting memo or transcript summaries: `.agents/skills/mtg-memos/SKILL.md`
+- Discovery: `brainstorming`
+- Requirement artifacts: `writing-requirements`
+- Diagrams: `creating-diagrams`
+- UI mockups: `generating-mockup`
+- Code-first shadcn/ui previews: `shadcn-ui`
+- Meeting memos: `mtg-memos`
 
-Always read the relevant workflow before drafting.
-
-Do not skip:
-
-- Understanding Lock in brainstorming
-- User Story Quality Gate in requirements
-- diagram type and output format confirmation in diagrams
-- approval before saving any artifact
-
-Default to Vietnamese unless the project context uses another language.
+Read the selected skill and apply its gates. Keep project-wide writing
+preferences and package routing in the Tanizy PO managed block in `AGENTS.md`.
+Do not start an installed QC workflow unless the user explicitly requests QC
+work.

@@ -13,6 +13,7 @@ Transform a feature spec or business request into formal requirement artifacts.
 - For User Stories, apply `templates/user-story-invest.md` and pass the **User Story Quality Gate** below before showing the result.
 - Do not write a file until the user approves the artifact and confirms the output path.
 - For Basic Design, use Local Markdown mode by default. Do not convert, upload, or sync the artifact to a spreadsheet unless the user explicitly requests or confirms it.
+- For Basic Design tables, keep each UI element in one physical row. Do not use HTML line-break tags or literal line breaks inside cells; use the structured-rule separators defined below.
 
 ## User Story Quality Gate
 
@@ -68,7 +69,7 @@ An estimation fails the quality gate if any condition below is true. If it fails
    - Use **Local Markdown mode** by default when the user does not mention a spreadsheet. Do not interrupt the workflow to ask about spreadsheet delivery.
    - Use **Spreadsheet-ready mode** only when the user explicitly asks to manage or share the Basic Design through a spreadsheet.
    - If the user mentions team sharing, spreadsheet management, or conversion but the intended output is unclear, ask one targeted question: `Should this Basic Design remain a local Markdown artifact, or should it also be prepared for spreadsheet management?`
-   - Treat spreadsheet conversion as a separate delivery step. Preserve the approved content and business rules; change only the table-cell formatting needed for spreadsheet management.
+   - Treat spreadsheet conversion as a separate delivery step. Preserve the approved content, business rules, and canonical single-line table-cell formatting.
    - Do not upload or sync to a spreadsheet until the user confirms the destination and requested write scope.
 
 4. **Use local template when available**
@@ -232,10 +233,10 @@ A Basic Design document describes a **single screen** from the user and business
    - Initial State: the value or visual state when the screen first loads — e.g. `Blank`, `Today's date`, a specific default, `Disabled`, `Active`.
    - Remarks: business rules, validation logic, conditional behaviour (show/hide/enable/disable conditions), trigger actions, cross-field dependencies.
    - Keep each UI element in exactly one Markdown table row and keep that row on one physical line in both delivery modes.
-   - Apply the formatting for the selected delivery mode consistently across the table:
-     - **Local Markdown mode (default):** For complex descriptions in `Initial State`, `Remarks`, or other cells, use `<br>` to create explicit line breaks. Use `<br>- **Label**: ...` for independent conditions or role-based rules instead of combining them with spaces and bold text.
-     - **Spreadsheet-ready mode:** Do not use HTML line-break tags or literal line breaks inside cells. For structured rules in `Initial State`, `Remarks`, or other cells, start with `• `, use ` • ` between independent rules, and use `; ` between values or sub-conditions of the same rule. Use short labels and rely on automatic cell wrapping.
-   - Do not mix Local Markdown and Spreadsheet-ready formatting in the same table.
+   - Do not use HTML line-break tags, literal line breaks, additional rows for the same element, or merged-cell placeholders.
+   - For structured rules in `Initial State`, `Remarks`, or other cells, start with `• `, use ` • ` between independent rules, and use `; ` between values or sub-conditions of the same rule.
+   - Use short labels such as `Default`, `Show when`, `Hide when`, `Role`, `On success`, or `On error`, then rely on automatic cell wrapping in the Markdown preview or destination spreadsheet.
+   - Example: `• Default: Hidden • Show when: Approval Required with Correction Request; Approved; Confirmed Reward; Cancelled`.
    - Do not invent business rules; record unknowns in Section 5 — Open Questions.
 
 7. **Fill Section 5 — Open Questions**
@@ -247,9 +248,8 @@ A Basic Design document describes a **single screen** from the user and business
    - Section 2 answers all three overview questions.
    - No Detail Design content (DB schema, API routes, class names) has leaked into the document.
    - Every UI element occupies exactly one table row and one physical line.
-   - The table uses only the selected delivery mode:
-     - Local Markdown mode uses `<br>` and bullet points for complex descriptions and role-based logic.
-     - Spreadsheet-ready mode contains no `<br>` tags or literal line breaks inside cells and uses `• ` separators for structured rules.
+   - No table cell contains HTML line-break tags or literal line breaks.
+   - Structured rules start with `• `, separate independent rules with ` • `, and separate values or sub-conditions of the same rule with `; `.
 
 ### API Spec
 

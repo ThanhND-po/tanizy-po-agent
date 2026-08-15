@@ -52,13 +52,15 @@ Preview the install first:
 npx @thanhndpo/tanizy-po-agent --target gemini-cli --project /path/to/project --dry-run
 ```
 
-If destination files already exist, the installer stops. Re-run with `--force` when you intentionally want to overwrite Tanizy files in the target project.
+The full installer adds one marked Tanizy PO block to `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md`. Existing project instructions and managed blocks from other packages are preserved. Re-run with `--force` to refresh only Tanizy PO-managed skills, files, and that marked block.
+
+An unchanged adapter from an older Tanizy PO installation is migrated into the managed block automatically. If an unmarked legacy adapter also contains inseparable local changes, the installer stops before writing. Move project-owned instructions outside the PO content, then retry.
 
 The universal package intentionally keeps one simple install flow for BA/PO users. It selects the tool-specific destination from `--target`; it does not copy npm metadata, scripts, or documentation into the target project.
 
 ### Install One Skill
 
-Use `--skill` to install only one skill. The commands below list every skill currently included in the package. They use Codex as the target; replace `codex` with `gemini-cli`, `claude-code`, or `antigravity` when needed.
+Use `--skill` to install only one skill. The commands below list the shared skills available to Codex, Claude Code, and Antigravity. Replace `codex` with another compatible target when needed.
 
 ```bash
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill brainstorming
@@ -66,9 +68,14 @@ npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill generating-mockup
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill mtg-memos
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill shadcn-ui
-npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill using-tanizy-agent
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill web-design-guidelines
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill writing-requirements
+```
+
+`using-tanizy-agent` is a Gemini CLI transport router. It is installed only for the `gemini-cli` target:
+
+```bash
+npx @thanhndpo/tanizy-po-agent --target gemini-cli --project /path/to/project --skill using-tanizy-agent
 ```
 
 Repeat `--skill` to select multiple skills:
@@ -95,7 +102,7 @@ Update one skill without replacing the other installed skills or adapter files:
 npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill <skill-name> --force
 ```
 
-`--force` cleanly replaces the selected skill folder, including removal of files that no longer exist in the latest package.
+For a selective update, `--force` cleanly replaces only the selected skill folder. It does not modify the root adapter or another package's files.
 
 ## Install from Local Clone
 
@@ -116,7 +123,7 @@ node scripts/install.mjs --target codex --project /path/to/project --skill creat
 node scripts/install.mjs --target codex --project /path/to/project --skill generating-mockup
 node scripts/install.mjs --target codex --project /path/to/project --skill mtg-memos
 node scripts/install.mjs --target codex --project /path/to/project --skill shadcn-ui
-node scripts/install.mjs --target codex --project /path/to/project --skill using-tanizy-agent
+node scripts/install.mjs --target gemini-cli --project /path/to/project --skill using-tanizy-agent
 node scripts/install.mjs --target codex --project /path/to/project --skill web-design-guidelines
 node scripts/install.mjs --target codex --project /path/to/project --skill writing-requirements
 ```
@@ -131,15 +138,15 @@ node scripts/install.mjs --target gemini-cli --project /path/to/project --dry-ru
 
 ## Manual Copy
 
-You can install without scripts by copying the relevant adapter and skill folders. See the [manual-copy guide](https://github.com/ThanhND-po/tanizy-po-agent/blob/main/docs/manual-copy.md).
+You can install without scripts by copying target-compatible skills and manually merging the marked PO adapter block. See the [manual-copy guide](https://github.com/ThanhND-po/tanizy-po-agent/blob/main/docs/manual-copy.md). Do not overwrite a shared root adapter with a raw file copy.
 
 Quick summary:
 
 ```text
-Gemini CLI:  core/skills -> skills, adapters/gemini-cli/GEMINI.md -> GEMINI.md, adapters/gemini-cli/.gemini -> .gemini
-Codex:       core/skills/* -> .agents/skills/, adapters/codex/AGENTS.md -> AGENTS.md
-Claude Code: core/skills/* -> .claude/skills/, adapters/claude-code/CLAUDE.md -> CLAUDE.md
-Antigravity: core/skills/* -> .agents/skills/, adapters/antigravity/AGENTS.md -> AGENTS.md, adapters/antigravity/.agents/rules -> .agents/rules
+Gemini CLI:  all core skills -> skills, PO block -> GEMINI.md, PO commands -> .gemini/commands/po
+Codex:       shared core skills -> .agents/skills, PO block -> AGENTS.md
+Claude Code: shared core skills -> .claude/skills, PO block -> CLAUDE.md
+Antigravity: shared core skills -> .agents/skills, PO block -> AGENTS.md, tanizy-po.md -> .agents/rules
 ```
 
 ## Tool Guides
@@ -166,7 +173,7 @@ dist/packages/claude-code/
 dist/packages/antigravity/
 ```
 
-Each generated package contains only the shared skills, one tool adapter, the installer, `package.json`, `README.md`, and `LICENSE`. The generated package fixes its target, so the user can run:
+Each generated package contains only target-compatible skills, one tool adapter, the installer, `package.json`, `README.md`, and `LICENSE`. The generated package fixes its target, so the user can run:
 
 ```bash
 npx @thanhndpo/tanizy-po-agent-codex --project /path/to/project
@@ -196,6 +203,25 @@ The GitHub Actions package check validates the universal package and all generat
 - The agent asks in Vietnamese by default unless the project uses another language.
 - The agent does not save generated artifacts until the user approves the content and confirms the path.
 - Generated artifacts should be saved in the target project, not inside installed skill folders.
+
+## PO + QC Coexistence
+
+[Tanizy QC Agent](https://github.com/ThanhND-po/tanizy-qc-agent) is the companion package for spec-first gap analysis, Test Viewpoints, Test Cases, automation export, execution, and evidence-backed reports.
+
+The packages have separate ownership boundaries:
+
+- Tanizy PO manages only its marked block in the root adapter, its installed PO skills, Gemini PO commands, and `tanizy-po.md` for Antigravity.
+- Tanizy QC manages its own marked adapter block, `qc-*` skills, project-owned `qc/` artifacts, and `tanizy-qc.md` for Antigravity.
+- Install order does not change the intended result. A full `--force` update must preserve project instructions and the other package's managed block.
+- PO may hand off an approved spec, but QC starts only after an explicit QC request. QC treats PO and requirement artifacts as read-only source input.
+- A selective PO skill update does not modify the root adapter.
+
+Recommended handoff:
+
+1. PO creates or updates an approved spec.
+2. The user explicitly invokes QC and supplies the exact source locator and approval state.
+3. QC applies its own Scope, Persist, Lock, Execution, and Release Verdict gates.
+4. Missing business decisions return to PO or the stakeholder through the QC Gap Report and Open Questions.
 
 ## License
 

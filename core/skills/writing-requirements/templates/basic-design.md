@@ -63,12 +63,7 @@
 > - **Initial State** — The value or visual state the element shows when the screen first loads (e.g. `Blank`, `Today's date`, specific default value, `Disabled`)
 > - **Remarks** — Business rules, validation logic, conditional behaviour, trigger actions, and any additional explanation
 
-**Formatting mode:** Keep each UI element in one Markdown table row and keep that row on one physical line.
-
-- **Local Markdown mode (default):** For complex logic, conditions, or role-based access in `Initial State`, `Remarks`, or other cells, use `<br>` for explicit line breaks and `<br>- **Label**: ...` for independent rules.
-- **Spreadsheet-ready mode:** Do not use `<br>` tags or literal line breaks inside cells. Start structured rules with `• `, use ` • ` between independent rules, and use `; ` between values or sub-conditions of the same rule.
-- Use one formatting mode consistently across the table.
-
+**Formatting rule:** Keep each UI element in exactly one table row and keep that row on one physical line. Do not use HTML line-break tags, literal line breaks, additional rows for the same element, or merged-cell placeholders. When `Initial State` or `Remarks` contains structured rules, start the string with `• `, use ` • ` between independent rules, and use `; ` between values or sub-conditions of the same rule. Use short labels such as `Default`, `Show when`, `Hide when`, `Role`, `On success`, or `On error`, then rely on automatic wrapping in the Markdown preview or destination spreadsheet. Example: `• Default: Hidden • Show when: Approval Required with Correction Request; Approved; Confirmed Reward; Cancelled`.
 
 | # | Item Name | Classification | Required | Max Length | I/O | Data Type | Input Constraint | Initial State | Remarks |
 |---|---|---|---|---|---|---|---|---|---|
