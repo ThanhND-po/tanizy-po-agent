@@ -11,12 +11,12 @@ The upstream project is MIT-licensed by sparklabx.
 
 The strongest adopted techniques are:
 
-- select a topology before layout;
-- match an existing template or archetype before free-hand generation;
-- describe logical structure before assigning coordinates;
-- use verified stencil names instead of recalling them;
-- validate structure, geometry, style, and business meaning separately;
-- render locally and correct visual defects before delivery.
+- Select a topology before layout;
+- Match an existing template or archetype before free-hand generation;
+- Describe logical structure before assigning coordinates;
+- Use verified stencil names instead of recalling them;
+- Validate structure, geometry, style, and business meaning separately;
+- Render locally and correct visual defects before delivery.
 
 This skill does not bundle or require the upstream runtime. It keeps the broader
 Product Owner diagram coverage, privacy gates, approval workflow, and manual XML
@@ -62,19 +62,17 @@ they may call public CDNs.
 
 Use the approved fact list. Confirm:
 
-- diagram type and audience;
-- editable `.drawio` only or `.drawio` plus PNG/SVG preview;
-- system or process boundary;
-- actors, lanes, entities, components, and relationships;
-- main direction;
-- happy, alternate, error, retry, and terminal paths;
+- Diagram type and audience;
+- Editable `.drawio` only or `.drawio` plus PNG/SVG preview;
+- System or process boundary;
+- Actors, lanes, entities, components, and relationships;
+- Main direction;
+- Happy, alternate, error, retry, and terminal paths;
 - target draw.io environment when theme or stencil compatibility matters.
 
 ### 2.2 Match an archetype first
 
-Before placing shapes, search the project for an existing diagram or template
-with the same type and conventions. Reuse its structure when it is current and
-correct. Do not copy stale labels or business behavior.
+Before placing shapes, search the project for an existing diagram or template with the same type and conventions. Reuse its structure when it is current and correct. Do not copy stale labels or business behavior.
 
 When `drawio-ai` is installed:
 
@@ -84,15 +82,11 @@ drawio-ai types
 drawio-ai workflow
 ```
 
-Use the closest scaffold when less than half of its logical structure needs to
-change. Otherwise create a new logical structure.
+Use the closest scaffold when less than half of its logical structure needs to change. Otherwise, create a new logical structure.
 
 ### 2.3 Define logical structure before geometry
 
-List nodes, containers, parent-child relationships, and edges before assigning
-coordinates. For architecture diagrams, use a declarative layout engine when
-available. For manual XML, place containers first, then primary nodes, then
-secondary nodes, then edges and labels.
+List nodes, containers, parent-child relationships, and edges before assigning coordinates. For architecture diagrams, use a declarative layout engine when available. For manual XML, place containers first, then primary nodes, then secondary nodes, then edges and labels.
 
 Never invent stencil identifiers. When `drawio-ai` is installed, batch icon
 lookups:
@@ -101,13 +95,11 @@ lookups:
 drawio-ai search "service one, service two, service three"
 ```
 
-For the manual path, prefer built-in general shapes unless an exact local
-stencil name can be verified.
+For the manual path, prefer built-in general shapes unless an exact local stencil name can be verified.
 
 ## 3. Topology Presets
 
-Choose one dominant topology. Compose a secondary topology only when the fact
-list requires it.
+Choose one dominant topology. Compose a secondary topology only when the fact list requires it.
 
 | Topology | Use | Default layout |
 |---|---|---|
@@ -122,19 +114,13 @@ list requires it.
 
 Topology rules:
 
-- **Pipeline:** keep the main spine nodes at one vertical position. Put
-  cross-cutting concerns in a separate band.
+- **Pipeline:** keep the main spine nodes at one vertical position. Put cross-cutting concerns in a separate band.
 - **Hierarchy:** center parents over children and preserve real containment.
-- **Network:** mirror repeated zones and align equivalent tiers. Use vertical
-  routes mainly for cross-zone relationships.
-- **Hub-and-spoke:** place producers on one side and consumers on the other.
-  Bundle fan-out or fan-in routes instead of drawing a web of crossings.
-- **Hybrid:** keep on-premise outside the cloud boundary. Show a real
-  interconnect node when it is part of the architecture.
-- **Mesh:** group by domain or account and use shared corridors. Split the
-  diagram if relationship density hides meaning.
-- **BPMN swimlane:** keep sequence flow inside a pool and message flow between
-  pools. See `diagram-types.md` for semantic checks.
+- **Network:** mirror repeated zones and align equivalent tiers. Use vertical routes mainly for cross-zone relationships.
+- **Hub-and-spoke:** place producers on one side and consumers on the other. Bundle fan-out or fan-in routes instead of drawing a web of crossings.
+- **Hybrid:** keep on-premise outside the cloud boundary. Show a real interconnect node when it is part of the architecture.
+- **Mesh:** group by domain or account and use shared corridors. Split the diagram if relationship density hides meaning.
+- **BPMN swimlane:** keep sequence flow inside a pool and message flow between pools. See `diagram-types.md` for semantic checks.
 
 ## 4. Layout and Routing
 
@@ -144,8 +130,7 @@ Topology rules:
 - Align nodes that form the main path.
 - Use a grid for repeated items instead of hand-stacking uneven rows.
 - Keep equivalent nodes the same size.
-- Size containers to their contents. Do not stretch a decorative frame across
-  empty space.
+- Size containers to their contents. Do not stretch a decorative frame across empty space.
 
 Minimum manual-layout spacing:
 
@@ -165,13 +150,9 @@ Increase width or height when a label would wrap awkwardly or clip.
 - Solid line: primary request, control, data, or sequence flow.
 - Dashed line: response, dependency, synchronization, policy, lineage, or DR.
 - Double-headed line: genuinely bidirectional communication or synchronization.
-- Strong semantic color: error, blocking, or success path only when the legend
-  defines it.
+- Strong semantic color: error, blocking, or success path only when the legend defines it.
 
-Keep connectors orthogonal when possible. Route around nodes and labels. Add
-waypoints for dense or exception paths. Align fan-out targets so branches stay
-short. Avoid back-pointing arrows unless they represent an explicit loop,
-feedback, retry, or synchronization.
+Keep connectors orthogonal when possible. Route around nodes and labels. Add waypoints for dense or exception paths. Align fan-out targets so branches stay short. Avoid back-pointing arrows unless they represent an explicit loop, feedback, retry, or synchronization.
 
 ### 4.3 Labels
 
@@ -185,13 +166,9 @@ feedback, retry, or synchronization.
 
 ### 5.1 Theme behavior
 
-For text or lines directly on the canvas, omit hardcoded `fontColor` and
-`strokeColor` so draw.io can adapt them to the active theme.
+For text or lines directly on the canvas, omit hardcoded `fontColor` and `strokeColor` so draw.io can adapt them to the active theme.
 
-For text inside a box with a fixed pale fill, use `fontColor=#333333` to retain
-contrast. If the target draw.io environment supports theme-aware color tokens,
-prefer `light-dark(lightValue,darkValue)` for container fills and accents.
-Otherwise use the fallback palette below.
+For text inside a box with a fixed pale fill, use `fontColor=#333333` to retain contrast. If the target draw.io environment supports theme-aware color tokens, prefer `light-dark(lightValue,darkValue)` for container fills and accents. Otherwise use the fallback palette below.
 
 Do not write `fontColor=none` or `strokeColor=default`. Omit the property.
 
@@ -206,9 +183,7 @@ Do not write `fontColor=none` or `strokeColor=default`. Omit the property.
 | Critical or error | `#f8cecc` | `#b85450` |
 | Infrastructure or database | `#f5f5f5` | `#999999` |
 
-Use no more than about 8 distinct fill colors in one diagram. Prefer neutral
-containers and let verified service icons carry brand or category color. Do not
-recolor official cloud icons.
+Use no more than about 8 distinct fill colors in one diagram. Prefer neutral containers and let verified service icons carry brand or category color. Do not recolor official cloud icons.
 
 ### 5.3 Typography
 
@@ -261,8 +236,7 @@ Run the loop until structure and visual review are both clean:
 2. Validate structure.
 3. Fix all reported errors and warnings in one pass.
 4. Render locally when possible.
-5. Inspect the image for overlap, clipping, crossings, alignment, contrast,
-   missing labels, and inconsistent abstraction.
+5. Inspect the image for overlap, clipping, crossings, alignment, contrast, missing labels, and inconsistent abstraction.
 6. Compare the visible diagram with the fact list.
 7. Repeat after any correction.
 
@@ -279,11 +253,7 @@ For the manual or fallback path:
 python3 <creating-diagrams-skill-directory>/scripts/validate_drawio.py <file.drawio> --strict
 ```
 
-The bundled validator checks uncompressed XML, required cells, duplicate IDs,
-dangling references, geometry, sibling overlap, child overflow, icon aspect
-ratio, font-size budget, and palette size. It does not verify stencil existence,
-connector crossings, text clipping, or visual quality. Render inspection is
-still required when a local renderer exists.
+The bundled validator checks uncompressed XML, required cells, duplicate IDs, dangling references, geometry, sibling overlap, child overflow, icon aspect ratio, font-size budget, and palette size. It does not verify stencil existence, connector crossings, text clipping, or visual quality. Render inspection is still required when a local renderer exists.
 
 ## 8. Pre-Delivery Checklist
 

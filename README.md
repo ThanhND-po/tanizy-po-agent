@@ -206,7 +206,7 @@ The GitHub Actions package check validates the universal package and all generat
 
 ## PO + QC Coexistence
 
-[Tanizy QC Agent](https://github.com/ThanhND-po/tanizy-qc-agent) is the companion package for spec-first gap analysis, Test Viewpoints, Test Cases, automation export, execution, and evidence-backed reports.
+[Tanizy QC Agent](https://github.com/ThanhND-po/tanizy-qc-agent) is the companion package for spec-first gap analysis, Test Viewpoints, Test Cases, automation export, execution-backed reports, and optional supporting evidence.
 
 The packages have separate ownership boundaries:
 
@@ -220,8 +220,9 @@ Recommended handoff:
 
 1. PO creates or updates an approved spec.
 2. The user explicitly invokes QC and supplies the exact source locator and approval state.
-3. QC applies its own Scope, Persist, Lock, Execution, and Release Verdict gates.
+3. QC applies its own Scope, Persist, Lock, Manual Result, Execution, and Release Verdict gates.
 4. Missing business decisions return to PO or the stakeholder through the QC Gap Report and Open Questions.
+5. PO Open maps to QC `OPEN`; PO Answered maps to QC `ANSWERED` until the governing source is updated; PO Deferred remains QC `OPEN` unless an authorized person explicitly accepts the documented risk; QC uses `RESOLVED` only with the exact updated source reference.
 
 ## License
 

@@ -37,13 +37,13 @@ Turn meeting memos and transcripts into accurate, concise summaries suitable for
 
 Before drafting, confirm internally that the available evidence establishes:
 
-- the MTG name;
-- the Meeting purpose;
-- the Key topics and their relationship;
-- the Key concepts that require emphasis or explanation;
-- each agreed Action Item;
-- the PIC for an Action Item when explicitly assigned;
-- the relative priority of each Action Item.
+- The MTG name;
+- The Meeting purpose;
+- The Key topics and their relationship;
+- The Key concepts that require emphasis or explanation;
+- Each agreed Action Item;
+- The PIC for an Action Item when explicitly assigned;
+- The relative priority of each Action Item.
 
 If any material item is unclear, ask the user one focused question and wait for the answer. Use the transcript evidence in the question so the user can resolve the ambiguity quickly. Do not present a speculative interpretation as a choice unless the transcript actually supports that interpretation.
 
@@ -55,22 +55,22 @@ Write `Meeting Overview` only from information that helps the reader understand 
 
 Reject and rewrite the overview if it contains any of the following:
 
-- notes about how the summary was produced;
-- generic transcript-quality disclaimers;
-- observations about automatic transcription, mixed languages, recognition errors, or source formatting;
-- generic statements such as `The meeting discussed...` that do not explain the actual purpose, direction, or outcome;
-- caveats that do not change the interpretation of the MTG;
-- content that belongs in an internal evidence assessment rather than the channel-ready summary.
+- Notes about how the summary was produced;
+- Generic transcript-quality disclaimers;
+- Observations about automatic transcription, mixed languages, recognition errors, or source formatting;
+- Generic statements such as `The meeting discussed...` that do not explain the actual purpose, direction, or outcome;
+- Caveats that do not change the interpretation of the MTG;
+- Content that belongs in an internal evidence assessment rather than the channel-ready summary.
 
 Use transcript quality only as an internal confidence constraint. If a source issue creates a material ambiguity, stop and ask the user to clarify it under the Context Gate. Do not replace clarification with a disclaimer in `Meeting Overview`.
 
 Before proceeding, confirm that every sentence in `Meeting Overview` contributes at least one of these values:
 
-- explains why the MTG was held;
-- identifies the Product or implementation scope;
-- records an agreed direction or decision;
-- explains an important relationship, sequence, or dependency;
-- communicates an outcome needed by the target audience.
+- Explains why the MTG was held;
+- Identifies the Product or implementation scope;
+- Records an agreed direction or decision;
+- Explains an important relationship, sequence, or dependency;
+- Communicates an outcome needed by the target audience.
 
 ### 5. Draft the summary
 

@@ -11,11 +11,11 @@ Turn raw or unclear product ideas into clear, validated feature specs through st
 
 This skill exists to prevent:
 
-- rush-to-goal behavior
-- hidden assumptions
-- shallow clarification
-- product concepts being guessed incorrectly
-- specs that look complete but encode the wrong intent
+- Rush-to-goal behavior
+- Hidden assumptions
+- Shallow clarification
+- Product concepts being guessed incorrectly
+- Specs that look complete but encode the wrong intent
 
 ## Operating Mode
 
@@ -42,10 +42,10 @@ Act as a product discovery facilitator and senior reviewer, not a document gener
 - Do not show the full Decision Log table during routine Q&A.
 - If a new decision is made, acknowledge it in one short line only, for example: `Decision captured: use modal flow for linkage.`
 - Show the full Decision Log only:
-  - when the user asks for it
-  - after an approach is accepted
-  - during final spec review
-  - in the saved spec document
+  - When the user asks for it
+  - After an approach is accepted
+  - During final spec review
+  - In the saved spec document
 - At Understanding Lock, include decision highlights only when they are necessary to confirm intent; do not render the full table there by default.
 
 ## Mandatory Discovery Coverage
@@ -87,12 +87,12 @@ If the user does not know, propose conservative defaults and ask for confirmatio
 
 Read project context first when available:
 
-- specs
-- requirements
-- diagrams
-- backlog notes
-- product docs
-- previous decisions
+- Specs
+- Requirements
+- Diagrams
+- Backlog notes
+- Product docs
+- Previous decisions
 
 Identify what already exists, what is being proposed, and what appears implicit but unconfirmed.
 
@@ -102,11 +102,11 @@ Do not design yet.
 
 Ask one meaningful question at a time. Each question should either:
 
-- remove ambiguity
-- confirm an assumption
-- choose between real trade-offs
-- define scope or non-scope
-- expose a risk
+- Remove ambiguity
+- Confirm an assumption
+- Choose between real trade-offs
+- Define scope or non-scope
+- Expose a risk
 
 Avoid low-value questions. If a detail can be inferred safely from project files, infer it and mark it as an assumption for confirmation.
 
@@ -118,13 +118,13 @@ Before proposing any approach, pause and present:
 
 Use 5-7 concise bullets covering:
 
-- what is being built
-- why it exists
-- who it is for
-- key flows or behaviors
-- key constraints
-- explicit non-goals
-- success criteria
+- What is being built
+- Why it exists
+- Who it is for
+- Key flows or behaviors
+- Key constraints
+- Explicit non-goals
+- Success criteria
 
 #### Assumptions
 
@@ -147,13 +147,13 @@ After Understanding Lock is confirmed:
 - Propose 2-3 viable approaches.
 - Lead with the recommended option.
 - Explain trade-offs using a PO lens:
-  - user experience
-  - business value
-  - operational impact
-  - delivery complexity
-  - extensibility
-  - risk
-  - maintenance
+  - User experience
+  - Business value
+  - Operational impact
+  - Delivery complexity
+  - Extensibility
+  - Risk
+  - Maintenance
 - Apply YAGNI ruthlessly. Do not add future scope without a clear reason.
 
 Record accepted decisions and rejected alternatives in the Decision Log.
@@ -189,7 +189,8 @@ Revise before continuing when the user corrects something.
 
 After all sections are validated:
 
-- Run a self-review for contradictions, missing flows, vague wording, hidden assumptions, and scope creep.
+- Read `references/spec-self-review.md` and apply the complete checklist.
+- Resolve all `Issues Found` before presenting the final spec for user approval.
 - Present the final spec summary.
 - Ask for final approval.
 - Only after approval, ask where to save the spec, for example `docs/specs/<feature-name>.md`.

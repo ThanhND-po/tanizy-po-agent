@@ -72,23 +72,23 @@ Never use one field as a substitute for another.
 
 For each NFR, capture:
 
-- a stable ID;
-- category and item;
-- condition and affected scope;
-- metric and target or threshold;
-- operating conditions;
-- verification method and expected evidence;
-- priority, lifecycle status, and owner;
-- source and traceability;
-- exceptions or accepted risk when applicable.
+- A stable ID;
+- Category and item;
+- Condition and affected scope;
+- Metric and target or threshold;
+- Operating conditions;
+- Verification method and expected evidence;
+- Priority, lifecycle status, and owner;
+- Source and traceability;
+- Exceptions or accepted risk when applicable.
 
 Replace vague adjectives with measures. A useful target normally identifies:
 
-- metric;
-- comparator;
-- value and unit;
-- percentile, ratio, or time window when relevant;
-- workload, environment, user group, device, geography, or dependency conditions.
+- Metric;
+- Comparator;
+- Value and unit;
+- Percentile, ratio, or time window when relevant;
+- Workload, environment, user group, device, geography, or dependency conditions.
 
 If no approved target exists, use `TBD` and record the decision as an Open Question. Do not invent a number to make the requirement appear complete.
 
