@@ -43,8 +43,8 @@ Options:
 
 Examples:
   npx @thanhndpo/tanizy-po-agent --target gemini-cli --project ../my-project
-  npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill mtg-memos
-  npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill mtg-memos --force
+  npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill five-whys-rca
+  npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill five-whys-rca --force
   npx @thanhndpo/tanizy-po-agent --target claude-code --project /path/to/project --skill brainstorming --skill writing-requirements`);
 }
 

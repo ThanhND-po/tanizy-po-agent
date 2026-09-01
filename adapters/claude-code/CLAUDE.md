@@ -1,6 +1,6 @@
 # Tanizy PO Agent For Claude Code
 
-Use the installed Tanizy PO skills when the user asks for Product Owner workflows.
+Use the installed Tanizy PO skills when the user asks for Product Owner or structured problem-analysis workflows.
 
 ## Skill Routing
 
@@ -10,6 +10,8 @@ Use the installed Tanizy PO skills when the user asks for Product Owner workflow
 - Use `generating-mockup` for UI mockups or screen wireframes.
 - Use `shadcn-ui` for code-first UI previews or direct shadcn/ui component work. `generating-mockup` invokes it automatically when Stitch or image generation is unavailable.
 - Use `mtg-memos` for meeting memo or transcript understanding and channel-ready summaries.
+- Use `five-whys-rca` for 5 Whys Root Cause Analysis of a specific problem, failure, deviation, recurring issue, undesirable outcome, or missed expectation.
+- If the user explicitly asks for 5 Whys, Five Whys, or root cause analysis using the 5 Whys method, route to `five-whys-rca` even when the input originates from a bug report, meeting memo, campaign result, operational issue, product issue, or incident.
 
 ## Rules
 

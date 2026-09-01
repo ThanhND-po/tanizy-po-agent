@@ -1,6 +1,6 @@
 # Tanizy PO Agent
 
-Tanizy PO Agent is a portable Product Owner workflow package for AI coding agents. It helps refine product ideas, write requirement artifacts, and create diagrams through reusable skill instructions.
+Tanizy PO Agent is a portable Product Owner and structured problem-analysis package for AI coding agents. It helps refine product ideas, write requirement artifacts, create diagrams, and facilitate 5 Whys Root Cause Analysis through reusable skill instructions.
 
 ## Supported Tools
 
@@ -18,6 +18,7 @@ Tanizy PO Agent is a portable Product Owner workflow package for AI coding agent
 - Creating diagrams such as Use Case, Sequence, BPMN-style process flow, Activity, and State diagrams.
 - Creating code-first UI mockups with shadcn/ui components when image-generation tools are unavailable.
 - Summarizing Japanese, Vietnamese, English, or multilingual meeting memos for team channels.
+- Facilitating structured 5 Whys Root Cause Analysis and producing stakeholder-ready RCA reports.
 - Research fallback when a requested artifact type has no local template.
 
 ## Repository Structure
@@ -65,6 +66,7 @@ Use `--skill` to install only one skill. The commands below list the shared skil
 ```bash
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill brainstorming
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill creating-diagrams
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill five-whys-rca
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill generating-mockup
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill mtg-memos
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill shadcn-ui
@@ -120,6 +122,7 @@ Install or update one skill from the local clone:
 ```bash
 node scripts/install.mjs --target codex --project /path/to/project --skill brainstorming
 node scripts/install.mjs --target codex --project /path/to/project --skill creating-diagrams
+node scripts/install.mjs --target codex --project /path/to/project --skill five-whys-rca
 node scripts/install.mjs --target codex --project /path/to/project --skill generating-mockup
 node scripts/install.mjs --target codex --project /path/to/project --skill mtg-memos
 node scripts/install.mjs --target codex --project /path/to/project --skill shadcn-ui

@@ -74,7 +74,7 @@ After publishing, verify the registry version:
 ```bash
 npm view @thanhndpo/tanizy-po-agent version
 npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --dry-run
-npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill mtg-memos --dry-run
+npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill five-whys-rca --dry-run
 ```
 
 For the `0.1.2` release, the universal package contains the integrated `generating-mockup` and `shadcn-ui` skills.

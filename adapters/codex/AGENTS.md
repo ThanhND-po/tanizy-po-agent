@@ -1,6 +1,6 @@
 # Tanizy PO Agent For Codex
 
-This project uses Tanizy PO Agent skills for Product Owner workflows.
+This project uses Tanizy PO Agent skills for Product Owner workflows and structured problem analysis.
 
 ## Skill Routing
 
@@ -10,6 +10,8 @@ This project uses Tanizy PO Agent skills for Product Owner workflows.
 - For UI mockups or screen wireframes from a description or prototype, use the `generating-mockup` skill.
 - For a code-first UI preview or direct shadcn/ui component work, use the `shadcn-ui` skill. The `generating-mockup` skill invokes it automatically when Claude Code or Codex cannot use Stitch or image generation.
 - For meeting memo or transcript understanding and channel-ready summaries, use the `mtg-memos` skill.
+- For 5 Whys Root Cause Analysis of a specific problem, failure, deviation, recurring issue, undesirable outcome, or missed expectation, use the `five-whys-rca` skill.
+- If the user explicitly asks for 5 Whys, Five Whys, or root cause analysis using the 5 Whys method, route to `five-whys-rca` even when the input originates from a bug report, meeting memo, campaign result, operational issue, product issue, or incident.
 
 ## Rules
 

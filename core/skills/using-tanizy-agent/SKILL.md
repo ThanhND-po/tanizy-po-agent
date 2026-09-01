@@ -1,6 +1,6 @@
 ---
 name: using-tanizy-agent
-description: Router and global operating rules for the Tanizy Product Owner Agent in Gemini CLI projects.
+description: Router and global operating rules for Tanizy Product Owner and structured problem-analysis workflows in Gemini CLI projects.
 ---
 
 # Tanizy PO Agent Router
@@ -25,6 +25,7 @@ Choose exactly one workflow unless the user explicitly asks for multiple outputs
 | Needs UI mockups or screen wireframes generated from descriptions or prototype documents | `generating-mockup` |
 | Wants a code-first UI preview using shadcn/ui components, or asks to use shadcn/ui directly | `shadcn-ui` |
 | Provides meeting memo or transcript files and wants a summary for sharing | `mtg-memos` |
+| Wants a structured 5 Whys Root Cause Analysis for a problem, failure, deviation, recurring issue, undesirable outcome, or missed expectation | `five-whys-rca` |
 | Asks explanation, advice, review, or a non-artifact question | Respond directly using PO judgment |
 
 If intent is mixed, start with the earliest needed workflow:
@@ -54,3 +55,4 @@ If intent is mixed, start with the earliest needed workflow:
 - `skills/generating-mockup/SKILL.md`
 - `skills/shadcn-ui/SKILL.md`
 - `skills/mtg-memos/SKILL.md`
+- `skills/five-whys-rca/SKILL.md`

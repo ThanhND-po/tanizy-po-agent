@@ -89,8 +89,8 @@ for (const target of targets) {
     `# ${packageName}\n\n${rootPackage.description}\n\nThis package installs the Tanizy PO Agent skills for ${target.label}.\n\n## Install\n\n\`\`\`bash\n` +
       `npx ${packageName} --project /path/to/project\n` +
       `\`\`\`\n\n## Install or update one skill\n\n\`\`\`bash\n` +
-      `npx ${packageName} --project /path/to/project --skill mtg-memos\n` +
-      `npx ${packageName}@latest --project /path/to/project --skill mtg-memos --force\n` +
+      `npx ${packageName} --project /path/to/project --skill five-whys-rca\n` +
+      `npx ${packageName}@latest --project /path/to/project --skill five-whys-rca --force\n` +
       `\`\`\`\n\nRepeat \`--skill\` to select multiple skills. Use \`--dry-run\` to preview files before installation. Selective installation does not modify the tool adapter. A full install manages only the marked Tanizy PO adapter block and preserves project instructions and other package blocks.\n\n${routerNote}\n\nTanizy PO can coexist with the companion [Tanizy QC Agent](https://github.com/ThanhND-po/tanizy-qc-agent). QC starts only after an explicit QC request.\n`,
   );
 

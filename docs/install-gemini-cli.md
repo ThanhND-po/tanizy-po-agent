@@ -10,8 +10,8 @@ npx @thanhndpo/tanizy-po-agent --target gemini-cli --project /path/to/project
 Install or update only one skill:
 
 ```bash
-npx @thanhndpo/tanizy-po-agent --target gemini-cli --project /path/to/project --skill mtg-memos
-npx @thanhndpo/tanizy-po-agent@latest --target gemini-cli --project /path/to/project --skill mtg-memos --force
+npx @thanhndpo/tanizy-po-agent --target gemini-cli --project /path/to/project --skill five-whys-rca
+npx @thanhndpo/tanizy-po-agent@latest --target gemini-cli --project /path/to/project --skill five-whys-rca --force
 ```
 
 Repeat `--skill` to select multiple skills. A selective install changes only `skills/<skill-name>` and does not copy or overwrite `GEMINI.md`, `.gemini/`, or `.geminiignore`.
@@ -25,7 +25,7 @@ From the `tanizy-po-agent` repository:
 ```bash
 node scripts/install.mjs --target gemini-cli --project /path/to/project --dry-run
 node scripts/install.mjs --target gemini-cli --project /path/to/project
-node scripts/install.mjs --target gemini-cli --project /path/to/project --skill mtg-memos
+node scripts/install.mjs --target gemini-cli --project /path/to/project --skill five-whys-rca
 ```
 
 Use `--force` only when you intend to refresh PO-managed skills, commands, and the PO managed block. It does not authorize replacing project-owned or QC-managed adapter content.

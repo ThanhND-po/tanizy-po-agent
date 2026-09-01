@@ -52,6 +52,12 @@ function adapterPath(target, projectRoot) {
   return join(projectRoot, "AGENTS.md");
 }
 
+function skillDestinationRootForTest(target, projectRoot) {
+  if (target === "gemini-cli") return join(projectRoot, "skills");
+  if (target === "claude-code") return join(projectRoot, ".claude", "skills");
+  return join(projectRoot, ".agents", "skills");
+}
+
 function contentOutsidePoBlock(content) {
   const start = content.indexOf(poBlockStart);
   const end = content.indexOf(poBlockEnd);
@@ -59,12 +65,15 @@ function contentOutsidePoBlock(content) {
   return `${content.slice(0, start)}${content.slice(end + poBlockEnd.length)}`;
 }
 
-test("installs only the selected skill without copying the adapter", () => {
+test("installs five-whys-rca with its references without copying the adapter", () => {
   withProject((projectRoot) => {
-    const result = runInstaller(projectRoot, "--skill", "mtg-memos");
+    const result = runInstaller(projectRoot, "--skill", "five-whys-rca");
+    const skillRoot = join(projectRoot, ".agents", "skills", "five-whys-rca");
 
     assert.equal(result.status, 0, result.stderr);
-    assert.equal(existsSync(join(projectRoot, ".agents", "skills", "mtg-memos", "SKILL.md")), true);
+    assert.equal(existsSync(join(skillRoot, "SKILL.md")), true);
+    assert.equal(existsSync(join(skillRoot, "references", "5-whys-report-template.md")), true);
+    assert.equal(existsSync(join(skillRoot, "references", "rca-quality-gates.md")), true);
     assert.equal(existsSync(join(projectRoot, ".agents", "skills", "brainstorming")), false);
     assert.equal(existsSync(join(projectRoot, "AGENTS.md")), false);
   });
@@ -72,14 +81,14 @@ test("installs only the selected skill without copying the adapter", () => {
 
 test("uses the target-specific skill directory", () => {
   const cases = [
-    ["gemini-cli", join("skills", "mtg-memos")],
-    ["claude-code", join(".claude", "skills", "mtg-memos")],
-    ["antigravity", join(".agents", "skills", "mtg-memos")],
+    ["gemini-cli", join("skills", "five-whys-rca")],
+    ["claude-code", join(".claude", "skills", "five-whys-rca")],
+    ["antigravity", join(".agents", "skills", "five-whys-rca")],
   ];
 
   for (const [target, relativeSkillRoot] of cases) {
     withProject((projectRoot) => {
-      const result = runInstallerForTarget(projectRoot, target, "--skill", "mtg-memos");
+      const result = runInstallerForTarget(projectRoot, target, "--skill", "five-whys-rca");
 
       assert.equal(result.status, 0, result.stderr);
       assert.equal(existsSync(join(projectRoot, relativeSkillRoot, "SKILL.md")), true);
@@ -116,6 +125,10 @@ test("full install uses a managed adapter block and target-compatible skills", (
       assert.match(adapter, /BEGIN TANIZY PO AGENT MANAGED BLOCK/);
       assert.equal(adapter.match(/BEGIN TANIZY PO AGENT MANAGED BLOCK/g)?.length, 1);
       assert.equal(existsSync(join(projectRoot, routerPath)), target === "gemini-cli");
+      assert.equal(
+        existsSync(join(skillDestinationRootForTest(target, projectRoot), "five-whys-rca", "SKILL.md")),
+        true,
+      );
       if (target === "antigravity") {
         assert.equal(
           existsSync(join(projectRoot, ".agents", "rules", "tanizy-po.md")),
@@ -208,7 +221,7 @@ test("preserves project instructions and the QC block across PO install and forc
 
     const footer = "\n## Project Footer\nKeep this footer.\n";
     const stalePoBlock = `${afterInstall}${footer}`.replace(
-      "This project uses Tanizy PO Agent skills for Product Owner workflows.",
+      "This project uses Tanizy PO Agent skills for Product Owner workflows and structured problem analysis.",
       "Stale PO routing text.",
     );
     writeFileSync(adapter, stalePoBlock, "utf8");
@@ -241,7 +254,10 @@ test("Antigravity install manages only the PO rule", () => {
     const installed = runInstallerForTarget(projectRoot, "antigravity");
     assert.equal(installed.status, 0, installed.stderr);
     assert.equal(readFileSync(qcRule, "utf8"), "QC RULE SENTINEL\n");
-    assert.match(readFileSync(poRule, "utf8"), /For Product Owner work/);
+    assert.match(
+      readFileSync(poRule, "utf8"),
+      /For Product Owner and structured problem-analysis work/,
+    );
 
     writeFileSync(poRule, "STALE PO RULE\n", "utf8");
     const updated = runInstallerForTarget(projectRoot, "antigravity", "--force");

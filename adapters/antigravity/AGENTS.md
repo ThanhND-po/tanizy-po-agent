@@ -1,6 +1,6 @@
 # Tanizy PO Agent For Antigravity
 
-Use Tanizy PO Agent as a Product Owner workflow router.
+Use Tanizy PO Agent as a Product Owner and structured problem-analysis workflow router.
 
 ## Workflow Routing
 
@@ -10,6 +10,8 @@ Use Tanizy PO Agent as a Product Owner workflow router.
 - UI mockup or screen wireframe request: follow `.agents/skills/generating-mockup/SKILL.md`.
 - Code-first UI preview or direct shadcn/ui component request: follow `.agents/skills/shadcn-ui/SKILL.md`.
 - Meeting memo or transcript summary request: follow `.agents/skills/mtg-memos/SKILL.md`.
+- 5 Whys Root Cause Analysis of a specific problem, failure, deviation, recurring issue, undesirable outcome, or missed expectation: follow `.agents/skills/five-whys-rca/SKILL.md`.
+- If the user explicitly asks for 5 Whys, Five Whys, or root cause analysis using the 5 Whys method, route to `five-whys-rca` even when the input originates from a bug report, meeting memo, campaign result, operational issue, product issue, or incident.
 
 ## Rules
 

@@ -7,10 +7,10 @@ Replace `/path/to/project` with your target project path.
 To install or update one skill manually, copy only its directory to the tool-specific skills root. For example, replace `<skills-root>` below with `skills`, `.agents/skills`, or `.claude/skills` as documented in each section:
 
 ```bash
-cp -R core/skills/mtg-memos /path/to/project/<skills-root>/
+cp -R core/skills/five-whys-rca /path/to/project/<skills-root>/
 ```
 
-The npm installer provides the safer cross-platform equivalent with `--skill mtg-memos`.
+The npm installer provides the safer cross-platform equivalent with `--skill five-whys-rca`.
 
 ## Root Adapter Ownership
 
@@ -59,7 +59,7 @@ macOS / Linux:
 
 ```bash
 mkdir -p /path/to/project/.agents/skills
-cp -R core/skills/{brainstorming,creating-diagrams,generating-mockup,mtg-memos,shadcn-ui,web-design-guidelines,writing-requirements} /path/to/project/.agents/skills/
+cp -R core/skills/{brainstorming,creating-diagrams,five-whys-rca,generating-mockup,mtg-memos,shadcn-ui,web-design-guidelines,writing-requirements} /path/to/project/.agents/skills/
 # Merge adapters/codex/AGENTS.md into the marked PO block.
 ```
 
@@ -67,7 +67,7 @@ Windows PowerShell:
 
 ```powershell
 New-Item -ItemType Directory -Force C:\path\to\project\.agents\skills
-$poSkillNames = @("brainstorming", "creating-diagrams", "generating-mockup", "mtg-memos", "shadcn-ui", "web-design-guidelines", "writing-requirements")
+$poSkillNames = @("brainstorming", "creating-diagrams", "five-whys-rca", "generating-mockup", "mtg-memos", "shadcn-ui", "web-design-guidelines", "writing-requirements")
 foreach ($poSkillName in $poSkillNames) { Copy-Item -Recurse "core/skills/$poSkillName" C:\path\to\project\.agents\skills\ }
 # Merge adapters/codex/AGENTS.md into the marked PO block.
 ```
@@ -78,7 +78,7 @@ macOS / Linux:
 
 ```bash
 mkdir -p /path/to/project/.claude/skills
-cp -R core/skills/{brainstorming,creating-diagrams,generating-mockup,mtg-memos,shadcn-ui,web-design-guidelines,writing-requirements} /path/to/project/.claude/skills/
+cp -R core/skills/{brainstorming,creating-diagrams,five-whys-rca,generating-mockup,mtg-memos,shadcn-ui,web-design-guidelines,writing-requirements} /path/to/project/.claude/skills/
 # Merge adapters/claude-code/CLAUDE.md into the marked PO block.
 ```
 
@@ -86,7 +86,7 @@ Windows PowerShell:
 
 ```powershell
 New-Item -ItemType Directory -Force C:\path\to\project\.claude\skills
-$poSkillNames = @("brainstorming", "creating-diagrams", "generating-mockup", "mtg-memos", "shadcn-ui", "web-design-guidelines", "writing-requirements")
+$poSkillNames = @("brainstorming", "creating-diagrams", "five-whys-rca", "generating-mockup", "mtg-memos", "shadcn-ui", "web-design-guidelines", "writing-requirements")
 foreach ($poSkillName in $poSkillNames) { Copy-Item -Recurse "core/skills/$poSkillName" C:\path\to\project\.claude\skills\ }
 # Merge adapters/claude-code/CLAUDE.md into the marked PO block.
 ```
@@ -97,7 +97,7 @@ macOS / Linux:
 
 ```bash
 mkdir -p /path/to/project/.agents/skills
-cp -R core/skills/{brainstorming,creating-diagrams,generating-mockup,mtg-memos,shadcn-ui,web-design-guidelines,writing-requirements} /path/to/project/.agents/skills/
+cp -R core/skills/{brainstorming,creating-diagrams,five-whys-rca,generating-mockup,mtg-memos,shadcn-ui,web-design-guidelines,writing-requirements} /path/to/project/.agents/skills/
 # Merge adapters/antigravity/AGENTS.md into the marked PO block.
 mkdir -p /path/to/project/.agents/rules
 cp adapters/antigravity/.agents/rules/tanizy-po.md /path/to/project/.agents/rules/tanizy-po.md
@@ -107,7 +107,7 @@ Windows PowerShell:
 
 ```powershell
 New-Item -ItemType Directory -Force C:\path\to\project\.agents\skills
-$poSkillNames = @("brainstorming", "creating-diagrams", "generating-mockup", "mtg-memos", "shadcn-ui", "web-design-guidelines", "writing-requirements")
+$poSkillNames = @("brainstorming", "creating-diagrams", "five-whys-rca", "generating-mockup", "mtg-memos", "shadcn-ui", "web-design-guidelines", "writing-requirements")
 foreach ($poSkillName in $poSkillNames) { Copy-Item -Recurse "core/skills/$poSkillName" C:\path\to\project\.agents\skills\ }
 # Merge adapters/antigravity/AGENTS.md into the marked PO block.
 New-Item -ItemType Directory -Force C:\path\to\project\.agents\rules

@@ -10,13 +10,13 @@ npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project
 Install only one skill:
 
 ```bash
-npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill mtg-memos
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill five-whys-rca
 ```
 
 Update only that skill from the latest npm release:
 
 ```bash
-npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill mtg-memos --force
+npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill five-whys-rca --force
 ```
 
 Repeat `--skill` to select multiple skills. A selective install changes only `.agents/skills/<skill-name>` and does not copy or overwrite `AGENTS.md`.
@@ -30,7 +30,7 @@ From the `tanizy-po-agent` repository:
 ```bash
 node scripts/install.mjs --target codex --project /path/to/project --dry-run
 node scripts/install.mjs --target codex --project /path/to/project
-node scripts/install.mjs --target codex --project /path/to/project --skill mtg-memos
+node scripts/install.mjs --target codex --project /path/to/project --skill five-whys-rca
 ```
 
 Use `--force` only when you intend to refresh PO-managed skills and the PO managed block. It does not authorize replacing project-owned or QC-managed adapter content.
@@ -41,7 +41,7 @@ macOS / Linux:
 
 ```bash
 mkdir -p /path/to/project/.agents/skills
-cp -R core/skills/{brainstorming,creating-diagrams,generating-mockup,mtg-memos,shadcn-ui,web-design-guidelines,writing-requirements} /path/to/project/.agents/skills/
+cp -R core/skills/{brainstorming,creating-diagrams,five-whys-rca,generating-mockup,mtg-memos,shadcn-ui,web-design-guidelines,writing-requirements} /path/to/project/.agents/skills/
 # Merge adapters/codex/AGENTS.md into the marked PO block. Do not overwrite an existing AGENTS.md.
 ```
 
@@ -49,7 +49,7 @@ Windows PowerShell:
 
 ```powershell
 New-Item -ItemType Directory -Force C:\path\to\project\.agents\skills
-$poSkillNames = @("brainstorming", "creating-diagrams", "generating-mockup", "mtg-memos", "shadcn-ui", "web-design-guidelines", "writing-requirements")
+$poSkillNames = @("brainstorming", "creating-diagrams", "five-whys-rca", "generating-mockup", "mtg-memos", "shadcn-ui", "web-design-guidelines", "writing-requirements")
 foreach ($poSkillName in $poSkillNames) { Copy-Item -Recurse "core/skills/$poSkillName" C:\path\to\project\.agents\skills\ }
 # Merge adapters/codex/AGENTS.md into the marked PO block. Do not overwrite an existing AGENTS.md.
 ```

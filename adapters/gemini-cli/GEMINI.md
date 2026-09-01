@@ -1,6 +1,6 @@
 # Tanizy PO Agent
 
-This project contains portable Product Owner skills for Gemini CLI.
+This project contains portable Product Owner and structured problem-analysis skills for Gemini CLI.
 
 @./skills/using-tanizy-agent/SKILL.md
 
@@ -12,6 +12,7 @@ This project contains portable Product Owner skills for Gemini CLI.
 - Use `/po:diagram <request>` to create Use Case, Sequence, BPMN, Activity, State, or another diagram.
 - Use `/po:mockup <request>` to generate UI mockups or screen wireframes from a description or prototype.
 - Use `@skills/mtg-memos/SKILL.md` with a meeting memo path to create a channel-ready summary.
+- Use `@skills/five-whys-rca/SKILL.md` to run a structured 5 Whys Root Cause Analysis.
 
 Gemini CLI `@path` syntax injects file or folder context. It is not a skill alias mechanism, so do not expect `@brainstorming` to route by skill name.
 

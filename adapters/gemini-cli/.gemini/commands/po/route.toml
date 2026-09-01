@@ -18,6 +18,10 @@ Use the router and available workflow instructions below. Choose the workflow th
 
 @{skills/creating-diagrams/SKILL.md}
 
+## 5 Whys Root Cause Analysis Workflow
+
+@{skills/five-whys-rca/SKILL.md}
+
 User request:
 {{args}}
 """

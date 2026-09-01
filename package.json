@@ -1,7 +1,7 @@
 {
   "name": "@thanhndpo/tanizy-po-agent",
-  "version": "0.1.8",
-  "description": "Portable Product Owner agent workflows for Gemini CLI, Antigravity, Codex, and Claude Code.",
+  "version": "0.1.9",
+  "description": "Portable Product Owner and structured problem-analysis workflows for Gemini CLI, Antigravity, Codex, and Claude Code.",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -22,6 +22,8 @@
   "keywords": [
     "agent-skills",
     "product-owner",
+    "five-whys",
+    "root-cause-analysis",
     "gemini-cli",
     "codex",
     "claude-code",
