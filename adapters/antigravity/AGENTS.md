@@ -21,6 +21,18 @@ Use Tanizy PO Agent as a Product Owner and structured problem-analysis workflow 
 - Do not save generated artifacts until the user approves the content and confirms the path.
 - Save outputs in the target project, not inside `.agents/`.
 
+## Optional Incident Report Storage Configuration
+
+For faster Incident ID allocation, project owners may add the following project-owned section outside the Tanizy managed block:
+
+```markdown
+## Incident Report Storage
+
+- Default output path: `<path/to/incident-reports>`
+```
+
+The placeholder is not a valid path. Replace it in project-owned instructions, and always confirm the resolved path before allocating an Incident ID or saving a report.
+
 ## Personalization
 Please support me using the following writing style:
 
@@ -60,7 +72,7 @@ Please support me using the following writing style:
 - Work Emails: Concise, polite; clearly state the context, the issue, and the requested response.
 - Bug Reports: Prioritize facts, conditions to reproduce, actual results, expected results, and supporting evidence.
 - Business Requirements or Technical Docs: Use a structured format; list rules, edge cases, examples, and implementation tasks.
-- UI Copy: Short, natural, functionally accurate, and user-friendly.
+- User-facing UI Text: Short, natural, functionally accurate, and user-friendly.
 - LinkedIn Posts or Personal Updates: Maintain an approachable, authentic, and reflective tone; keep it coherent and avoid clichés.
 - Prompts: Use clear sections, specific requirements, chronological steps, and strict constraints that must not be violated.
 

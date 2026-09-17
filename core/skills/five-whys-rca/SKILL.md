@@ -1,6 +1,6 @@
 ---
 name: five-whys-rca
-description: Use when a user wants to perform a structured 5 Whys Root Cause Analysis for a specific problem, failure, deviation, recurring issue, undesirable outcome, or missed expectation through guided causal investigation and produce a stakeholder-ready RCA report.
+description: Use when a user wants to perform a structured 5 Whys Root Cause Analysis for a specific problem, incident, failure, deviation, recurring issue, undesirable outcome, or missed expectation through guided causal investigation and produce a stakeholder-ready General RCA or Incident Report.
 ---
 
 # 5 Whys Root Cause Analysis
@@ -50,7 +50,7 @@ Act as an RCA facilitator and causal-analysis reviewer, not a report generator.
 - Treat stakeholder-facing identity and role metadata as factual data, not contextual inference.
 - Do not infer Facilitator, Participants, Reviewer, Approver, team, department, or organizational role from the user profile, agent identity, repository context, or conversation ownership.
 - Do not inspect system-generated transcripts, runtime logs, hidden session files, or other execution-environment history solely to reconstruct prior RCA conversation context.
-- Do not write files until the final RCA is approved and the user confirms the path.
+- Do not write files until the final RCA is approved and the user confirms the path, except for an explicitly requested Incident Report Draft that passes the Incident Draft Save Gate.
 
 Read `references/rca-quality-gates.md` when validating problem quality, Why answers, evidence, causal links, root cause candidates, objectives, actions, and report readiness.
 
@@ -131,7 +131,57 @@ If the user explicitly asks to export or preview a Draft before the RCA is compl
 - If the user wants immediate export without supplying optional metadata, use `Not provided` or omit the optional row according to the report template.
 - A Draft may be incomplete, but it must never contain fabricated identity, role, evidence, ownership, date, or causal information.
 
+**Incident Draft Save Gate:**
+
+- If the Draft is a confirmed Incident Report, apply the Incident Report Identification rules before proposing any saved artifact.
+- A preview in conversation does not allocate an Incident ID or create a file.
+- Save an Incident Report Draft only after the user approves the Draft content, Incident ID, filename, and output path.
+
 Incomplete data is acceptable in a Draft. Invented data is never acceptable.
+
+## Report Classification And Identification
+
+Keep `General RCA` as the default report type.
+
+Treat the user's explicit request for an incident report as confirmation of `Incident Report` classification.
+
+After Problem Definition and impact are sufficiently clear, propose `Incident Report` classification when all applicable signals are present:
+
+- an event has occurred;
+- it caused or could cause real impact;
+- it requires containment, recovery, investigation, or corrective action.
+
+When the agent proposes the classification, require explicit user confirmation. Do not allocate an Incident ID from an unconfirmed classification.
+
+For a confirmed Incident Report:
+
+- Allocate an ID only when the user requests a saved Draft export.
+- Use `INC-YYYY-NNN`, where `YYYY` is the allocation year and `NNN` is a three-digit annual sequence.
+- Keep the ID immutable across `Draft`, `Final`, and `Cancelled`.
+- Do not reuse an allocated ID. Retain an abandoned report as `Cancelled`.
+- Use `INC-YYYY-NNN-<english-lowercase-kebab-case-slug>-5-whys-rca.md`.
+- Put the same ID in the filename, H1, and Analysis Summary.
+- Include `Legacy / External Reference` only when the user provides it.
+
+Resolve the output path in this order:
+
+1. Use a path explicitly provided in the current conversation.
+2. Otherwise, look for a project-owned `Incident Report Storage` section in project instructions.
+3. Otherwise, ask the user for the output path.
+
+Treat `<path/to/incident-reports>` and similar placeholder values as unset. Always ask the user to confirm the resolved output path before scanning, allocating, creating a directory, or saving.
+
+For single-writer allocation:
+
+1. Scan the confirmed output folder for the current allocation year.
+2. Block if an intended Incident Report filename is malformed or an Incident ID is duplicated.
+3. Ignore files unrelated to Incident Reports.
+4. Use `001` when no valid ID exists; otherwise use the highest valid sequence plus one.
+5. Do not fill sequence gaps.
+6. Block and request a new decision if the next sequence exceeds `999`.
+7. Re-scan immediately before saving.
+
+General RCA reports do not consume the Incident Report sequence. Include an optional `Report Reference` only when the user provides it.
 
 ## Workflow
 
@@ -207,6 +257,8 @@ Prefer observable statements such as:
 > The May acquisition campaign generated 840 qualified leads against a target of 2,000.
 
 Do not start the Why chain until the problem is specific enough to investigate.
+
+Before continuing, apply the Report Classification And Identification rules. If incident signals are present and the user has not already selected a report type, propose `Incident Report` classification and wait for confirmation or rejection.
 
 ### 4. Establish Analysis Boundary
 
@@ -557,6 +609,7 @@ After the final quality review passes:
 
 - Read `references/5-whys-report-template.md`.
 - Generate the stakeholder-facing Markdown report.
+- Apply the confirmed report type and its identity metadata.
 - Remove template instructions and HTML comments.
 - Remove unused placeholder rows.
 - Never output unresolved `{{placeholders}}`.
@@ -581,6 +634,8 @@ After the user reviews the final report:
 - Save only to the user-approved target project path.
 
 Do not save generated RCA reports inside any installed `five-whys-rca` skill directory, including `skills/five-whys-rca/`, `.agents/skills/five-whys-rca/`, or `.claude/skills/five-whys-rca/`.
+
+For a confirmed Incident Report Draft, use the earlier Incident Draft Save Gate instead of waiting for final RCA approval. All other save gates remain unchanged.
 
 ## Action ID Convention
 
@@ -643,5 +698,6 @@ The 5 Whys RCA workflow may end only when:
 - Stakeholder-facing identity metadata is user-provided, user-confirmed, explicitly `Not provided`, or omitted.
 - Final report has passed the Stakeholder Metadata Integrity and Report Readiness reviews.
 - Final stakeholder-facing report has been approved, or the user explicitly chooses to stop.
+- For an exported Incident Report, classification, ID, filename, metadata, status, and output path satisfy the Incident Report Identification rules.
 
 If any blocking criterion is unmet, continue the appropriate RCA stage instead of presenting the analysis as complete.

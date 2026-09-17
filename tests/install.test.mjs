@@ -124,6 +124,8 @@ test("full install uses a managed adapter block and target-compatible skills", (
       assert.equal(result.status, 0, result.stderr);
       assert.match(adapter, /BEGIN TANIZY PO AGENT MANAGED BLOCK/);
       assert.equal(adapter.match(/BEGIN TANIZY PO AGENT MANAGED BLOCK/g)?.length, 1);
+      assert.match(adapter, /Default output path: `<path\/to\/incident-reports>`/);
+      assert.doesNotMatch(adapter, /Project-TalentBank|\/Users\//);
       assert.equal(existsSync(join(projectRoot, routerPath)), target === "gemini-cli");
       assert.equal(
         existsSync(join(skillDestinationRootForTest(target, projectRoot), "five-whys-rca", "SKILL.md")),
@@ -208,7 +210,16 @@ test("requires --force and cleanly replaces an existing selected skill", () => {
 test("preserves project instructions and the QC block across PO install and force update", () => {
   withProject((projectRoot) => {
     const adapter = join(projectRoot, "AGENTS.md");
-    const projectInstructions = "# Project Agents\n\n## Project Rules\nKeep local release rules.";
+    const projectInstructions = [
+      "# Project Agents",
+      "",
+      "## Project Rules",
+      "Keep local release rules.",
+      "",
+      "## Incident Report Storage",
+      "",
+      "- Default output path: `docs/incident-reports/`",
+    ].join("\n");
     writeFileSync(adapter, `${projectInstructions}\n\n${qcManagedBlock}\n`, "utf8");
 
     const installed = runInstaller(projectRoot);
@@ -236,6 +247,7 @@ test("preserves project instructions and the QC block across PO install and forc
     const afterForce = readFileSync(adapter, "utf8");
     assert.equal(contentOutsidePoBlock(afterForce), contentOutsidePoBlock(stalePoBlock));
     assert.ok(afterForce.includes(projectInstructions));
+    assert.ok(afterForce.includes("Default output path: `docs/incident-reports/`"));
     assert.ok(afterForce.includes(qcManagedBlock));
     assert.ok(afterForce.endsWith(footer));
     assert.doesNotMatch(afterForce, /Stale PO routing text/);

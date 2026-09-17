@@ -1,4 +1,4 @@
-# 5 Whys Root Cause Analysis
+# {{report_heading}}
 
 <!--
 This template is the stakeholder-facing output of the Five Whys RCA process.
@@ -13,14 +13,22 @@ Generation rules:
 - Never infer stakeholder metadata from the user profile, AI agent identity, repository context, or conversation ownership.
 - For a Draft with missing optional identity metadata, use "Not provided" or remove the optional row.
 - Analysis Date may default to the date the RCA analysis/report is prepared, but must not be reused as the problem occurrence date.
+- For an Incident Report, use `INC-YYYY-NNN - 5 Whys Root Cause Analysis` as the heading and include Report Type and Incident ID.
+- For a General RCA, use `5 Whys Root Cause Analysis` as the heading unless the user provides another report reference.
+- Remove Incident ID, Legacy / External Reference, and Report Reference rows when they do not apply.
+- Incident Report status may be Draft, Final, or Cancelled.
 -->
 
 ## 1. Analysis Summary
 
 | Field | Details |
 |---|---|
+| Report Type | {{Incident Report or remove for General RCA}} |
+| Incident ID | {{INC-YYYY-NNN or remove}} |
+| Legacy / External Reference | {{user_provided_reference_or_remove}} |
+| Report Reference | {{user_provided_general_rca_reference_or_remove}} |
 | Problem / Topic | {{problem_title}} |
-| Analysis Status | {{Draft / Final}} |
+| Analysis Status | {{Draft / Final / Cancelled}} |
 | Analysis Date | {{analysis_date}} |
 | Area / Process / System | {{scope_area}} |
 | Facilitator | {{facilitator_or_not_provided}} |

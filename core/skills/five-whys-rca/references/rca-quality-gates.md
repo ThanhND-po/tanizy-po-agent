@@ -590,7 +590,47 @@ Mid / long-term action:
 
 Objectives SHOULD be concise and outcome-oriented.
 
-## 16. Gate 12 - Stakeholder Metadata Integrity
+## 16. Gate 12 - Incident Report Identification
+
+Apply this gate only when the report is classified as an Incident Report.
+
+The classification is valid when:
+
+- the user explicitly requested an Incident Report; or
+- the agent proposed Incident Report classification after Problem Definition and impact were clear, and the user explicitly confirmed it.
+
+Before allocating or saving an Incident Report Draft, verify that:
+
+- the user requested a saved Draft export;
+- the output path was explicitly provided or resolved from project-owned instructions;
+- the user confirmed the output path;
+- placeholder values such as `<path/to/incident-reports>` are not treated as real paths;
+- the allocation year is the year in which the ID is issued;
+- the ID matches `INC-YYYY-NNN`;
+- the filename matches `INC-YYYY-NNN-<english-lowercase-kebab-case-slug>-5-whys-rca.md`;
+- the same ID appears in the filename, H1, and Analysis Summary;
+- the ID is unique within the confirmed project output folder;
+- no intended Incident Report filename has a malformed ID that makes the sequence unreliable;
+- the sequence is three digits and does not exceed `999`;
+- the user approved the Draft content, ID, filename, and output path.
+
+Allocation MUST use the highest valid sequence for the allocation year plus one. Use `001` when no valid ID exists. Do not fill gaps or reuse an allocated ID.
+
+The ID remains unchanged when the report status changes between `Draft`, `Final`, and `Cancelled`, or when the report is moved. A destination collision MUST be resolved before saving.
+
+`Legacy / External Reference` and General RCA `Report Reference` values MUST come from the user. General RCA reports MUST NOT consume the Incident Report sequence.
+
+Block allocation when:
+
+- the Incident Report classification is unconfirmed;
+- the output path is unconfirmed;
+- an intended Incident Report filename is malformed;
+- an Incident ID is duplicated;
+- the next sequence would exceed `999`.
+
+This instruction-only allocation model assumes a single writer. Do not claim that it prevents concurrent allocation races.
+
+## 17. Gate 13 - Stakeholder Metadata Integrity
 
 Stakeholder-facing report metadata is factual information.
 
@@ -644,7 +684,7 @@ Missing information and inferred information are not equivalent.
 
 Prefer an explicit incomplete state over a plausible but unverified value.
 
-## 17. Gate 13 - Report Readiness
+## 18. Gate 14 - Report Readiness
 
 Before generating the stakeholder-facing report, verify that:
 
@@ -659,7 +699,9 @@ Before generating the stakeholder-facing report, verify that:
 - actions do not contain invented owners or deadlines;
 - Success Criteria are observable where applicable;
 - alternative causal paths are clearly separated from the primary chain;
-- stakeholder-facing identity and role metadata passes Gate 12;
+- stakeholder-facing identity and role metadata passes Gate 13;
+- a confirmed Incident Report passes Gate 12;
+- General RCA identity fields are omitted unless the user supplied a Report Reference;
 - internal quality-gate states are not exposed;
 - no unresolved template placeholders remain;
 - optional sections are removed when genuinely not applicable.
@@ -677,7 +719,7 @@ The final report MUST use:
 
 Do not add internal quality-check sections to the stakeholder-facing report.
 
-## 18. Quality Gate Failure Behavior
+## 19. Quality Gate Failure Behavior
 
 A gate failure does not automatically terminate the RCA.
 
