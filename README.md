@@ -19,6 +19,7 @@ Tanizy PO Agent is a portable Product Owner and structured problem-analysis pack
 - Creating code-first UI mockups with shadcn/ui components when image-generation tools are unavailable.
 - Summarizing Japanese, Vietnamese, English, or multilingual meeting memos for team channels.
 - Facilitating structured 5 Whys Root Cause Analysis and producing stakeholder-ready RCA reports.
+- Managing structured updates to requirement artifacts, specs, document statuses, and index catalogs upon receiving feedback.
 - Research fallback when a requested artifact type has no local template.
 
 ## Repository Structure
@@ -64,6 +65,7 @@ The universal package intentionally keeps one simple install flow for BA/PO user
 Use `--skill` to install only one skill. The commands below list the shared skills available to Codex, Claude Code, and Antigravity. Replace `codex` with another compatible target when needed.
 
 ```bash
+npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill artifact-update-process
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill brainstorming
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill creating-diagrams
 npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill five-whys-rca
@@ -120,6 +122,7 @@ node scripts/install.mjs --target antigravity --project /path/to/project
 Install or update one skill from the local clone:
 
 ```bash
+node scripts/install.mjs --target codex --project /path/to/project --skill artifact-update-process
 node scripts/install.mjs --target codex --project /path/to/project --skill brainstorming
 node scripts/install.mjs --target codex --project /path/to/project --skill creating-diagrams
 node scripts/install.mjs --target codex --project /path/to/project --skill five-whys-rca

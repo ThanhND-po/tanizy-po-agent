@@ -9,6 +9,7 @@ For Product Owner and structured problem-analysis work, route to the matching in
 - Code-first shadcn/ui previews: `shadcn-ui`
 - Meeting memos: `mtg-memos`
 - 5 Whys Root Cause Analysis: `five-whys-rca`
+- Document and artifact update process: `artifact-update-process`
 
 Read the selected skill and apply its gates. Keep project-wide writing
 preferences and package routing in the Tanizy PO managed block in `AGENTS.md`.

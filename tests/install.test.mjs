@@ -79,6 +79,18 @@ test("installs five-whys-rca with its references without copying the adapter", (
   });
 });
 
+test("installs artifact-update-process without copying the adapter", () => {
+  withProject((projectRoot) => {
+    const result = runInstaller(projectRoot, "--skill", "artifact-update-process");
+    const skillRoot = join(projectRoot, ".agents", "skills", "artifact-update-process");
+
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(existsSync(join(skillRoot, "SKILL.md")), true);
+    assert.equal(existsSync(join(projectRoot, ".agents", "skills", "brainstorming")), false);
+    assert.equal(existsSync(join(projectRoot, "AGENTS.md")), false);
+  });
+});
+
 test("uses the target-specific skill directory", () => {
   const cases = [
     ["gemini-cli", join("skills", "five-whys-rca")],
@@ -129,6 +141,10 @@ test("full install uses a managed adapter block and target-compatible skills", (
       assert.equal(existsSync(join(projectRoot, routerPath)), target === "gemini-cli");
       assert.equal(
         existsSync(join(skillDestinationRootForTest(target, projectRoot), "five-whys-rca", "SKILL.md")),
+        true,
+      );
+      assert.equal(
+        existsSync(join(skillDestinationRootForTest(target, projectRoot), "artifact-update-process", "SKILL.md")),
         true,
       );
       if (target === "antigravity") {

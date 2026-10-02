@@ -36,7 +36,7 @@ macOS / Linux:
 
 ```bash
 mkdir -p /path/to/project/.agents/skills
-cp -R core/skills/{brainstorming,creating-diagrams,five-whys-rca,generating-mockup,mtg-memos,shadcn-ui,web-design-guidelines,writing-requirements} /path/to/project/.agents/skills/
+cp -R core/skills/{artifact-update-process,brainstorming,creating-diagrams,five-whys-rca,generating-mockup,mtg-memos,shadcn-ui,web-design-guidelines,writing-requirements} /path/to/project/.agents/skills/
 # Merge adapters/antigravity/AGENTS.md into the marked PO block. Do not overwrite an existing AGENTS.md.
 mkdir -p /path/to/project/.agents/rules
 cp adapters/antigravity/.agents/rules/tanizy-po.md /path/to/project/.agents/rules/tanizy-po.md
@@ -46,7 +46,7 @@ Windows PowerShell:
 
 ```powershell
 New-Item -ItemType Directory -Force C:\path\to\project\.agents\skills
-$poSkillNames = @("brainstorming", "creating-diagrams", "five-whys-rca", "generating-mockup", "mtg-memos", "shadcn-ui", "web-design-guidelines", "writing-requirements")
+$poSkillNames = @("artifact-update-process", "brainstorming", "creating-diagrams", "five-whys-rca", "generating-mockup", "mtg-memos", "shadcn-ui", "web-design-guidelines", "writing-requirements")
 foreach ($poSkillName in $poSkillNames) { Copy-Item -Recurse "core/skills/$poSkillName" C:\path\to\project\.agents\skills\ }
 # Merge adapters/antigravity/AGENTS.md into the marked PO block. Do not overwrite an existing AGENTS.md.
 New-Item -ItemType Directory -Force C:\path\to\project\.agents\rules

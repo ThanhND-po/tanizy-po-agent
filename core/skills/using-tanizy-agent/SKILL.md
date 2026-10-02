@@ -26,6 +26,7 @@ Choose exactly one workflow unless the user explicitly asks for multiple outputs
 | Wants a code-first UI preview using shadcn/ui components, or asks to use shadcn/ui directly | `shadcn-ui` |
 | Provides meeting memo or transcript files and wants a summary for sharing | `mtg-memos` |
 | Wants a structured 5 Whys Root Cause Analysis for a problem, failure, deviation, recurring issue, undesirable outcome, or missed expectation | `five-whys-rca` |
+| Needs to update existing requirement artifacts, specs, document statuses, or review feedback while keeping indexes consistent | `artifact-update-process` |
 | Asks explanation, advice, review, or a non-artifact question | Respond directly using PO judgment |
 
 If intent is mixed, start with the earliest needed workflow:
@@ -49,6 +50,7 @@ If intent is mixed, start with the earliest needed workflow:
 
 ## Available Skills
 
+- `skills/artifact-update-process/SKILL.md`
 - `skills/brainstorming/SKILL.md`
 - `skills/writing-requirements/SKILL.md`
 - `skills/creating-diagrams/SKILL.md`

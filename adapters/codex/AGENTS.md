@@ -12,6 +12,7 @@ This project uses Tanizy PO Agent skills for Product Owner workflows and structu
 - For meeting memo or transcript understanding and channel-ready summaries, use the `mtg-memos` skill.
 - For 5 Whys Root Cause Analysis of a specific problem, failure, deviation, recurring issue, undesirable outcome, or missed expectation, use the `five-whys-rca` skill.
 - If the user explicitly asks for 5 Whys, Five Whys, or root cause analysis using the 5 Whys method, route to `five-whys-rca` even when the input originates from a bug report, meeting memo, campaign result, operational issue, product issue, or incident.
+- For updating existing requirement artifacts, specs, document statuses, or review feedback while keeping indexes consistent, use the `artifact-update-process` skill.
 
 ## Rules
 

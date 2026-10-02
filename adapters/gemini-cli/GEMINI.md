@@ -13,6 +13,7 @@ This project contains portable Product Owner and structured problem-analysis ski
 - Use `/po:mockup <request>` to generate UI mockups or screen wireframes from a description or prototype.
 - Use `@skills/mtg-memos/SKILL.md` with a meeting memo path to create a channel-ready summary.
 - Use `@skills/five-whys-rca/SKILL.md` to run a structured 5 Whys Root Cause Analysis.
+- Use `@skills/artifact-update-process/SKILL.md` to update existing requirement artifacts, specs, document statuses, or review feedback while keeping indexes consistent.
 
 Gemini CLI `@path` syntax injects file or folder context. It is not a skill alias mechanism, so do not expect `@brainstorming` to route by skill name.
 
