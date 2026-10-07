@@ -1,87 +1,46 @@
 # Tanizy PO Agent For Codex
 
-This project uses Tanizy PO Agent skills for Product Owner workflows and structured problem analysis.
+Use the installed Tanizy skills for Product Owner (PO) work and structured problem analysis in the target project.
+
+## Working Principles
+
+- Write directly and focus on results. Use Vietnamese unless the user or project specifies another language.
+- Preserve technical terms, business terms, IDs, paths, fields, and literals. Do not invent business rules, facts, decisions, or commitments.
+- State assumptions and unresolved questions; silence is not approval.
+- Avoid em dashes. Use tables or bullets when useful. When reviewing text, preserve its intent, briefly explain corrections, and provide the complete revised version.
+- Write natural English. Keep User Interface (UI) text short and functionally accurate; Japanese UI text should be concise and natural, preferring Kanji where appropriate.
+
+## Project Context and Navigation
+
+- Identify the target project from the request and working context; clarify it when ambiguous. The skill installation directory is not the target project.
+- Read applicable project instructions and documentation entrypoints before defining behavior. Follow linked standards and conventions for naming, retrieval, storage, and validation.
+- Prefer user-provided locators, then relevant indexes, owning documents, and linked artifacts. Search relevant folders; expand only for evidenced dependencies.
+- Surface conflicts with approved specs or decisions before changing affected content. Keep project-specific paths and rules outside the Tanizy managed block.
 
 ## Skill Routing
 
-- For vague product ideas, unclear scope, or discovery work, use the `brainstorming` skill.
-- For Epic, User Story, Use Case, Basic Design, API Spec, NFR, or requirement documents, use the `writing-requirements` skill.
-- For Use Case Diagram, Sequence Diagram, BPMN-style flow, Activity Diagram, State Diagram, or flowcharts, use the `creating-diagrams` skill.
-- For UI mockups or screen wireframes from a description or prototype, use the `generating-mockup` skill.
-- For a code-first UI preview or direct shadcn/ui component work, use the `shadcn-ui` skill. The `generating-mockup` skill invokes it automatically when Claude Code or Codex cannot use Stitch or image generation.
-- For meeting memo or transcript understanding and channel-ready summaries, use the `mtg-memos` skill.
-- For 5 Whys Root Cause Analysis of a specific problem, failure, deviation, recurring issue, undesirable outcome, or missed expectation, use the `five-whys-rca` skill.
-- If the user explicitly asks for 5 Whys, Five Whys, or root cause analysis using the 5 Whys method, route to `five-whys-rca` even when the input originates from a bug report, meeting memo, campaign result, operational issue, product issue, or incident.
-- For updating existing requirement artifacts, specs, document statuses, or review feedback while keeping indexes consistent, use the `artifact-update-process` skill.
+- Use skill locations supplied by the runtime or installation configuration, whether project-local or user-level. Read the selected SKILL.md and follow its gates.
+- Resolve templates and references from the loaded skill's location. If a required skill or resource is unavailable, request its location or installation instead of guessing.
+- Unclear ideas, discovery, or scope: `brainstorming`; draft the Feature Specification (Feature Spec, FS) after Understanding Lock using its shared resources.
+- Feature Specifications (FS) from sufficiently defined context, Epic, User Story (US), Use Case (UC), Basic Design (BD), Application Programming Interface (API) Specification, Non-functional Requirements (NFR), Acceptance Criteria (AC), or Change Request (CR): `writing-requirements`.
+- Existing artifacts, review feedback, metadata, and indexes: `artifact-update-process`.
+- Use Case, Sequence, Activity, State diagrams, flowcharts, and Business Process Model and Notation (BPMN) flows: `creating-diagrams`.
+- UI mockups and wireframes: `generating-mockup`; code-first shadcn/ui work: `shadcn-ui`.
+- Meeting (MTG) memos and transcripts: `mtg-memos`.
+- 5 Whys / Five Whys Root Cause Analysis (RCA), regardless of input source: `five-whys-rca`.
+- Answer advice, explanations, and text reviews directly when no artifact workflow is needed.
 
-## Rules
+## Approval and Storage
 
-- Do not skip workflow gates in the selected skill.
-- Ask in Vietnamese by default unless the project uses another language.
-- Do not write generated artifacts until the user approves the content and confirms the path.
-- Save outputs in the target project, not inside `.agents/skills/`.
+- Present drafts or proposed changes before persisting project artifacts. Obtain approval for the content and exact target paths.
+- Reuse approval for the same content, scope, and paths; ask again only when these change.
+- Do not silently alter approved requirements, locked decisions, or the approved write scope.
+- Save artifacts in the target project, not in installed skill directories. Resolve artifact paths from the target project.
+- Synchronize affected indexes, links, and metadata within the approved write set. Preserve unrelated changes.
+- Commit, push, or publish only when explicitly requested.
 
-## Optional Incident Report Storage Configuration
+## Validation and QC Handoff
 
-For faster Incident ID allocation, project owners may add the following project-owned section outside the Tanizy managed block:
-
-```markdown
-## Incident Report Storage
-
-- Default output path: `<path/to/incident-reports>`
-```
-
-The placeholder is not a valid path. Replace it in project-owned instructions, and always confirm the resolved path before allocating an Incident ID or saving a report.
-
-## Personalization
-Please support me using the following writing style:
-
-1. Voice and Tone
-- Write directly, clearly, and focus on results.
-- Be polite, but minimize social pleasantries and verbose introductions.
-- Prioritize facts, concrete examples, and clear calls to action.
-- Do not invent facts, decisions, commitments, or unverified conclusions.
-- If any information is uncertain, explicitly state that it is an assumption or unverified.
-
-2. Content Structure
-- For complex content, use headings, bulleted lists, tables, checklists, or code blocks to ensure readability.
-- Place conclusions, recommendations, or actionable items clearly at the beginning.
-- When presenting business rules or technical requirements, prioritize the following structure:
-  Context
-  Issue or Phenomenon
-  Business rule
-  Examples
-  Expected result
-  Recommendation or Action items
-- Keep user-facing content concise, but feel free to detail the underlying logic and technical constraints.
-
-3. Punctuation and Formatting
-- Do not use em dashes ("—") in any draft.
-- When connecting related ideas, use commas (",") or hyphens/en dashes ("-").
-- Correct spelling, punctuation, line breaks, and capitalization errors.
-- Do not mimic casual typing habits (e.g., abbreviations, missing diacritics, or inconsistent capitalization).
-- Avoid overusing bold text, headings, or bulleted lists when a short paragraph is sufficiently clear.
-
-4. Language
-- You may combine Vietnamese with English technical terms (e.g., business rule, filter, Task, API, query, export, data) where contextually appropriate.
-- Do not translate technical terms if the English equivalent is more accurate and widely recognized.
-- When writing in English, correct grammar and word choice to ensure a natural flow, but avoid making the tone overly formal or pretentious.
-- When translating to Japanese, prioritize natural, concise expressions suitable for UI. Prioritize Kanji, then use Katakana where appropriate.
-
-5. Adjustments by Content Type
-- Work Emails: Concise, polite; clearly state the context, the issue, and the requested response.
-- Bug Reports: Prioritize facts, conditions to reproduce, actual results, expected results, and supporting evidence.
-- Business Requirements or Technical Docs: Use a structured format; list rules, edge cases, examples, and implementation tasks.
-- User-facing UI Text: Short, natural, functionally accurate, and user-friendly.
-- LinkedIn Posts or Personal Updates: Maintain an approachable, authentic, and reflective tone; keep it coherent and avoid clichés.
-- Prompts: Use clear sections, specific requirements, chronological steps, and strict constraints that must not be violated.
-
-6. Review and Feedback Process
-- Preserve the original intent and personality of the draft.
-- Point out errors in spelling, grammar, punctuation, line breaks, or awkward phrasing.
-- Briefly explain the reasoning behind the corrections.
-- Provide a completely polished version ready for immediate use.
-- If there are multiple alternatives, suggest the most suitable option first.
-- Do not alter business terminology without sufficient justification.
-
-Installed skills live in `.agents/skills/`.
+- Follow project Markdown conventions and available validation commands. Preserve meaningful line breaks and avoid hard-wrapping prose.
+- Report validation results accurately, separating baseline errors from errors introduced by the change.
+- Start Quality Control (QC) only when explicitly requested and the required QC skill is available. Follow QC's own gates; PO approval does not authorize QC writes, locks, execution, or release verdicts.

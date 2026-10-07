@@ -14,7 +14,9 @@ npx @thanhndpo/tanizy-po-agent --target claude-code --project /path/to/project -
 npx @thanhndpo/tanizy-po-agent@latest --target claude-code --project /path/to/project --skill five-whys-rca --force
 ```
 
-Repeat `--skill` to select multiple skills. A selective install changes only `.claude/skills/<skill-name>` and does not copy or overwrite `CLAUDE.md`.
+Repeat `--skill` to select multiple skills. A selective install changes only the selected skills and required dependencies under `.claude/skills/<skill-name>` and does not copy or overwrite `CLAUDE.md`.
+
+Selecting `brainstorming` also installs its required `writing-requirements` dependency, which owns the shared Feature Specification (FS) template and authoring guide. The resolved dependency is shown in the install plan. Existing dependency destinations follow the same collision and `--force` rules as explicitly selected skills; review the resolved plan before refreshing them.
 
 A full install adds or refreshes only the marked Tanizy PO block in `CLAUDE.md`. Existing project instructions and Tanizy QC content are preserved.
 
@@ -51,4 +53,6 @@ foreach ($poSkillName in $poSkillNames) { Copy-Item -Recurse "core/skills/$poSki
 
 ## After Install
 
-Open Claude Code in the target project. Claude Code should discover the installed skills from `.claude/skills/`; the managed PO block in `CLAUDE.md` provides routing guidance. `using-tanizy-agent` is Gemini-only and is not installed for Claude Code.
+Open Claude Code in the target project. This installer places skills in `.claude/skills/`; the managed Product Owner (PO) block in `CLAUDE.md` provides routing guidance. The adapter also uses user-level skills when their locations are supplied by the runtime or installation configuration.
+
+For skills already available at user level and project-owned configuration such as Incident Report Storage, see the [manual-copy guide](manual-copy.md#already-available-user-level-skills). This installer supports project-level destinations only.

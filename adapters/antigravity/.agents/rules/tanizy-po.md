@@ -1,17 +1,7 @@
 # Tanizy PO Agent Rule
 
-For Product Owner and structured problem-analysis work, route to the matching installed skill under `.agents/skills/`:
+For Product Owner (PO) and structured problem-analysis work, follow the routing and gates in the Tanizy PO managed block in the target project's `AGENTS.md`.
 
-- Discovery: `brainstorming`
-- Requirement artifacts: `writing-requirements`
-- Diagrams: `creating-diagrams`
-- UI mockups: `generating-mockup`
-- Code-first shadcn/ui previews: `shadcn-ui`
-- Meeting memos: `mtg-memos`
-- 5 Whys Root Cause Analysis: `five-whys-rca`
-- Document and artifact update process: `artifact-update-process`
+Use the skill locations supplied by the runtime or installation configuration, whether project-local or user-level. Read the selected SKILL.md before applying its workflow. If the managed block is unavailable, use the installed skills' descriptions to select the workflow.
 
-Read the selected skill and apply its gates. Keep project-wide writing
-preferences and package routing in the Tanizy PO managed block in `AGENTS.md`.
-Do not start an installed QC workflow unless the user explicitly requests QC
-work.
+Keep project-specific context in project-owned instructions. Start Quality Control (QC) only after an explicit QC request and follow QC's own gates.

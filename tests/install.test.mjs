@@ -4,6 +4,7 @@ import {
   mkdtempSync,
   mkdirSync,
   readFileSync,
+  readdirSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -47,13 +48,11 @@ function withProject(run) {
 }
 
 function adapterPath(target, projectRoot) {
-  if (target === "gemini-cli") return join(projectRoot, "GEMINI.md");
   if (target === "claude-code") return join(projectRoot, "CLAUDE.md");
   return join(projectRoot, "AGENTS.md");
 }
 
 function skillDestinationRootForTest(target, projectRoot) {
-  if (target === "gemini-cli") return join(projectRoot, "skills");
   if (target === "claude-code") return join(projectRoot, ".claude", "skills");
   return join(projectRoot, ".agents", "skills");
 }
@@ -93,7 +92,7 @@ test("installs artifact-update-process without copying the adapter", () => {
 
 test("uses the target-specific skill directory", () => {
   const cases = [
-    ["gemini-cli", join("skills", "five-whys-rca")],
+    ["codex", join(".agents", "skills", "five-whys-rca")],
     ["claude-code", join(".claude", "skills", "five-whys-rca")],
     ["antigravity", join(".agents", "skills", "five-whys-rca")],
   ];
@@ -120,15 +119,8 @@ test("dry run prints the managed plan without writing", () => {
   });
 });
 
-test("full install uses a managed adapter block and target-compatible skills", () => {
-  const cases = [
-    ["gemini-cli", join("skills", "using-tanizy-agent")],
-    ["codex", join(".agents", "skills", "using-tanizy-agent")],
-    ["claude-code", join(".claude", "skills", "using-tanizy-agent")],
-    ["antigravity", join(".agents", "skills", "using-tanizy-agent")],
-  ];
-
-  for (const [target, routerPath] of cases) {
+test("full install uses the selected adapter and all shared skills", () => {
+  for (const target of ["codex", "claude-code", "antigravity"]) {
     withProject((projectRoot) => {
       const result = runInstallerForTarget(projectRoot, target);
       const adapter = readFileSync(adapterPath(target, projectRoot), "utf8");
@@ -136,9 +128,16 @@ test("full install uses a managed adapter block and target-compatible skills", (
       assert.equal(result.status, 0, result.stderr);
       assert.match(adapter, /BEGIN TANIZY PO AGENT MANAGED BLOCK/);
       assert.equal(adapter.match(/BEGIN TANIZY PO AGENT MANAGED BLOCK/g)?.length, 1);
-      assert.match(adapter, /Default output path: `<path\/to\/incident-reports>`/);
+      const template = readFileSync(adapterPath(target, join(repoRoot, "adapters", target)), "utf8");
+      assert.equal(adapter, `${poBlockStart}\n${template.trim()}\n${poBlockEnd}\n`);
       assert.doesNotMatch(adapter, /Project-TalentBank|\/Users\//);
-      assert.equal(existsSync(join(projectRoot, routerPath)), target === "gemini-cli");
+      assert.deepEqual(
+        readdirSync(skillDestinationRootForTest(target, projectRoot)).sort(),
+        readdirSync(join(repoRoot, "core", "skills"), { withFileTypes: true })
+          .filter((entry) => entry.isDirectory())
+          .map((entry) => entry.name)
+          .sort(),
+      );
       assert.equal(
         existsSync(join(skillDestinationRootForTest(target, projectRoot), "five-whys-rca", "SKILL.md")),
         true,
@@ -186,7 +185,7 @@ test("rejects unknown skill names before copying files", () => {
   });
 });
 
-test("rejects the Gemini-only router for other targets", () => {
+test("rejects the retired router before copying files", () => {
   withProject((projectRoot) => {
     const result = runInstaller(projectRoot, "--skill", "using-tanizy-agent");
 
@@ -194,6 +193,27 @@ test("rejects the Gemini-only router for other targets", () => {
     assert.match(result.stderr, /unavailable skill for codex: using-tanizy-agent/);
     assert.equal(existsSync(join(projectRoot, ".agents")), false);
   });
+});
+
+test("rejects retired targets and aliases without changing existing project files", () => {
+  for (const target of ["gemini-cli", "gemini"]) {
+    withProject((projectRoot) => {
+      const legacyAdapter = join(projectRoot, "GEMINI.md");
+      const legacyCommands = join(projectRoot, ".gemini", "commands");
+      mkdirSync(legacyCommands, { recursive: true });
+      writeFileSync(legacyAdapter, "LEGACY ADAPTER SENTINEL\n");
+      writeFileSync(join(legacyCommands, "legacy.toml"), "LEGACY COMMAND SENTINEL\n");
+
+      for (const args of [[], ["--dry-run"], ["--force"]]) {
+        const result = runInstallerForTarget(projectRoot, target, ...args);
+        assert.notEqual(result.status, 0);
+        assert.match(result.stderr, /invalid --target/);
+        assert.equal(readFileSync(legacyAdapter, "utf8"), "LEGACY ADAPTER SENTINEL\n");
+        assert.equal(readFileSync(join(legacyCommands, "legacy.toml"), "utf8"), "LEGACY COMMAND SENTINEL\n");
+        assert.deepEqual(readdirSync(projectRoot).sort(), [".gemini", "GEMINI.md"]);
+      }
+    });
+  }
 });
 
 test("reports a missing --skill value", () => {
@@ -247,10 +267,9 @@ test("preserves project instructions and the QC block across PO install and forc
     assert.equal(afterInstall.match(/BEGIN TANIZY PO AGENT MANAGED BLOCK/g)?.length, 1);
 
     const footer = "\n## Project Footer\nKeep this footer.\n";
-    const stalePoBlock = `${afterInstall}${footer}`.replace(
-      "This project uses Tanizy PO Agent skills for Product Owner workflows and structured problem analysis.",
-      "Stale PO routing text.",
-    );
+    const start = afterInstall.indexOf(poBlockStart) + poBlockStart.length;
+    const end = afterInstall.indexOf(poBlockEnd);
+    const stalePoBlock = `${afterInstall.slice(0, start)}\nStale PO routing text.\n${afterInstall.slice(end)}${footer}`;
     writeFileSync(adapter, stalePoBlock, "utf8");
 
     const blocked = runInstaller(projectRoot);
@@ -282,9 +301,9 @@ test("Antigravity install manages only the PO rule", () => {
     const installed = runInstallerForTarget(projectRoot, "antigravity");
     assert.equal(installed.status, 0, installed.stderr);
     assert.equal(readFileSync(qcRule, "utf8"), "QC RULE SENTINEL\n");
-    assert.match(
+    assert.equal(
       readFileSync(poRule, "utf8"),
-      /For Product Owner and structured problem-analysis work/,
+      readFileSync(join(repoRoot, "adapters", "antigravity", ".agents", "rules", "tanizy-po.md"), "utf8"),
     );
 
     writeFileSync(poRule, "STALE PO RULE\n", "utf8");
@@ -362,4 +381,60 @@ test("keeps Basic Design table formatting portable", () => {
     assert.match(content, /` • `/, `${path} must define the independent-rule separator`);
     assert.match(content, /`; `/, `${path} must define the sub-condition separator`);
   }
+});
+
+test("selective brainstorming includes shared FS resources for every target", () => {
+  for (const target of ["codex", "claude-code", "antigravity"]) {
+    withProject((projectRoot) => {
+      const result = runInstallerForTarget(projectRoot, target, "--skill", "brainstorming");
+      const skillRoot = skillDestinationRootForTest(target, projectRoot);
+      assert.equal(result.status, 0, result.stderr);
+      assert.match(result.stdout, /Required dependencies: writing-requirements/);
+      for (const resource of ["templates/feature-spec.md", "references/feature-spec-authoring.md"]) {
+        assert.equal(readFileSync(join(skillRoot, "writing-requirements", resource), "utf8"), readFileSync(join(writingRequirementsRoot, resource), "utf8"));
+      }
+      assert.equal(existsSync(adapterPath(target, projectRoot)), false);
+      assert.equal(existsSync(join(skillRoot, "five-whys-rca")), false);
+    });
+  }
+});
+
+test("dependency dry run is visible and writes nothing", () => {
+  withProject((projectRoot) => {
+    const result = runInstaller(projectRoot, "--skill", "brainstorming", "--dry-run");
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /Required dependencies: writing-requirements/);
+    assert.equal(existsSync(join(projectRoot, ".agents")), false);
+  });
+});
+
+test("dependency collision blocks all writes and force preserves unrelated content", () => {
+  withProject((projectRoot) => {
+    const skillRoot = skillDestinationRootForTest("codex", projectRoot);
+    mkdirSync(join(skillRoot, "writing-requirements"), { recursive: true });
+    writeFileSync(join(skillRoot, "writing-requirements", "local.txt"), "local dependency content\n");
+    mkdirSync(join(skillRoot, "unrelated"), { recursive: true });
+    writeFileSync(join(skillRoot, "unrelated", "keep.txt"), "keep\n");
+    writeFileSync(join(projectRoot, "AGENTS.md"), "project instructions\n");
+    const blocked = runInstaller(projectRoot, "--skill", "brainstorming");
+    assert.notEqual(blocked.status, 0);
+    assert.match(blocked.stderr, /writing-requirements/);
+    assert.equal(existsSync(join(skillRoot, "brainstorming")), false);
+    assert.equal(readFileSync(join(skillRoot, "writing-requirements", "local.txt"), "utf8"), "local dependency content\n");
+    const updated = runInstaller(projectRoot, "--skill", "brainstorming", "--force");
+    assert.equal(updated.status, 0, updated.stderr);
+    assert.equal(existsSync(join(skillRoot, "writing-requirements", "local.txt")), false);
+    assert.equal(existsSync(join(skillRoot, "writing-requirements", "templates", "feature-spec.md")), true);
+    assert.equal(readFileSync(join(skillRoot, "unrelated", "keep.txt"), "utf8"), "keep\n");
+    assert.equal(readFileSync(join(projectRoot, "AGENTS.md"), "utf8"), "project instructions\n");
+  });
+});
+
+test("explicitly selecting shared FS dependency does not duplicate operations", () => {
+  withProject((projectRoot) => {
+    const result = runInstaller(projectRoot, "--skill", "brainstorming", "--skill", "writing-requirements", "--dry-run");
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout.split("\n").filter((line) => line.startsWith("Plan ") && line.endsWith(".agents/skills/writing-requirements")).length, 1);
+    assert.doesNotMatch(result.stdout, /Required dependencies:/);
+  });
 });

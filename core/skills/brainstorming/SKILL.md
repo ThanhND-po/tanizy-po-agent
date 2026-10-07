@@ -85,7 +85,9 @@ If the user does not know, propose conservative defaults and ask for confirmatio
 
 ### 1. Understand Current Context
 
-Read project context first when available:
+Read the target project instructions and available documentation entrypoints first. Follow project-defined links to applicable standards and related artifacts; do not assume a fixed folder layout.
+
+Read project context when available:
 
 - Specs
 - Requirements
@@ -160,6 +162,8 @@ Record accepted decisions and rejected alternatives in the Decision Log.
 
 ### 5. Present The Spec Incrementally
 
+Before drafting the FS, read [Feature Spec template](../writing-requirements/templates/feature-spec.md) and [Feature Spec authoring guide](../writing-requirements/references/feature-spec-authoring.md). The installer supplies the shared resources through the `writing-requirements` dependency. If a manual or legacy installation lacks them, state the missing resource and request its location or installation; do not silently select a different template. Reading shared resources does not switch workflows or bypass discovery gates.
+
 Once an approach is accepted, present the feature spec in small sections. Keep each section short enough for review before moving on.
 
 Cover, as relevant:
@@ -189,14 +193,14 @@ Revise before continuing when the user corrects something.
 
 After all sections are validated:
 
-- Read `references/spec-self-review.md` and apply the complete checklist.
+- Read `references/spec-self-review.md` and apply the complete checklist and the shared Feature Spec quality gate.
 - Resolve all `Issues Found` before presenting the final spec for user approval.
 - Present the final spec summary.
 - Ask for final approval.
-- Only after approval, ask where to save the spec, for example `docs/specs/<feature-name>.md`.
+- Only after approval, ask where to save the spec, following the target project artifact conventions.
 - Save only to the user-approved target project path.
 
-The saved spec must include:
+Assemble the saved spec using the shared Feature Spec template and the target project metadata/link conventions. It must include:
 
 - Understanding Summary
 - Assumptions

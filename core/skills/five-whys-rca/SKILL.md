@@ -633,7 +633,7 @@ After the user reviews the final report:
 - Only after approval, ask where to save the report.
 - Save only to the user-approved target project path.
 
-Do not save generated RCA reports inside any installed `five-whys-rca` skill directory, including `skills/five-whys-rca/`, `.agents/skills/five-whys-rca/`, or `.claude/skills/five-whys-rca/`.
+Do not save generated RCA reports inside any installed `five-whys-rca` skill directory, whether project-local or user-level. Resolve report paths from the target project, not the skill installation directory.
 
 For a confirmed Incident Report Draft, use the earlier Incident Draft Save Gate instead of waiting for final RCA approval. All other save gates remain unchanged.
 

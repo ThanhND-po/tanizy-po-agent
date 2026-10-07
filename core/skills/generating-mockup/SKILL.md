@@ -57,7 +57,7 @@ After the brief is confirmed:
 4. Correct issues before generation. Examples include missing form labels, unclear primary action, missing empty or error states, unsupported contrast, incorrect overlay structure, or a component that should use a standard shadcn pattern.
 5. Present the audited brief and wait for confirmation before proceeding.
 
-Use the installed skill path for the current tool. It may be `.agents/skills/`, `.claude/skills/`, or `skills/`, depending on the adapter.
+Use skill locations supplied by the runtime or installation configuration, whether project-local or user-level. Resolve references from the loaded skill's location; do not assume skills are stored in the target project. If a required resource is unavailable, request its location or installation.
 
 ### 3. Select the generation mode
 

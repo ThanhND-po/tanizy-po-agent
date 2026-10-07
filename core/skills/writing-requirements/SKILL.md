@@ -1,15 +1,16 @@
 ---
 name: writing-requirements
-description: Use when a Product Owner needs formal requirement artifacts such as Epic, User Story, Use Case, Basic Design, API Spec, NFR, or related documentation from a spec or business request.
+description: Use when a Product Owner needs formal requirement artifacts such as Feature Spec, Epic, User Story, Use Case, Basic Design, API Spec, NFR, or related documentation from a spec or business request.
 ---
 
 # Writing Requirements
 
-Transform a feature spec or business request into formal requirement artifacts.
+Create Feature Specs from sufficiently defined context and derive formal requirement artifacts from approved specs or business requests.
 
 ## Hard Gates
 
 - Do not show a requirement artifact until the relevant template or research fallback has been applied.
+- For Feature Specs, read `templates/feature-spec.md` and `references/feature-spec-authoring.md`, then apply its quality gate before showing the final draft.
 - For User Stories, apply `templates/user-story-invest.md` and pass the **User Story Quality Gate** below before showing the result.
 - Do not write a file until the user approves the artifact and confirms the output path.
 - For Basic Design, use Local Markdown mode by default. Do not convert, upload, or sync the artifact to a spreadsheet unless the user explicitly requests or confirms it.
@@ -49,12 +50,14 @@ An estimation fails the quality gate if any condition below is true. If it fails
 ## Workflow
 
 1. **Gather context**
+   - Read the target project instructions and available documentation entrypoints; follow project-defined links to applicable standards and related artifacts without assuming a fixed folder layout.
    - Read existing specs, epics, user stories, use cases, diagrams, business rules, and project docs that relate to the request.
    - If context is insufficient, ask one clarifying question at a time.
    - Before drafting, understand the feature, primary actor, expected business value, and key constraints.
 
 2. **Choose artifact type**
    - If the user has not specified a type, ask which artifact to create:
+     - Feature Spec
      - Epic
      - Change Request
      - User Story
@@ -73,6 +76,7 @@ An estimation fails the quality gate if any condition below is true. If it fails
    - Do not upload or sync to a spreadsheet until the user confirms the destination and requested write scope.
 
 4. **Use local template when available**
+   - Feature Spec: `templates/feature-spec.md` and `references/feature-spec-authoring.md`
    - Epic: `templates/epic.md`
    - Change Request: `templates/change-request.md`
    - User Story: `templates/user-story.md`
@@ -144,6 +148,15 @@ An artifact filename fails the gate if any condition below is true:
 Business IDs such as `REQ-ATT-001`, `BD-ATT-D01` and `CR-2026-001` remain in frontmatter, H1, Metadata and index labels. They do not determine the filename.
 
 ## Type-Specific Rules
+
+### Feature Spec
+
+- Use this workflow when the feature context is sufficiently defined or already approved. Reuse existing explicit decisions; do not repeat discovery merely to populate a template.
+- If material product intent or scope remains unclear, clarify it through `brainstorming` when available before finalizing the affected FS content.
+- Read `templates/feature-spec.md` and `references/feature-spec-authoring.md`; use the local structure rather than research fallback.
+- Apply the Feature Spec quality gate in the authoring reference. Keep unresolved source-dependent behavior visible as Open Questions.
+- Keep product behavior in FS; reference screen inventories, API contracts and internal implementation in the appropriate artifacts.
+- Preserve approved existing FS content and structure during a scoped update unless restructuring is requested.
 
 ### Epic
 

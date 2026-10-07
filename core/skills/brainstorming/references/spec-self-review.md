@@ -2,6 +2,8 @@
 
 Use this lightweight checklist after drafting a feature spec and before asking the user to confirm it.
 
+Apply the [shared Feature Spec quality gate](../../writing-requirements/references/feature-spec-authoring.md#quality-gate) in addition to the checks below.
+
 ## Check
 
 - **Completeness:** No accidental placeholders, incomplete sections, or unresolved decisions hidden as requirements.
@@ -14,5 +16,5 @@ Use this lightweight checklist after drafting a feature spec and before asking t
 
 Return one of:
 
-- `Approved` - ready for user review.
+- `Ready for review` - self-review passed; user approval is still required.
 - `Issues Found` - list only issues that would materially affect downstream requirements, diagrams, or implementation planning.

@@ -17,19 +17,16 @@ import { fileURLToPath } from "node:url";
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const packageConfig = JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8"));
 const fixedTarget = packageConfig.tanizyTarget;
-const targets = new Set(["gemini-cli", "codex", "claude-code", "antigravity"]);
-const aliases = new Map([
-  ["gemini", "gemini-cli"],
-  ["claude", "claude-code"],
-]);
-const geminiRouterSkill = "using-tanizy-agent";
+const targets = new Set(["codex", "claude-code", "antigravity"]);
+const aliases = new Map([["claude", "claude-code"]]);
+const skillDependencies = new Map([["brainstorming", ["writing-requirements"]]]);
 const managedBlockStart = "<!-- BEGIN TANIZY PO AGENT MANAGED BLOCK -->";
 const managedBlockEnd = "<!-- END TANIZY PO AGENT MANAGED BLOCK -->";
 
 function usage() {
   const command = fixedTarget
     ? `npx ${packageConfig.name} --project <path> [--skill <name>]... [--dry-run] [--force]`
-    : `npx ${packageConfig.name} --target <gemini-cli|codex|claude-code|antigravity> --project <path> [--skill <name>]... [--dry-run] [--force]`;
+    : `npx ${packageConfig.name} --target <codex|claude-code|antigravity> --project <path> [--skill <name>]... [--dry-run] [--force]`;
 
   console.log(`Usage:
   ${command}
@@ -42,7 +39,7 @@ Options:
   --version        Show the package version.
 
 Examples:
-  npx @thanhndpo/tanizy-po-agent --target gemini-cli --project ../my-project
+  npx @thanhndpo/tanizy-po-agent --target antigravity --project ../my-project
   npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project --skill five-whys-rca
   npx @thanhndpo/tanizy-po-agent@latest --target codex --project /path/to/project --skill five-whys-rca --force
   npx @thanhndpo/tanizy-po-agent --target claude-code --project /path/to/project --skill brainstorming --skill writing-requirements`);
@@ -88,30 +85,24 @@ function parseArgs(argv) {
   return args;
 }
 
-function allSkillDirectories() {
+function skillDirectories() {
   const root = join(repoRoot, "core", "skills");
   return readdirSync(root)
     .filter((name) => statSync(join(root, name)).isDirectory())
     .sort();
 }
 
-function skillDirectories(target) {
-  return allSkillDirectories().filter(
-    (name) => target === "gemini-cli" || name !== geminiRouterSkill,
-  );
-}
-
 function ensureValidArgs(args) {
   if (args.help) return;
   if (!args.target || !targets.has(args.target)) {
-    throw new Error("Missing or invalid --target. Use gemini-cli, codex, claude-code, or antigravity.");
+    throw new Error("Missing or invalid --target. Use codex, claude-code, or antigravity.");
   }
   if (fixedTarget && args.target !== fixedTarget) {
     throw new Error(`This package only supports --target ${fixedTarget}.`);
   }
   if (!args.project) throw new Error("Missing --project.");
 
-  const available = skillDirectories(args.target);
+  const available = skillDirectories();
   const invalid = args.skills.filter((skill) => !available.includes(skill));
   if (invalid.length > 0) {
     throw new Error(
@@ -121,16 +112,12 @@ function ensureValidArgs(args) {
 }
 
 function skillDestinationRoot(target, projectRoot) {
-  if (target === "gemini-cli") return join(projectRoot, "skills");
   if (target === "claude-code") return join(projectRoot, ".claude", "skills");
   return join(projectRoot, ".agents", "skills");
 }
 
 function adapterSpec(target, projectRoot) {
   const adapterRoot = join(repoRoot, "adapters", target);
-  if (target === "gemini-cli") {
-    return { from: join(adapterRoot, "GEMINI.md"), to: join(projectRoot, "GEMINI.md") };
-  }
   if (target === "claude-code") {
     return { from: join(adapterRoot, "CLAUDE.md"), to: join(projectRoot, "CLAUDE.md") };
   }
@@ -181,10 +168,27 @@ function validateProjectRoot(projectRoot) {
   }
 }
 
+function resolveSkillDependencies(requested, available) {
+  const selected = [...new Set(requested)];
+  const dependencies = [];
+  for (let index = 0; index < selected.length; index += 1) {
+    for (const dependency of skillDependencies.get(selected[index]) ?? []) {
+      if (!available.includes(dependency)) {
+        throw new Error(`Missing packaged dependency ${dependency} required by ${selected[index]}`);
+      }
+      if (!selected.includes(dependency)) {
+        selected.push(dependency);
+        dependencies.push(dependency);
+      }
+    }
+  }
+  return { selected, dependencies };
+}
+
 function copyPlan(target, projectRoot, requestedSkills) {
-  const available = skillDirectories(target);
-  const selected = requestedSkills.length > 0 ? requestedSkills : available;
+  const available = skillDirectories();
   const selective = requestedSkills.length > 0;
+  const { selected, dependencies } = resolveSkillDependencies(selective ? requestedSkills : available, available);
   const sourceRoot = join(repoRoot, "core", "skills");
   const destinationRoot = skillDestinationRoot(target, projectRoot);
   const plan = selected.map((skill) => ({
@@ -197,22 +201,6 @@ function copyPlan(target, projectRoot, requestedSkills) {
   if (!selective) {
     plan.push({ kind: "managed-block", ...adapterSpec(target, projectRoot) });
 
-    if (target === "gemini-cli") {
-      plan.push(
-        {
-          kind: "replace-directory",
-          from: join(repoRoot, "adapters", "gemini-cli", ".gemini", "commands", "po"),
-          to: join(projectRoot, ".gemini", "commands", "po"),
-          managedRoot: join(projectRoot, ".gemini", "commands"),
-        },
-        {
-          kind: "seed-file",
-          from: join(repoRoot, "adapters", "gemini-cli", ".geminiignore"),
-          to: join(projectRoot, ".geminiignore"),
-        },
-      );
-    }
-
     if (target === "antigravity") {
       plan.push({
         kind: "managed-file",
@@ -223,7 +211,7 @@ function copyPlan(target, projectRoot, requestedSkills) {
     }
   }
 
-  return { available, plan, selected, selective };
+  return { available, plan, selected, selective, dependencies };
 }
 
 function fileContent(path) {
@@ -264,14 +252,6 @@ function renderManagedBlock(existing, template) {
 }
 
 function inspectOperation(item, force) {
-  if (item.kind === "seed-file") {
-    if (!existsSync(item.to)) return "create";
-    if (!lstatSync(item.to).isFile()) {
-      throw new Error(`Expected a project-owned file at seed destination: ${item.to}`);
-    }
-    return "preserve";
-  }
-
   if (item.kind === "managed-block") {
     if (!existsSync(item.to)) return "create";
     if (!lstatSync(item.to).isFile() || lstatSync(item.to).isSymbolicLink()) {
@@ -316,7 +296,7 @@ function preflight(projectRoot, plan, force) {
 }
 
 function applyOperation(projectRoot, item) {
-  if (item.action === "preserve" || item.action === "unchanged") return;
+  if (item.action === "unchanged") return;
   assertSafeProjectDestination(projectRoot, item.to);
 
   if (item.kind === "managed-block") {
@@ -335,11 +315,14 @@ function applyOperation(projectRoot, item) {
   cpSync(item.from, item.to, { recursive: true, force: false });
 }
 
-function printPlan(projectRoot, target, selected, selective, inspected, dryRun) {
+function printPlan(projectRoot, target, selected, selective, dependencies, inspected, dryRun) {
   console.log(`Tanizy PO Agent ${packageConfig.version}`);
   console.log(`Target: ${target}`);
   console.log(`Project root: ${projectRoot}`);
   console.log(`Skills: ${selected.join(", ")}`);
+  if (dependencies.length > 0) {
+    console.log(`Required dependencies: ${dependencies.join(", ")}`);
+  }
   console.log(`Adapter: ${selective ? "unchanged by selective install" : "managed PO block"}`);
 
   for (const item of inspected) {
@@ -357,9 +340,9 @@ async function main() {
 
   const projectRoot = resolve(args.project);
   validateProjectRoot(projectRoot);
-  const { plan, selected, selective } = copyPlan(args.target, projectRoot, args.skills);
+  const { plan, selected, selective, dependencies } = copyPlan(args.target, projectRoot, args.skills);
   const inspected = preflight(projectRoot, plan, args.force);
-  printPlan(projectRoot, args.target, selected, selective, inspected, args.dryRun);
+  printPlan(projectRoot, args.target, selected, selective, dependencies, inspected, args.dryRun);
 
   if (args.dryRun) {
     console.log("Dry run complete. No files were written.");

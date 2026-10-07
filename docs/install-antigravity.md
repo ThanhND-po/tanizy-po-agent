@@ -14,7 +14,9 @@ npx @thanhndpo/tanizy-po-agent --target antigravity --project /path/to/project -
 npx @thanhndpo/tanizy-po-agent@latest --target antigravity --project /path/to/project --skill five-whys-rca --force
 ```
 
-Repeat `--skill` to select multiple skills. A selective install changes only `.agents/skills/<skill-name>` and does not copy or overwrite `AGENTS.md` or `.agents/rules/`.
+Repeat `--skill` to select multiple skills. A selective install changes only the selected skills and required dependencies under `.agents/skills/<skill-name>` and does not copy or overwrite `AGENTS.md` or `.agents/rules/`.
+
+Selecting `brainstorming` also installs its required `writing-requirements` dependency, which owns the shared Feature Specification (FS) template and authoring guide. The resolved dependency is shown in the install plan. Existing dependency destinations follow the same collision and `--force` rules as explicitly selected skills; review the resolved plan before refreshing them.
 
 A full install adds or refreshes only the marked Tanizy PO block in `AGENTS.md` and the package-owned `.agents/rules/tanizy-po.md` file. Existing project instructions, Tanizy QC content, and other Antigravity rules are preserved.
 
@@ -55,4 +57,6 @@ Copy-Item adapters/antigravity/.agents/rules/tanizy-po.md C:\path\to\project\.ag
 
 ## After Install
 
-Open the project in Antigravity. The managed PO block in `AGENTS.md` contains project-wide PO routing and writing preferences. `.agents/rules/tanizy-po.md` is a thin Antigravity-specific route to local workflows under `.agents/skills/`. `using-tanizy-agent` is Gemini-only and is not installed for Antigravity.
+Open the project in Antigravity. The managed Product Owner (PO) block in `AGENTS.md` contains routing and working principles. `.agents/rules/tanizy-po.md` delegates PO requests to that block. This installer places skills in `.agents/skills/`; the adapter also uses user-level skills when their locations are supplied by the runtime or installation configuration.
+
+For skills already available at user level and project-owned configuration such as Incident Report Storage, see the [manual-copy guide](manual-copy.md#already-available-user-level-skills). This installer supports project-level destinations only.

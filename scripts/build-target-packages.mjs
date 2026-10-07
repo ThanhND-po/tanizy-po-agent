@@ -17,10 +17,6 @@ const outputRoot = join(repoRoot, "dist", "packages");
 
 const targets = [
   {
-    name: "gemini-cli",
-    label: "Gemini CLI",
-  },
-  {
     name: "codex",
     label: "Codex",
   },
@@ -46,12 +42,6 @@ for (const target of targets) {
   }
 
   cpSync(join(repoRoot, "core", "skills"), join(packageRoot, "core", "skills"), { recursive: true });
-  if (target.name !== "gemini-cli") {
-    rmSync(join(packageRoot, "core", "skills", "using-tanizy-agent"), {
-      recursive: true,
-      force: true,
-    });
-  }
   cpSync(adapterRoot, join(packageRoot, "adapters", target.name), { recursive: true });
   cpSync(join(repoRoot, "scripts", "install.mjs"), join(packageRoot, "scripts", "install.mjs"));
   cpSync(join(repoRoot, "LICENSE"), join(packageRoot, "LICENSE"));
@@ -79,10 +69,6 @@ for (const target of targets) {
     keywords: [...(rootPackage.keywords ?? []), `${target.name}-skills`],
   };
 
-  const routerNote = target.name === "gemini-cli"
-    ? "This target includes the Gemini-specific `using-tanizy-agent` transport router."
-    : "The Gemini-specific `using-tanizy-agent` transport router is not included in this target package.";
-
   writeFileSync(join(packageRoot, "package.json"), `${JSON.stringify(packageJson, null, 2)}\n`);
   writeFileSync(
     join(packageRoot, "README.md"),
@@ -91,7 +77,7 @@ for (const target of targets) {
       `\`\`\`\n\n## Install or update one skill\n\n\`\`\`bash\n` +
       `npx ${packageName} --project /path/to/project --skill five-whys-rca\n` +
       `npx ${packageName}@latest --project /path/to/project --skill five-whys-rca --force\n` +
-      `\`\`\`\n\nRepeat \`--skill\` to select multiple skills. Use \`--dry-run\` to preview files before installation. Selective installation does not modify the tool adapter. A full install manages only the marked Tanizy PO adapter block and preserves project instructions and other package blocks.\n\n${routerNote}\n\nTanizy PO can coexist with the companion [Tanizy QC Agent](https://github.com/ThanhND-po/tanizy-qc-agent). QC starts only after an explicit QC request.\n`,
+      `\`\`\`\n\nRepeat \`--skill\` to select multiple skills. Use \`--dry-run\` to preview files before installation. Selecting \`brainstorming\` also installs its required \`writing-requirements\` dependency for shared Feature Specification (FS) resources; the resolved plan lists it and existing dependency destinations follow the same collision/\`--force\` rules. Selective installation does not modify the tool adapter. A full install manages only the marked Tanizy PO adapter block and preserves project instructions and other package blocks.\n\nTanizy PO can coexist with the companion [Tanizy QC Agent](https://github.com/ThanhND-po/tanizy-qc-agent). Quality Control (QC) starts only after an explicit QC request.\n`,
   );
 
   console.log(`Built ${packageName}@${rootPackage.version} at ${packageRoot}`);
