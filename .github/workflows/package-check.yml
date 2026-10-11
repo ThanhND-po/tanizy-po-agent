@@ -25,6 +25,9 @@ jobs:
       - name: Test selective skill installation
         run: npm run test:installer
 
+      - name: Test offline diagram catalog, validation and routing
+        run: npm run test:diagrams
+
       - name: Build target-specific packages
         run: npm run build:target-packages
 

@@ -10,7 +10,7 @@ Create diagrams that are correct, readable, editable where needed, and grounded 
 ## Hard Gates
 
 - Do not generate the diagram until the context, diagram type, and output format are clear.
-- If the type or format is missing, ask one focused question at a time and recommend a default based on the request.
+- Infer type and format when the request or project conventions make them clear. Otherwise ask one focused question and recommend a default.
 - Do not write a final artifact into the target project until the user approves the proposed diagram and confirms the destination. Temporary local preview files are allowed.
 - Do not send project content, diagram source, labels, or screenshots to public renderers, diagram websites, paste services, or third-party AI services.
 - Use only local tools already available. Do not install a dependency unless the user explicitly asks.
@@ -24,11 +24,11 @@ Create diagrams that are correct, readable, editable where needed, and grounded 
 
 2. **Confirm diagram type**
    - If the user named a type, verify that it matches the communication need.
-   - If no type was named, read the selection matrix in `references/diagram-types.md`, recommend one, and ask for confirmation.
+   - If no type was named, use the selection matrix in `references/diagram-types.md`. Ask only when materially different interpretations remain.
    - After the type is selected, apply only its relevant reference section.
 
 3. **Confirm output format**
-   - If the user explicitly requested draw.io, treat `.drawio` as confirmed and ask only whether a PNG or SVG preview is also needed.
+   - If the user explicitly requested draw.io, treat `.drawio` as confirmed. Produce a temporary local preview when a renderer exists; do not block on an optional preview-format question.
    - Otherwise choose from the format table below and ask for confirmation when the choice affects editability or standards compliance.
 
    | Need | Recommended format |
@@ -73,13 +73,17 @@ Create diagrams that are correct, readable, editable where needed, and grounded 
 ### Draw.io
 
 - Follow `references/drawio.md`, including its tool preflight, topology, layout, adaptive theme, connector, XML, and validation rules.
+- For cloud architecture, also read `references/cloud-architecture.md`. Look up every icon; the bundled offline catalog supports verified AWS, Azure/Azure2 and a limited GCP2 set even without `drawio-ai`.
 - Prefer the `drawio-ai` declarative engine only when it is already installed and the requested architecture or BPMN type is supported.
-- Otherwise generate uncompressed draw.io XML and run:
+- Otherwise generate uncompressed XML. For rectangular architecture/flowchart edges, use the local router when automatic connector routing would help, then audit explicit routes:
 
 ```bash
-python3 <creating-diagrams-skill-directory>/scripts/validate_drawio.py <path-to-file.drawio> --strict
+python3 <creating-diagrams-skill-directory>/scripts/route_drawio.py <draft.drawio> --output <routed.drawio>
+python3 <creating-diagrams-skill-directory>/scripts/validate_drawio.py <routed.drawio> --strict --connectors
 ```
 
+- Use the validator without `--connectors` for specialized UML/ERD/sequence/BPMN notation. The router is optional and does not replace a notation-aware engine or a visual review.
+- Keep business meaning intact while improving routing: do not change endpoints, direction, arrowheads, or containment merely to make a line shorter.
 - If the draw.io desktop CLI is available, render a local PNG or SVG and inspect it. Static XML validation does not prove visual correctness.
 - Never use optional icon or logo fetching that makes outbound requests unless the user explicitly approves it.
 

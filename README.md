@@ -210,6 +210,24 @@ If Tanizy skills are already available at user level, merge the relevant adapter
 - The agent does not save generated artifacts until the user approves the content and confirms the path.
 - Generated artifacts should be saved in the target project, not inside installed skill folders.
 
+`creating-diagrams` includes offline AWS, Azure/Azure2 and limited GCP2 native
+style lookup, a local rectangular connector router, and a static route/icon
+audit (Python 3.9+, standard library only). When already installed, `drawio-ai`
+remains the preferred architecture/BPMN layout engine. Diagram generation does
+not install it automatically. See the skill's `references/drawio.md` and
+`references/cloud-architecture.md` for the workflow and visual-review limits.
+Maintainers can run `npm run test:diagrams` for regression and installed-helper
+checks; the package CI also runs these tests.
+
+The Python helpers and compressed icon catalog ship inside the npm package and
+are copied with the skill by the installer. End users do not download individual
+scripts or run them manually: an agent with terminal access invokes the relevant
+helper when following the draw.io workflow. Python 3.9+ must already be available
+to use these helpers; no `pip install` is needed. Installing the npm package does
+not install Python, `drawio-ai`, or draw.io Desktop. Without Python, the agent can
+still author diagrams but must report that the bundled lookup/routing/validation
+could not run. Local PNG/SVG rendering requires an available compatible renderer.
+
 ## PO + QC Coexistence
 
 [Tanizy QC Agent](https://github.com/ThanhND-po/tanizy-qc-agent) is the companion Quality Control (QC) package for spec-first gap analysis, Test Viewpoints, Test Cases, automation export, execution-backed reports, and optional supporting evidence.

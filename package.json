@@ -1,6 +1,6 @@
 {
   "name": "@thanhndpo/tanizy-po-agent",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Portable Product Owner and structured problem-analysis workflows for Antigravity, Codex, and Claude Code.",
   "license": "MIT",
   "type": "module",
@@ -16,6 +16,7 @@
   "scripts": {
     "install:agent": "node scripts/install.mjs",
     "test:installer": "node --test tests/install.test.mjs",
+    "test:diagrams": "python3 -B tests/drawio.test.py",
     "pack:check": "node scripts/check-published-package.mjs .",
     "build:target-packages": "node scripts/build-target-packages.mjs"
   },

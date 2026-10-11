@@ -13,6 +13,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
 
+from audit_drawio import audit
+from cloud_catalog import indexed_styles, style_signature
+
 
 @dataclass(frozen=True)
 class Box:
@@ -97,7 +100,7 @@ def overlap(a: Box, b: Box, tolerance: float = 1.0) -> bool:
     return overlap_x > tolerance and overlap_y > tolerance
 
 
-def validate_page(page_name: str, model: ET.Element) -> Tuple[List[str], List[str], Dict[str, int]]:
+def validate_page(page_name: str, model: ET.Element, check_connectors=False) -> Tuple[List[str], List[str], Dict[str, int]]:
     errors: List[str] = []
     warnings: List[str] = []
     cells = [element for element in model.iter() if local_name(element.tag) == "mxCell"]
@@ -172,6 +175,11 @@ def validate_page(page_name: str, model: ET.Element) -> Tuple[List[str], List[st
             errors.append(f'[{page_name}] Vertex "{cell_id}" must have positive width and height.')
             continue
 
+        if geometry.get("relative") == "1":
+            # Relative ports and edge labels use fractions / rendered-path positions,
+            # not absolute sibling rectangles. They still have validated dimensions.
+            continue
+
         boxes.append(
             Box(
                 cell_id=cell_id,
@@ -184,7 +192,9 @@ def validate_page(page_name: str, model: ET.Element) -> Tuple[List[str], List[st
         )
 
         fill = style.get("fillColor")
-        if fill and fill.lower() not in {"none", "default"}:
+        # Official category colors do not consume the discretionary fill budget.
+        catalog_entry = indexed_styles().get(style_signature(cell.get("style", "")))
+        if fill and fill.lower() not in {"none", "default"} and not (catalog_entry and catalog_entry["kind"] == "icon"):
             fill_colors.add(fill.lower())
 
         font_size = style.get("fontSize")
@@ -247,10 +257,15 @@ def validate_page(page_name: str, model: ET.Element) -> Tuple[List[str], List[st
             f"[{page_name}] Diagram uses {len(font_sizes)} font sizes; target 4 or fewer."
         )
 
-    return errors, warnings, {"cells": len(cells), "vertices": vertices, "edges": edges}
+    metrics = {"literal_routes_checked": 0, "renderer_routes_skipped": 0}
+    if not errors:
+        extra_errors, extra_warnings, metrics = audit({cell.get("id"): cell for cell in cells}, check_connectors)
+        errors.extend(f"[{page_name}] {error}" for error in extra_errors)
+        warnings.extend(f"[{page_name}] {warning}" for warning in extra_warnings)
+    return errors, warnings, {"cells": len(cells), "vertices": vertices, "edges": edges, **metrics}
 
 
-def validate_xml(xml_text: str) -> Dict[str, object]:
+def validate_xml(xml_text: str, check_connectors=False) -> Dict[str, object]:
     try:
         root = ET.fromstring(xml_text)
     except ET.ParseError as exc:
@@ -265,14 +280,14 @@ def validate_xml(xml_text: str) -> Dict[str, object]:
     models, model_errors = graph_models(root)
     errors = list(model_errors)
     warnings: List[str] = []
-    summary = {"cells": 0, "vertices": 0, "edges": 0}
+    summary = {"cells": 0, "vertices": 0, "edges": 0, "literal_routes_checked": 0, "renderer_routes_skipped": 0}
 
     for page_name, model in models:
-        page_errors, page_warnings, page_summary = validate_page(page_name, model)
+        page_errors, page_warnings, page_summary = validate_page(page_name, model, check_connectors)
         errors.extend(page_errors)
         warnings.extend(page_warnings)
         for key in summary:
-            summary[key] += page_summary[key]
+            summary[key] += page_summary.get(key, 0)
 
     return {
         "ok": not errors,
@@ -288,6 +303,11 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
         description="Validate uncompressed draw.io XML without external dependencies."
     )
     parser.add_argument("path", help="Path to .drawio/.xml, or - to read stdin.")
+    parser.add_argument(
+        "--connectors",
+        action="store_true",
+        help="Audit explicit rectangular architecture/flowchart routes and ports; report renderer-controlled routes as skipped.",
+    )
     parser.add_argument(
         "--strict",
         action="store_true",
@@ -307,7 +327,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             print(json.dumps({"ok": False, "errors": [str(exc)], "warnings": []}, indent=2))
             return 2
 
-    result = validate_xml(xml_text)
+    result = validate_xml(xml_text, args.connectors)
+    if args.strict and result["warnings"]:
+        result["ok"] = False
     print(json.dumps(result, indent=2, ensure_ascii=False))
     if result["errors"]:
         return 1

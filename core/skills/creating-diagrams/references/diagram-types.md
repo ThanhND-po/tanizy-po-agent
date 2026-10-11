@@ -132,6 +132,7 @@ Review:
 - Nest containers according to real ownership or deployment boundaries.
 - Place sources or clients on the left, the core system in the center, and consumers or external systems on the right when a request or data flow is shown.
 - Put governance, security, observability, or CI/CD in a cross-cutting band only when their relationships are in scope.
+- For draw.io cloud architecture, read `cloud-architecture.md` for verified icon lookup and provider-specific boundary checks. Apply AWS, Azure and GCP containment rules independently.
 
 Review:
 

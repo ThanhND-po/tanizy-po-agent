@@ -6,7 +6,7 @@ Read this reference fully before creating or editing a `.drawio` file.
 
 This reference adapts useful techniques from
 [`sparklabx/drawio-ai-kit`](https://github.com/sparklabx/drawio-ai-kit),
-reviewed at commit `c9ed43d3ab0d83b42ab98a9e46724fa0b251f668` on 2026-07-24.
+reviewed at commit `1a03d87b877ec738a2a98d38a4d8eeecf4ee66bc` (package 1.0.2) on 2026-10-11.
 The upstream project is MIT-licensed by sparklabx.
 
 The strongest adopted techniques are:
@@ -18,7 +18,10 @@ The strongest adopted techniques are:
 - Validate structure, geometry, style, and business meaning separately;
 - Render locally and correct visual defects before delivery.
 
-This skill does not bundle or require the upstream runtime. It keeps the broader
+This skill does not bundle or require the upstream runtime. It bundles a small,
+offline catalog of verified native cloud styles, a rectangular connector router,
+and a conservative geometry audit. Catalog provenance and license notices are in
+`assets/THIRD_PARTY_NOTICES.md`. It keeps the broader
 Product Owner diagram coverage, privacy gates, approval workflow, and manual XML
 fallback of `creating-diagrams`.
 
@@ -52,6 +55,22 @@ Choose one path:
   domains, or environments without `drawio-ai`, generate uncompressed XML and
   use the bundled validator plus local visual inspection.
 
+The bundled helpers need Python 3.9+ and its standard library only. Resolve their
+paths from this skill's directory, independently of the target project. For cloud
+architecture, read `cloud-architecture.md` for icon search and containment rules.
+
+These helpers are installed together with the skill. The agent invokes
+`cloud_catalog.py`, `route_drawio.py`, and `validate_drawio.py` as needed;
+`drawio_geometry.py` and `audit_drawio.py` are internal modules imported by those
+commands. The user does not need to launch each file. If Python is absent or
+older than 3.9, use another available local tool or continue with manual XML and
+explicitly report the checks that could not run. Do not install Python silently.
+
+An installed `drawio-ai` may be older than this review. Check its help before
+using `scaffold`, `suggest-layout`, or `render --check`. Use its local rules and
+API documentation; do not guess command flags. A missing optional CLI does not
+block manual XML or offline icon lookup.
+
 Do not install `drawio-ai`, draw.io desktop, Graphviz, or another dependency
 without explicit approval. Do not use optional logo-fetching commands because
 they may call public CDNs.
@@ -82,7 +101,7 @@ drawio-ai types
 drawio-ai workflow
 ```
 
-Use the closest scaffold when less than half of its logical structure needs to change. Otherwise, create a new logical structure.
+Use a scaffold when its logical structure closely matches the fact list. Otherwise, create a new logical structure. Scaffold into a temporary output directory and inspect its imports/output paths before execution; never write generated files into the runtime or installed skill.
 
 ### 2.3 Define logical structure before geometry
 
@@ -95,7 +114,9 @@ lookups:
 drawio-ai search "service one, service two, service three"
 ```
 
-For the manual path, prefer built-in general shapes unless an exact local stencil name can be verified.
+For the manual cloud path, use `scripts/cloud_catalog.py` to retrieve exact native
+styles offline. Use general shapes with explicit service labels when no match
+exists. A visually similar icon for another service is not a valid substitute.
 
 ## 3. Topology Presets
 
@@ -117,7 +138,7 @@ Topology rules:
 - **Pipeline:** keep the main spine nodes at one vertical position. Put cross-cutting concerns in a separate band.
 - **Hierarchy:** center parents over children and preserve real containment.
 - **Network:** mirror repeated zones and align equivalent tiers. Use vertical routes mainly for cross-zone relationships.
-- **Hub-and-spoke:** place producers on one side and consumers on the other. Bundle fan-out or fan-in routes instead of drawing a web of crossings.
+- **Hub-and-spoke:** place producers on one side and consumers on the other. Separate fan-out/fan-in ports and parallel corridors. Share a trunk only when it represents a real junction or aggregate relationship.
 - **Hybrid:** keep on-premise outside the cloud boundary. Show a real interconnect node when it is part of the architecture.
 - **Mesh:** group by domain or account and use shared corridors. Split the diagram if relationship density hides meaning.
 - **BPMN swimlane:** keep sequence flow inside a pool and message flow between pools. See `diagram-types.md` for semantic checks.
@@ -142,8 +163,13 @@ Minimum manual-layout spacing:
 | Horizontal gap between sibling boxes | 30 px |
 | Vertical gap between rows | 40 px |
 | Swimlane width | 120 px or wider |
+| Edge corridor / clearance from a node | 24–40 px / 12 px |
+| Gap between parallel routes / landing ports | 12–16 px / at least 8 px |
 
 Increase width or height when a label would wrap awkwardly or clip.
+Reserve a 28–44 px caption band below service icons, wider than the glyph when
+needed. Reserve container title bands too. Compact layout means less unused
+space, not less room for captions and routing.
 
 ### 4.2 Connector semantics
 
@@ -154,6 +180,50 @@ Increase width or height when a label would wrap awkwardly or clip.
 
 Keep connectors orthogonal when possible. Route around nodes and labels. Add waypoints for dense or exception paths. Align fan-out targets so branches stay short. Avoid back-pointing arrows unless they represent an explicit loop, feedback, retry, or synchronization.
 
+For engine builds, start with ordinary `d.link(source, target)` and let the router
+choose ports. Use a routing override only after a defect is observed. Keep
+scaffold routing for diagrams that will be rearranged; use the engine's `bake`
+contract for a fixed presentation only when supported by the installed version.
+
+For manual rectangular architecture or flowcharts:
+
+1. Position the main spine and groups first. Leave corridors between repeated
+   tiers; put retry/exception routes in outer gutters.
+2. Set explicit side ports: right `(1, 0.5)` → left `(0, 0.5)` for horizontal flow,
+   bottom `(0.5, 1)` → top `(0.5, 0)` for vertical flow. Spread multiple edges
+   across a side; avoid corner ports and stacked arrowheads.
+3. Route with `scripts/route_drawio.py` if helpful. It preserves edge endpoints,
+   arrow/dash semantics and container membership, avoids node/caption/title
+   rectangles, and writes a separate draft. It preserves existing explicit ports.
+4. Inspect the result and run `validate_drawio.py --strict --connectors`. If no
+   clear route exists, enlarge the corridor or restructure node positions. Do not
+   change the endpoint to a container unless the fact list actually describes a
+   relationship with the whole container.
+
+The local router uses explicit orthogonal polylines (`edgeStyle=none;
+noEdgeStyle=1;rounded=0`) with fixed side pins and waypoints. This makes the saved
+path auditable. These paths can need re-routing after nodes are dragged. An
+`orthogonalEdgeStyle` with hints can be reinterpreted by draw.io; the static audit
+reports such paths as skipped rather than claiming their rendered route is clean.
+Do not run this router over sequence lifelines, ER cardinalities, BPMN message
+flows or other specialized notation just to normalize their appearance.
+
+For a hand-authored explicit edge, ports and waypoint coordinates must agree:
+
+```xml
+<mxCell id="a-to-b" edge="1" parent="1" source="a" target="b"
+  style="edgeStyle=none;noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;">
+  <mxGeometry relative="1" as="geometry">
+    <Array as="points"><mxPoint x="340" y="130"/><mxPoint x="340" y="230"/></Array>
+  </mxGeometry>
+</mxCell>
+```
+
+Here the source right port must be at `y=130`, target left port at `y=230`, and
+`x=340` must lie in a clear corridor. Child node geometry is relative to its
+parent; edge waypoints are relative to the edge's parent. Use the lowest common
+container or root layer for cross-container edges, never a source-only container.
+
 ### 4.3 Labels
 
 - Use short, business-meaningful labels.
@@ -161,6 +231,9 @@ Keep connectors orthogonal when possible. Route around nodes and labels. Add way
 - Put long constraints in a note rather than inside a node.
 - Give edge labels a solid local background only when required for readability.
 - Reposition a label instead of allowing it to cover a node or connector.
+- Prefer the middle of a long straight segment, offset 10–14 px from the line.
+  The local router moves the primary label to its longest segment; rendered text
+  width, HTML labels and extra child labels still need visual inspection.
 
 ## 5. Adaptive Visual System
 
@@ -234,26 +307,42 @@ Run the loop until structure and visual review are both clean:
 
 1. Build the temporary `.drawio`.
 2. Validate structure.
-3. Fix all reported errors and warnings in one pass.
+3. Fix actionable errors and warnings in one pass. Record intentional notation
+   exceptions; do not distort semantics merely to silence an aesthetic warning.
 4. Render locally when possible.
 5. Inspect the image for overlap, clipping, crossings, alignment, contrast, missing labels, and inconsistent abstraction.
 6. Compare the visible diagram with the fact list.
-7. Repeat after any correction.
+7. Repeat after a correction. If the same routing failure remains after three
+   attempts, report the specific limitation and keep the editable draft for review.
 
 If `drawio-ai` is installed:
 
 ```bash
 drawio-ai validate <file.drawio> --strict
+drawio-ai suggest-layout <file.drawio>
 drawio-ai render <file.drawio> -o <preview.png>
 ```
 
 For the manual or fallback path:
 
 ```bash
-python3 <creating-diagrams-skill-directory>/scripts/validate_drawio.py <file.drawio> --strict
+python3 <creating-diagrams-skill-directory>/scripts/validate_drawio.py <file.drawio> --strict --connectors
 ```
 
-The bundled validator checks uncompressed XML, required cells, duplicate IDs, dangling references, geometry, sibling overlap, child overflow, icon aspect ratio, font-size budget, and palette size. It does not verify stencil existence, connector crossings, text clipping, or visual quality. Render inspection is still required when a local renderer exists.
+Omit `--connectors` for specialized notation. The validator checks XML, IDs,
+references, parent cycles, dimensions, sibling overlap, child overflow, catalog
+cloud-style references, AWS fill colors, icon aspect, font/palette budgets, and
+edge geometry. With `--connectors`, it also checks side pins, crowded ports,
+explicit orthogonal paths, terminal direction, node/caption/title collisions,
+crossings and overlapping line segments in absolute coordinates.
+
+These are conservative rectangle checks. Caption bounds are estimated; arbitrary
+HTML, rotated shapes, rendered text clipping, rounded/perimeter transformations,
+and renderer-controlled paths are not fully modeled. Inspect `literal_routes_checked`
+and `renderer_routes_skipped` in the summary. A known catalog style verifies a
+reference against that snapshot, not availability in every draw.io version.
+Render inspection is still required when a local renderer exists. Report a
+missing render explicitly; never use a public renderer as an automatic fallback.
 
 ## 8. Pre-Delivery Checklist
 
