@@ -16,7 +16,7 @@ npx @thanhndpo/tanizy-po-agent@latest --target antigravity --project /path/to/pr
 
 Repeat `--skill` to select multiple skills. A selective install changes only the selected skills and required dependencies under `.agents/skills/<skill-name>` and does not copy or overwrite `AGENTS.md` or `.agents/rules/`.
 
-Selecting `brainstorming` also installs its required `writing-requirements` dependency, which owns the shared Feature Specification (FS) template and authoring guide. The resolved dependency is shown in the install plan. Existing dependency destinations follow the same collision and `--force` rules as explicitly selected skills; review the resolved plan before refreshing them.
+Selecting `brainstorming` or `artifact-update-process` also installs `writing-requirements`, which owns the shared Feature Specification (FS) resources and document metadata contract. Selecting `generating-mockup` also installs `web-design-guidelines`, `creating-diagrams` and `shadcn-ui` for its supported modes. The resolved dependency is shown in the install plan. Existing dependency destinations follow the same collision and `--force` rules as explicitly selected skills; review the resolved plan before refreshing them.
 
 A full install adds or refreshes only the marked Tanizy PO block in `AGENTS.md` and the package-owned `.agents/rules/tanizy-po.md` file. Existing project instructions, Tanizy QC content, and other Antigravity rules are preserved.
 

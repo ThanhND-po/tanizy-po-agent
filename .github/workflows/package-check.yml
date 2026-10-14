@@ -28,8 +28,8 @@ jobs:
       - name: Test offline diagram catalog, validation and routing
         run: npm run test:diagrams
 
-      - name: Build target-specific packages
-        run: npm run build:target-packages
+      - name: Test universal and target-specific npm tarballs
+        run: npm run test:packages
 
       - name: Validate target-specific package contents
         run: |

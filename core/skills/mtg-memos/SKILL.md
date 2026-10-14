@@ -1,6 +1,6 @@
 ---
 name: mtg-memos
-description: Read Japanese, Vietnamese, English, or multilingual meeting memo and transcript files, clarify uncertain context without guessing, and produce a concise channel-ready meeting summary with the MTG name, Meeting Overview, highlighted Key Concepts, and priority-ordered Action Items with PIC when stated. Use when the user provides a meeting memo file or folder and asks to understand, translate, summarize, recap, or prepare the discussion for sharing.
+description: Summarize or translate meeting memos and transcripts in Japanese, Vietnamese or English into a shareable recap with decisions and action items. Use when the user supplies meeting files or a folder.
 ---
 
 # MTG Memos

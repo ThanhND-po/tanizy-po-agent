@@ -6,6 +6,7 @@ import {
   readFileSync,
   readdirSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -369,7 +370,7 @@ test("preflights malformed blocks and late collisions before writing", () => {
 
 test("keeps Basic Design table formatting portable", () => {
   const files = [
-    join(writingRequirementsRoot, "SKILL.md"),
+    join(writingRequirementsRoot, "references", "basic-design-authoring.md"),
     join(writingRequirementsRoot, "templates", "basic-design.md"),
   ];
 
@@ -383,19 +384,21 @@ test("keeps Basic Design table formatting portable", () => {
   }
 });
 
-test("selective brainstorming includes shared FS resources for every target", () => {
-  for (const target of ["codex", "claude-code", "antigravity"]) {
-    withProject((projectRoot) => {
-      const result = runInstallerForTarget(projectRoot, target, "--skill", "brainstorming");
-      const skillRoot = skillDestinationRootForTest(target, projectRoot);
-      assert.equal(result.status, 0, result.stderr);
-      assert.match(result.stdout, /Required dependencies: writing-requirements/);
-      for (const resource of ["templates/feature-spec.md", "references/feature-spec-authoring.md"]) {
-        assert.equal(readFileSync(join(skillRoot, "writing-requirements", resource), "utf8"), readFileSync(join(writingRequirementsRoot, resource), "utf8"));
-      }
-      assert.equal(existsSync(adapterPath(target, projectRoot)), false);
-      assert.equal(existsSync(join(skillRoot, "five-whys-rca")), false);
-    });
+test("selective authoring and updates include the shared metadata contract for every target", () => {
+  for (const skill of ["brainstorming", "artifact-update-process"]) {
+    for (const target of ["codex", "claude-code", "antigravity"]) {
+      withProject((projectRoot) => {
+        const result = runInstallerForTarget(projectRoot, target, "--skill", skill);
+        const skillRoot = skillDestinationRootForTest(target, projectRoot);
+        assert.equal(result.status, 0, result.stderr);
+        assert.match(result.stdout, /Required dependencies: writing-requirements/);
+        for (const resource of ["templates/feature-spec.md", "references/feature-spec-authoring.md", "references/document-metadata.md"]) {
+          assert.equal(readFileSync(join(skillRoot, "writing-requirements", resource), "utf8"), readFileSync(join(writingRequirementsRoot, resource), "utf8"));
+        }
+        assert.equal(existsSync(adapterPath(target, projectRoot)), false);
+        assert.equal(existsSync(join(skillRoot, "five-whys-rca")), false);
+      });
+    }
   }
 });
 
@@ -437,4 +440,92 @@ test("explicitly selecting shared FS dependency does not duplicate operations", 
     assert.equal(result.stdout.split("\n").filter((line) => line.startsWith("Plan ") && line.endsWith(".agents/skills/writing-requirements")).length, 1);
     assert.doesNotMatch(result.stdout, /Required dependencies:/);
   });
+});
+
+test("skill upgrades refresh metadata resources and preserve project policy, artifacts and unrelated skills", () => {
+  function assertResourceTree(sourceRoot, destinationRoot) {
+    for (const entry of readdirSync(sourceRoot, { withFileTypes: true })) {
+      const sourcePath = join(sourceRoot, entry.name);
+      const destinationPath = join(destinationRoot, entry.name);
+      if (entry.isDirectory()) assertResourceTree(sourcePath, destinationPath);
+      else assert.deepEqual(readFileSync(destinationPath), readFileSync(sourcePath), destinationPath);
+    }
+  }
+
+  for (const target of ["codex", "claude-code", "antigravity"]) {
+    withProject((projectRoot) => {
+      const skills = skillDestinationRootForTest(target, projectRoot);
+      const oldSkill = join(skills, "writing-requirements");
+      mkdirSync(oldSkill, { recursive: true });
+      writeFileSync(join(oldSkill, "SKILL.md"), "old instructions\n");
+      const policy = join(projectRoot, "metadata-policy.json");
+      const policyContent = '{"delivery":["queued","building","live"],"approval":["reviewing","accepted"]}\n';
+      writeFileSync(policy, policyContent);
+      const artifact = join(projectRoot, "existing-capability.md");
+      const artifactContent = '---\nstatus: live\napproval_status: accepted\n---\n## 1. Metadata\n\n| Field | Value |\n|---|---|\n| Status | Live |\n| Approval Status | Accepted |\n\nApproval evidence: revision 2. Scope note: phase 1 only. HTTP status: 200.\n';
+      writeFileSync(artifact, artifactContent);
+      const instructions = adapterPath(target, projectRoot);
+      writeFileSync(instructions, "Read metadata-policy.json before authoring.\n");
+      mkdirSync(join(skills, "unrelated"), { recursive: true });
+      writeFileSync(join(skills, "unrelated", "keep.txt"), "keep\n");
+
+      const result = runInstallerForTarget(projectRoot, target, "--skill", "writing-requirements", "--skill", "brainstorming", "--skill", "artifact-update-process", "--force");
+      assert.equal(result.status, 0, result.stderr);
+      for (const skill of ["writing-requirements", "brainstorming", "artifact-update-process"]) {
+        assertResourceTree(join(repoRoot, "core", "skills", skill), join(skills, skill));
+      }
+      assert.equal(readFileSync(policy, "utf8"), policyContent);
+      assert.equal(readFileSync(artifact, "utf8"), artifactContent);
+      assert.equal(readFileSync(instructions, "utf8"), "Read metadata-policy.json before authoring.\n");
+      assert.equal(readFileSync(join(skills, "unrelated", "keep.txt"), "utf8"), "keep\n");
+    });
+  }
+});
+
+test("selective mockup installation supplies every supported mode's resources", () => {
+  for (const target of ["codex", "claude-code", "antigravity"]) {
+    withProject((projectRoot) => {
+      const result = runInstallerForTarget(projectRoot, target, "--skill", "generating-mockup");
+      assert.equal(result.status, 0, result.stderr);
+      const skills = skillDestinationRootForTest(target, projectRoot);
+      for (const resource of [
+        "web-design-guidelines/SKILL.md",
+        "creating-diagrams/references/interactive-html.md",
+        "shadcn-ui/SKILL.md",
+      ]) {
+        assert.deepEqual(readFileSync(join(skills, resource)), readFileSync(join(repoRoot, "core", "skills", resource)));
+      }
+      assert.equal(existsSync(adapterPath(target, projectRoot)), false);
+      assert.equal(existsSync(join(skills, "writing-requirements")), false);
+    });
+  }
+});
+
+test("preflight rejects existing and dangling symlinks without writing through them", () => {
+  for (const target of ["codex", "claude-code", "antigravity"]) {
+    for (const dangling of [false, true]) {
+      for (const location of ["skills-root", "dependency", "adapter"]) {
+        withProject((projectRoot) => withProject((outsideRoot) => {
+          const sentinel = join(outsideRoot, "keep.txt");
+          writeFileSync(sentinel, "outside content\n");
+          const skills = skillDestinationRootForTest(target, projectRoot);
+          const destination = location === "adapter" ? adapterPath(target, projectRoot)
+            : location === "dependency" ? join(skills, "writing-requirements") : skills;
+          mkdirSync(dirname(destination), { recursive: true });
+          symlinkSync(dangling ? join(outsideRoot, "missing") : location === "adapter" ? sentinel : outsideRoot,
+            destination, location === "adapter" ? "file" : "dir");
+          const before = readdirSync(projectRoot);
+          const result = location === "adapter"
+            ? runInstallerForTarget(projectRoot, target, "--force")
+            : runInstallerForTarget(projectRoot, target, "--skill", "artifact-update-process", "--force");
+          assert.notEqual(result.status, 0, `${target} ${location} dangling=${dangling}`);
+          assert.match(result.stderr, /symbolic link/);
+          assert.equal(readFileSync(sentinel, "utf8"), "outside content\n");
+          assert.equal(existsSync(join(outsideRoot, "missing")), false);
+          assert.equal(existsSync(join(skills, "artifact-update-process")), false);
+          assert.deepEqual(readdirSync(projectRoot), before);
+        }));
+      }
+    }
+  }
 });

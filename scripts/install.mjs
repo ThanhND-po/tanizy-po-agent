@@ -19,7 +19,11 @@ const packageConfig = JSON.parse(readFileSync(join(repoRoot, "package.json"), "u
 const fixedTarget = packageConfig.tanizyTarget;
 const targets = new Set(["codex", "claude-code", "antigravity"]);
 const aliases = new Map([["claude", "claude-code"]]);
-const skillDependencies = new Map([["brainstorming", ["writing-requirements"]]]);
+const skillDependencies = new Map([
+  ["brainstorming", ["writing-requirements"]],
+  ["artifact-update-process", ["writing-requirements"]],
+  ["generating-mockup", ["web-design-guidelines", "creating-diagrams", "shadcn-ui"]],
+]);
 const managedBlockStart = "<!-- BEGIN TANIZY PO AGENT MANAGED BLOCK -->";
 const managedBlockEnd = "<!-- END TANIZY PO AGENT MANAGED BLOCK -->";
 
@@ -141,7 +145,7 @@ function assertSafeProjectDestination(projectRoot, candidate) {
   const rel = relative(cursor, resolve(candidate));
   for (const part of rel.split(/[\\/]+/).filter(Boolean)) {
     cursor = join(cursor, part);
-    if (existsSync(cursor) && lstatSync(cursor).isSymbolicLink()) {
+    if (lstatSync(cursor, { throwIfNoEntry: false })?.isSymbolicLink()) {
       throw new Error(`Refusing to write through symbolic link: ${cursor}`);
     }
   }
@@ -151,7 +155,7 @@ function assertSafeManagedPath(expectedRoot, candidate) {
   if (!isInside(expectedRoot, candidate)) {
     throw new Error(`Unsafe destination outside managed root: ${candidate}`);
   }
-  if (existsSync(candidate) && lstatSync(candidate).isSymbolicLink()) {
+  if (lstatSync(candidate, { throwIfNoEntry: false })?.isSymbolicLink()) {
     throw new Error(`Refusing to replace symbolic link: ${candidate}`);
   }
 }

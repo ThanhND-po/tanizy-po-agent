@@ -1,12 +1,21 @@
 #!/usr/bin/env node
 
-import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { mkdtempSync, readFileSync, readdirSync, rmSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 
 const packageRoot = resolve(process.argv[2] ?? ".");
 const npmCache = mkdtempSync(join(tmpdir(), "tanizy-npm-cache-"));
+
+function packagedResources(relativeRoot) {
+  return readdirSync(join(packageRoot, relativeRoot), { withFileTypes: true })
+    .filter((entry) => ![".git", ".DS_Store", ".npmignore", ".gitignore", "__pycache__"].includes(entry.name) && !entry.name.endsWith(".pyc"))
+    .flatMap((entry) => {
+      const path = `${relativeRoot}/${entry.name}`;
+      return entry.isDirectory() ? packagedResources(path) : [path];
+    });
+}
 
 try {
   const result = spawnSync(
@@ -37,7 +46,11 @@ try {
   }
 
   const packageJson = JSON.parse(readFileSync(join(packageRoot, "package.json"), "utf8"));
-  const required = ["package.json", "README.md", "LICENSE"];
+  const required = [
+    "package.json", "README.md", "LICENSE", "scripts/install.mjs",
+    ...packagedResources("core/skills"),
+    ...packagedResources("adapters"),
+  ];
   const missing = required.filter((path) => !paths.includes(path));
 
   if (missing.length > 0) {

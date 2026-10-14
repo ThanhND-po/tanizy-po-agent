@@ -1,4 +1,21 @@
+---
+id: EPIC-XXX
+title: "[Document title]"
+document_type: epic
+status: draft
+tags: [epic]
+updated: YYYY-MM-DD
+---
+
+<!-- Adapt the sample frontmatter, document_type, IDs, field names and status/labels to the target project schema; omit fields that do not apply. Apply ../references/document-metadata.md and the target project policy. draft is an example for a new draft, not a reset value. Add approval_status and an Approval Status row only when known. Replace sample IDs/dates; remove prompts and sample rows before saving. -->
+
 # Epic: [EPIC-XXX] - [Epic Name]
+
+## Metadata
+
+| Field | Value |
+|---|---|
+| Status | Draft |
 
 ## Overview
 

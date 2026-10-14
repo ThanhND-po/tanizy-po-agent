@@ -1,3 +1,5 @@
+<!-- Apply ../references/document-metadata.md. Resolve project-supported document type, filename, ID and delivery applicability for a standalone Use Case. Embedded Use Cases use the parent metadata. -->
+
 # [UC-XXX] - [Use Case Name]
 
 ## Overview

@@ -1,6 +1,6 @@
 # API and NFR Authoring Reference
 
-Read this reference only when drafting or reviewing an API Spec or Non-functional Requirement.
+Read this reference only when drafting or reviewing an API Spec or Non-functional Requirement. Apply [Document Metadata Contract](./document-metadata.md) and project policy for document and item tracking. HTTP status, verification and approval must remain distinct from delivery.
 
 ## API Spec Decisions
 
@@ -63,7 +63,8 @@ Do not force every project concern into this list. Use the project's taxonomy wh
 ### Separate tracking concepts
 
 - `Priority` indicates business or delivery importance.
-- `Status` indicates the requirement lifecycle.
+- `Implementation Status` uses the project delivery labels for the requirement or operation.
+- `Approval Status` records known review/approval separately, according to project policy.
 - `Verification Result` indicates whether evidence meets the requirement.
 
 Never use one field as a substitute for another.
@@ -78,7 +79,7 @@ For each NFR, capture:
 - Metric and target or threshold;
 - Operating conditions;
 - Verification method and expected evidence;
-- Priority, lifecycle status, and owner;
+- Priority, implementation status, known approval state, and owner;
 - Source and traceability;
 - Exceptions or accepted risk when applicable.
 

@@ -15,6 +15,7 @@ Use the installed Tanizy skills for Product Owner (PO) work and structured probl
 - Identify the target project from the request and working context; clarify it when ambiguous. The skill installation directory is not the target project.
 - Read applicable project instructions and documentation entrypoints before defining behavior. Follow linked standards and conventions for naming, retrieval, storage, and validation.
 - Prefer user-provided locators, then relevant indexes, owning documents, and linked artifacts. Search relevant folders; expand only for evidenced dependencies.
+- Project policy owns artifact metadata, status values and applicability. Apply the selected skill's shared metadata contract; keep delivery, approval and verification separate. Installing skills does not migrate project artifacts.
 - Surface conflicts with approved specs or decisions before changing affected content. Keep project-specific paths and rules outside the Tanizy managed block.
 
 ## Skill Routing

@@ -10,10 +10,10 @@ Manage structured updates to existing requirement artifacts, specifications, and
 ## Hard Gates
 
 - **[No Arbitrary Overwrite]** If incoming feedback or a requested change conflicts with an existing approved requirement, locked decision, or Decision Log entry, do not overwrite it silently. Stop, highlight the conflict, and ask the user for explicit resolution before updating.
-- **[Scope Identification First]** Before editing any file, identify all directly and indirectly impacted artifacts (blast radius), including parent docs, child specs, diagrams, and index files.
-- **[Metadata Integrity]** Every updated artifact must maintain or update its YAML frontmatter / metadata header (such as `status`, `version`, `last_updated`, and `changelog`). Ensure no corrupted or invisible characters exist.
+- **[Scope Identification First]** Identify the affected artifacts and evidenced dependencies before editing. Expand to parent docs, child specs, diagrams or catalogs only when the requested change affects their content or references.
+- **[Metadata Integrity]** Preserve existing metadata and update project-required fields for delivery, approval, revision, dates and history only where applicable. Do not add delivery metadata to an artifact merely because it was edited. Ensure no corrupted or invisible characters exist.
 - **[Index Synchronization]** Never leave index or catalog files out of sync. When an artifact changes status or scope, discover and update the corresponding index files (e.g., `README.md`, `master-index.md`, `docs/index.md`).
-- **[Approval Before Write]** Do not write or overwrite files until the user reviews and approves the proposed changes and confirms the target paths.
+- **[Approval Before Write]** Save only within the user-approved content, scope and target paths. Reuse existing approval for that same write set; obtain any missing approval before saving.
 
 ## Workflow
 
@@ -43,10 +43,12 @@ Before drafting any changes, compare the feedback against current artifact conte
 ### 3. Draft Document Updates & State Transitions
 
 - Update the YAML frontmatter / metadata header according to project standards:
-  - `status`: Transition the document state appropriately (e.g., `DRAFT`, `IN_REVIEW`, `APPROVED`, `UPDATED`, `DEPRECATED`).
+  - Read the target project metadata/status policy and [Document Metadata Contract](../writing-requirements/references/document-metadata.md). The installer includes `writing-requirements` as a required dependency. If a manual or legacy installation lacks this resource, request its location or installation before changing metadata. Classify by document type and owning path; apply delivery metadata only where the project policy allows it.
+  - `status`: Preserve the existing delivery value for content-only edits. Change it only with an explicit confirmed delivery decision, using the project enum. Saving or approving a document never implies a delivery transition.
+  - `approval_status`: Record known document approval separately using project-controlled values. Preserve historical approval evidence and identify the revision it covers; do not claim it approves changed content.
   - `version`: Increment version following project convention (e.g., patch for minor clarifications/fixes, minor for functional changes, major for breaking redesigns).
-  - `last_updated`: Update to current date (`YYYY-MM-DD`).
-  - `changelog` / `revision_history`: Add an entry summarizing the change, date, and reason.
+  - Use the project date field, such as `updated`, for the actual change date (`YYYY-MM-DD`); preserve the established field name rather than introducing a competing date field.
+  - Record history using the project convention. Do not introduce nested YAML when the project requires flat frontmatter.
 - Apply the content modifications:
   - Preserve existing structure, terminology, and formatting conventions.
   - For tabular requirements (such as Basic Design), maintain single-line cell rules and structured separators.
@@ -55,7 +57,7 @@ Before drafting any changes, compare the feedback against current artifact conte
 ### 4. Synchronize Index Catalogs & Cross-References
 
 - Update all relevant index/catalog files identified in Step 1:
-  - Update status badges, status columns, or version indicators.
+  - Synchronize delivery Status in Metadata and current catalog rows identified by exact artifact path/link or ID. Support project Metadata headings, including numbered headings. Preserve approval fields, revision-specific evidence, scope notes, history, HTTP/product statuses, Decision Logs and Open Questions; separate mixed cells before replacing a delivery value. Never infer parent or child delivery state.
   - Ensure links point to correct relative paths.
   - Update document description or scope if the feature definition changed.
 - If an identifier changed (e.g., Story ID, AC ID), update references in related artifacts to prevent broken links.
@@ -67,34 +69,21 @@ Before drafting any changes, compare the feedback against current artifact conte
   - Key requirement changes and conflict resolutions.
   - Updated index entries.
 - Ask in Vietnamese by default (or the project's established language).
-- Write files only after the user approves the diff and confirms destination paths.
+- Reuse existing approval for the same proposed changes and destination paths; ask only for missing approval or a changed write set.
 
 ## Metadata Standards
 
-When an artifact uses YAML frontmatter, ensure it follows this standard structure:
+Read and follow the target project metadata policy; do not maintain a competing enum in this skill. When the project uses flat YAML, keep revision history in content instead of nested frontmatter. Optional approval metadata must not be filled with invented values. A content edit changes the update date/history, not delivery status. Where `status` is the project delivery field, do not introduce a competing `delivery_status`.
 
-```yaml
----
-id: REQ-001
-title: Document Title
-status: UPDATED # DRAFT | IN_REVIEW | APPROVED | UPDATED | DEPRECATED
-version: 1.1.0
-last_updated: 2026-10-02
-changelog:
-  - version: 1.1.0
-    date: 2026-10-02
-    summary: Updated Acceptance Criteria based on review feedback.
----
-```
-
-If the project uses an inline Markdown table for metadata instead of YAML, update that table consistently.
+Before writing, check one literal canonical delivery value on applicable artifacts, separate known approval, consistent Metadata/current catalog rows, preserved history and valid project fields. Run the project's Markdown and metadata/template validation after saving. A registered migration exception applies only to its exact original metadata; never regenerate or extend a baseline automatically to hide new errors.
 
 ## Quality Checklist
 
 Before finalizing:
 - [ ] No zero-width spaces (`\u200b`) or invalid characters in frontmatter or markdown.
 - [ ] Conflicting decisions were surfaced and approved by the user, not silently overwritten.
-- [ ] Document status, version, and date accurately reflect the updates.
+- [ ] Delivery status is preserved unless a confirmed delivery change was requested; known approval, revision and update date are tracked separately.
+- [ ] Applicability, canonical values, Metadata/current catalogs and templates pass project validation; baseline issues are reported separately.
 - [ ] All in-scope files and cross-references were updated together.
 - [ ] Index files (`master-index.md`, `README.md`, or docs index) match current document statuses.
 - [ ] User confirmed the output paths and approved the changes before writing.

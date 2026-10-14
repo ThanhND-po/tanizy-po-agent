@@ -1,15 +1,24 @@
 ---
 id: CR-YYYY-NNN
 title: "[Change Request Name]"
-status: pending | in-progress | done | rejected
+document_type: change-request
+status: draft
 priority: critical | high | medium | low
-requested-by: "[Requester Name]"
-requested-date: YYYY-MM-DD
-completed-date: YYYY-MM-DD
+requested_by: "[Requester Name]"
+requested_date: YYYY-MM-DD
+updated: YYYY-MM-DD
 tags: [change-request]
 ---
 
 # CR-YYYY-NNN: [Change Request Name]
+
+<!-- Adapt the sample frontmatter, document_type, IDs, field names and status/labels to the target project schema; omit fields that do not apply. Apply ../references/document-metadata.md and project policy. draft is a new-draft example. Add completed_date only when known; completion does not prove PROD release. Add approval_status separately only when known. -->
+
+## Metadata
+
+| Field | Value |
+|---|---|
+| Status | Draft |
 
 ## Overview
 

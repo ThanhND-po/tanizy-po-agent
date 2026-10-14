@@ -1,3 +1,14 @@
+---
+id: NFR-XXX
+title: "[Document title]"
+document_type: non-functional-requirement
+status: draft
+tags: [non-functional-requirement]
+updated: YYYY-MM-DD
+---
+
+<!-- Adapt the sample frontmatter, document_type, IDs, field names and status/labels to the target project schema; omit fields that do not apply. Apply ../references/document-metadata.md and the target project policy. draft is an example for a new draft, not a reset value. Add approval_status and an Approval Status row only when known. Replace sample IDs/dates; remove prompts and sample rows before saving. -->
+
 # Non-functional Requirements: [NFR-XXX] - [Product / Feature / Module]
 
 > This document elaborates quality requirements mentioned in Feature Specs. Do not copy vague statements unchanged. Add measurable targets and verification details, or mark them `TBD` and raise an Open Question.
@@ -9,7 +20,7 @@
 | NFR Spec ID | [NFR-XXX] |
 | Scope | [Product, feature, module, service, or release.] |
 | Version | [Version.] |
-| Status | Draft / In Review / Approved / Superseded |
+| Status | Draft |
 | Owner | [Accountable team or role.] |
 | Last Updated | [YYYY-MM-DD] |
 | Related Feature Specs | [IDs and relative links.] |
@@ -56,9 +67,9 @@
 
 > Keep one requirement per row. Use measurable targets. If a value is not approved, write `TBD` and link it to an Open Question.
 
-| ID | Category | Item | Description | Target / Threshold | Priority | Status | Verification | Source |
-|---|---|---|---|---|---|---|---|---|
-| [NFR-PERF-001] | Performance Efficiency | [API response time] | [Condition, system behavior, and affected scope.] | [p95 <= 500 ms under approved workload / TBD] | Critical / High / Medium / Low | Proposed / Accepted / Implemented / Verified / Deferred / Rejected | [Load test, monitoring query, audit, inspection.] | [FS-XXX section / stakeholder decision / regulation.] |
+| ID | Category | Item | Description | Target / Threshold | Priority | Implementation Status | Approval Status | Verification | Verification Result | Source |
+|---|---|---|---|---|---|---|---|---|---|---|
+| [NFR-PERF-001] | Performance Efficiency | [API response time] | [Condition, system behavior, and affected scope.] | [p95 <= 500 ms under approved workload / TBD] | Critical / High / Medium / Low | [Confirmed project delivery label] | [Known approval label; omit column if unknown] | [Load test, monitoring query, audit, inspection.] | [Actual result under project verification policy] | [FS-XXX section / stakeholder decision / regulation.] |
 
 ### Field Rules
 
@@ -70,8 +81,10 @@
 | Description | State the condition, affected scope, and required behavior without vague adjectives. |
 | Target / Threshold | Include metric, comparator, value, unit, percentile or time window, and operating conditions when relevant. |
 | Priority | Use the project scale. If none exists, use `Critical / High / Medium / Low`. |
-| Status | Track lifecycle only: `Proposed / Accepted / Implemented / Verified / Deferred / Rejected`. |
+| Implementation Status | Use the project delivery labels for the individual NFR; do not derive the document or sibling statuses. |
+| Approval Status | Record known approval separately; omit when unknown. |
 | Verification | State how evidence will be produced and evaluated. |
+| Verification Result | Record the actual evidence outcome using project conventions, independently of delivery and approval. |
 | Source | Link to the Feature Spec, regulation, architecture decision, stakeholder decision, or other authority. |
 
 ## 6. Detailed Requirement Records
@@ -96,8 +109,9 @@
 | Owner | [Accountable role or team.] |
 | Dependencies | [Related service, control, tool, vendor, or decision.] |
 | Priority | Critical / High / Medium / Low |
-| Status | Proposed / Accepted / Implemented / Verified / Deferred / Rejected |
-| Verification Result | Not Run / Pass / Fail / Accepted Exception |
+| Implementation Status | [Confirmed project delivery label] |
+| Approval Status | [Known approval label; omit row if unknown] |
+| Verification Result | [Actual result under project verification policy] |
 | Source | [Feature Spec section, regulation, decision, or stakeholder.] |
 
 ## 7. Exceptions and Trade-offs
@@ -116,9 +130,9 @@
 
 - [ ] Every NFR concern in each related Feature Spec is traced in Section 3.
 - [ ] Every applicable category has at least one requirement or an explicit reason why no requirement is needed.
-- [ ] Each NFR catalog row contains Category, Item, Description, Priority, Status, Verification, and Source.
+- [ ] Each NFR catalog row contains Category, Item, Description, Priority, Implementation Status, Verification, Verification Result, and Source.
 - [ ] Targets include measurable values and operating conditions, or are marked `TBD` with an Open Question.
-- [ ] Priority, Status, and Verification Result are not conflated.
+- [ ] Priority, Implementation Status, Approval Status, and Verification Result are not conflated.
 - [ ] High-risk requirements contain detailed verification records.
 - [ ] No unapproved service level, compliance rule, or numeric threshold has been invented.
 - [ ] Exceptions have an owner, risk statement, approval state, and review or expiry date.

@@ -11,6 +11,10 @@ It covers why the capability is needed, what it provides and how the product beh
 - API Spec / Detail Design: contracts and internal implementation; link to them where confirmed constraints affect behavior.
 - NFR Spec: detailed measurable quality contract; capture applicable concerns in FS and reference detailed specifications where available.
 
+## Metadata
+
+Apply [Document Metadata Contract](./document-metadata.md) and the target project policy. Delivery `status` and document approval are independent. Preserve delivery on content-only updates; record approval evidence against its actual revision.
+
 ## Template Use
 
 - Read [Feature Spec template](../templates/feature-spec.md) before drafting. Existing FS files provide context and approved rules; they do not replace the canonical template.

@@ -12,7 +12,7 @@ cp -R core/skills/five-whys-rca /path/to/project/<skills-root>/
 
 The npm installer provides the safer cross-platform equivalent with `--skill five-whys-rca`.
 
-When copying `brainstorming`, also copy `writing-requirements` to the same tool-specific skills root. It owns the canonical Feature Specification (FS) template and authoring guide referenced by brainstorming. The npm installer resolves this required dependency automatically.
+When copying `brainstorming` or `artifact-update-process`, also copy `writing-requirements` to the same tool-specific skills root. It owns the canonical Feature Specification (FS) resources and shared document metadata contract. When copying `generating-mockup`, also copy `web-design-guidelines`, `creating-diagrams` and `shadcn-ui` for its supported modes. The npm installer resolves these required dependencies automatically.
 
 ## Root Adapter Ownership
 

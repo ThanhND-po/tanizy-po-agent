@@ -1,4 +1,15 @@
-> **Ticket title**: [MODULE] Sort description about the feature, limit 120 characters
+---
+id: US-XXX-XX
+title: "[Document title]"
+document_type: requirement
+status: draft
+tags: [requirement]
+updated: YYYY-MM-DD
+---
+
+<!-- Adapt the sample frontmatter, document_type, IDs, field names and status/labels to the target project schema; omit fields that do not apply. Apply ../references/document-metadata.md and the target project policy. draft is an example for a new draft, not a reset value. Add approval_status and an Approval Status row only when known. Replace sample IDs/dates; remove prompts and sample rows before saving. -->
+
+> **Ticket title**: [MODULE] Short description of the feature, limit 120 characters
 
 # User Story: [US-XXX-XX] - [Story Name]
 

@@ -200,6 +200,8 @@ After all sections are validated:
 - Only after approval, ask where to save the spec, following the target project artifact conventions.
 - Save only to the user-approved target project path.
 
+Before saving, read `../writing-requirements/references/document-metadata.md` and the target project metadata policy. Approval of the FS does not set delivery status. Preserve confirmed delivery state for an existing capability and record known approval separately, with revision-specific evidence. Run the project metadata/template validator.
+
 Assemble the saved spec using the shared Feature Spec template and the target project metadata/link conventions. It must include:
 
 - Understanding Summary

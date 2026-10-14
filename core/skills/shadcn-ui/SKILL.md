@@ -1,6 +1,6 @@
 ---
 name: shadcn-ui
-description: Project-aware shadcn/ui workflow for building code-first UI mockups, composing accessible components, and reviewing component usage. Use when creating a UI mockup with HTML/CSS/React, when the project has components.json, or when the user asks to use shadcn/ui, shadcn components, registries, or presets.
+description: Build or review UI mockups and components using shadcn/ui, project tokens, registries and presets. Use for shadcn/ui work or code-first mockups in a project that uses it.
 ---
 
 # shadcn/ui

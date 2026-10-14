@@ -1,6 +1,6 @@
 ---
 name: generating-mockup
-description: Use when a Product Owner needs UI mockups, screen wireframes, a standalone interactive HTML prototype, or a client-facing screen preview generated from a requirement document, prototype, user story, or description. Supports local HTML prototypes, Stitch MCP, code-first shadcn/ui prototypes with browser screenshots, agent-native image generation, and Google Image generation.
+description: Create UI mockups, wireframes, standalone interactive HTML prototypes or client-facing screen previews from requirements, designs or a screen brief.
 ---
 
 # Generating Mockup

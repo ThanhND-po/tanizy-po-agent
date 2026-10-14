@@ -12,9 +12,13 @@ Create Feature Specs from sufficiently defined context and derive formal require
 - Do not show a requirement artifact until the relevant template or research fallback has been applied.
 - For Feature Specs, read `templates/feature-spec.md` and `references/feature-spec-authoring.md`, then apply its quality gate before showing the final draft.
 - For User Stories, apply `templates/user-story-invest.md` and pass the **User Story Quality Gate** below before showing the result.
-- Do not write a file until the user approves the artifact and confirms the output path.
+- Save only within the user-approved content, scope and output paths. Reuse existing approval for that same write set; obtain any missing approval before saving.
 - For Basic Design, use Local Markdown mode by default. Do not convert, upload, or sync the artifact to a spreadsheet unless the user explicitly requests or confirms it.
-- For Basic Design tables, keep each UI element in one physical row. Do not use HTML line-break tags or literal line breaks inside cells; use the structured-rule separators defined below.
+- For Basic Design tables, keep each UI element in one physical row. Do not use HTML line-break tags or literal line breaks inside cells; use the structured-rule separators in `references/basic-design-authoring.md`.
+
+## Document Metadata Quality Gate
+
+Read [Document Metadata Contract](references/document-metadata.md) and the target project policy before assigning or changing metadata. Apply the contract to every supported artifact, including standalone Use Cases, and run the project metadata/template validator after saving.
 
 ## User Story Quality Gate
 
@@ -109,8 +113,7 @@ An estimation fails the quality gate if any condition below is true. If it fails
    - Do NOT show the User Story to the user until the checklist is fully passed.
 
 8. **Approval and save**
-   - Present the artifact and ask for approval or revisions.
-   - After approval, ask where to save it.
+   - Present the artifact for review. Reuse approval and target paths already supplied for the same content and scope; ask only for missing approval or an unresolved destination.
    - Apply the filename prefix for the selected artifact type and propose an English lowercase kebab-case descriptive filename.
    - Keep the business ID in frontmatter and content, not in the filename.
    - Use the owning module folder defined by the project structure, such as `requirements/`, `designs/`, `epics/`, `feature-specs/` or `api-specs/`.
@@ -191,78 +194,7 @@ Business IDs such as `REQ-ATT-001`, `BD-ATT-D01` and `CR-2026-001` remain in fro
 
 ### Basic Design
 
-A Basic Design document describes a **single screen** from the user and business perspective (外部設計 — external design). It is the handoff artifact from BA to Developer and QA. It does **not** cover database schema, API internals, or class structure — those belong to Detail Design.
-
-**Scope of one Basic Design file = one screen or one closely related screen group.**
-
-#### Workflow
-
-1. **Ask for the output language** at the start: English (default), Japanese, or Vietnamese. Use the chosen language for all human-readable content in the output file. Keep column headers in English for consistency.
-
-2. **Read `templates/basic-design.md`** before drafting.
-
-3. **Fill Section 1 — Metadata**
-   - Assign a Screen ID using the format `BD-[MODULE]-[TYPE][SEQ]`, where:
-     - `[MODULE]` = short module/feature code in UPPERCASE (e.g. `AUTH`, `STL`, `ORD`)
-     - `[TYPE]` = single letter identifying the screen type:
-
-       | Letter | Screen Type | Example |
-       |---|---|---|
-       | `L` | List / Search results | `BD-STL-L01` |
-       | `D` | Detail / View | `BD-STL-D01` |
-       | `C` | Create / New | `BD-STL-C01` |
-       | `E` | Edit / Update | `BD-STL-E01` |
-       | `X` | Delete confirmation | `BD-STL-X01` |
-       | `W` | Wizard / Multi-step flow | `BD-STL-W01` |
-       | `P` | Preview / Read-only variant | `BD-STL-P01` |
-       | `S` | Settings / Configuration | `BD-STL-S01` |
-       | `O` | Other / Unclassified | `BD-STL-O01` |
-
-     - `[SEQ]` = 2-digit sequence within the same module+type (01, 02 …)
-     - **Modals and child overlays** append `-M[n]` to their parent screen ID, e.g. `BD-STL-L01-M1`, `BD-STL-L01-M2`. Modal IDs do not have their own top-level entry.
-   - Create the output filename independently from the Screen ID using `bd-<descriptive-screen-name>.md`.
-   - Do not include `[MODULE]`, `[TYPE]`, `[SEQ]` or the full Screen ID in the filename.
-   - Example: Screen ID `BD-ATT-D01` with screen name `Attendance Record Details` uses `bd-attendance-record-details.md`.
-   - Ask the user for the related ticket or User Story ID if not already known.
-
-4. **Fill Section 2 — Specs Overview**
-   - Answer all three questions: purpose/business goal, what the user can do, how the user reaches this screen.
-   - Do not invent facts; list unknowns as open questions.
-
-5. **Fill Section 3 — Screen Image**
-   - Ask the user if a wireframe, mockup, screen flow, or prototype is available.
-   - If yes: insert the link or embed the file reference.
-   - If no: leave the table cells blank. Do not fabricate a placeholder image or ASCII diagram.
-
-6. **Fill Section 4 — Screen Inventory & Element Specs**
-   - List every visible UI element on the screen.
-   - Use hierarchical numbering: top-level items are `1, 2, 3 …`; child elements of a container (e.g. columns in a table, fields in a card) are `1.1, 1.2, 3.1 …`
-   - For each element, fill all columns: Item Name, Classification, Required, Max Length, I/O, Data Type, Input Constraint, Initial State, Remarks.
-   - Allowed Classification values: `label`, `text`, `textarea`, `dropdown`, `combobox`, `checkbox`, `radio`, `button`, `table`, `badge`, `icon`, `link`, `image`, `date-picker`, `toggle`, `tab`, `modal`, `card`, `section-header`.
-   - Classification names are UI-component terms and are **allowed** in this artifact type because they describe the external interface, not the internal implementation.
-   - Required: `Yes` / `No` / `N/A` (use N/A for outputs and non-form elements).
-   - Max Length: number of characters for text inputs; `—` for outputs and non-text elements.
-   - I/O: `Input` (user enters data), `Output` (system displays data), `Both` (editable pre-filled field), `Action` (button/link that triggers a behaviour).
-   - Initial State: the value or visual state when the screen first loads — e.g. `Blank`, `Today's date`, a specific default, `Disabled`, `Active`.
-   - Remarks: business rules, validation logic, conditional behaviour (show/hide/enable/disable conditions), trigger actions, cross-field dependencies.
-   - Keep each UI element in exactly one Markdown table row and keep that row on one physical line in both delivery modes.
-   - Do not use HTML line-break tags, literal line breaks, additional rows for the same element, or merged-cell placeholders.
-   - For structured rules in `Initial State`, `Remarks`, or other cells, start with `• `, use ` • ` between independent rules, and use `; ` between values or sub-conditions of the same rule.
-   - Use short labels such as `Default`, `Show when`, `Hide when`, `Role`, `On success`, or `On error`, then rely on automatic cell wrapping in the Markdown preview or destination spreadsheet.
-   - Example: `• Default: Hidden • Show when: Approval Required with Correction Request; Approved; Confirmed Reward; Cancelled`.
-   - Do not invent business rules; record unknowns in Section 5 — Open Questions.
-
-7. **Fill Section 5 — Open Questions**
-   - List any ambiguous requirements, missing specs, or stakeholder decisions needed before implementation.
-
-8. **Quality check before showing the output**
-   - Every element in Section 4 has a Classification, Required, I/O, and Initial State filled in.
-   - No business rule has been invented; all unknowns are in Open Questions.
-   - Section 2 answers all three overview questions.
-   - No Detail Design content (DB schema, API routes, class names) has leaked into the document.
-   - Every UI element occupies exactly one table row and one physical line.
-   - No table cell contains HTML line-break tags or literal line breaks.
-   - Structured rules start with `• `, separate independent rules with ` • `, and separate values or sub-conditions of the same rule with `; `.
+Read [Basic Design authoring](references/basic-design-authoring.md) and `templates/basic-design.md` only for this artifact type. They define screen scope, IDs, inventory fields and review rules. Reuse the user's chosen language and project ID convention; ask only when unresolved.
 
 ### API Spec
 
@@ -278,10 +210,10 @@ A Basic Design document describes a **single screen** from the user and business
 ### Non-functional Requirement
 
 - Read `templates/nfr.md` and `references/api-nfr-authoring.md`.
-- Organize requirements by category and maintain a scannable catalog with at least: ID, Category, Item, Description, Target or Threshold, Priority, Status, Verification, and Source.
+- Organize requirements by category and maintain a scannable catalog with at least: ID, Category, Item, Description, Target or Threshold, Priority, Implementation Status, known Approval Status, Verification, Verification Result, and Source.
 - Use the project's category taxonomy when one exists. Otherwise use ISO/IEC 25010:2023 as the baseline and add clearly labeled project-specific categories only when needed.
 - Treat an NFR spec as the detailed source for quality concerns mentioned in a Feature Spec. Trace each source statement to an NFR ID and elaborate its scope, measurable target, verification method, and ownership.
 - Do not invent targets or service levels. Use `TBD` and add an open question when the Feature Spec or stakeholder input is not measurable enough.
-- Keep Priority, implementation Status, and Verification Result as separate concepts.
+- Keep Priority, Implementation Status, Approval Status, and Verification Result as separate concepts; use the project delivery policy for implementation tracking.
 - Include only relevant categories. Mark a category `Not Applicable` with a reason when its omission could create material risk.
 - Reject vague requirements such as `fast`, `secure`, `scalable`, or `user-friendly` unless they are converted into measurable and verifiable statements.

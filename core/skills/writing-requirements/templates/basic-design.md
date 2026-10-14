@@ -1,3 +1,14 @@
+---
+id: BD-XXX-XX
+title: "[Document title]"
+document_type: basic-design
+status: draft
+tags: [basic-design]
+updated: YYYY-MM-DD
+---
+
+<!-- Adapt the sample frontmatter, document_type, IDs, field names and status/labels to the target project schema; omit fields that do not apply. Apply ../references/document-metadata.md and the target project policy. draft is an example for a new draft, not a reset value. Add approval_status and an Approval Status row only when known. Replace sample IDs/dates; remove prompts and sample rows before saving. -->
+
 # Basic Design: [BD-XXX-XX] — [Screen Name]
 
 ## 1. Metadata
@@ -9,7 +20,7 @@
 | Related Ticket | [Link or ID — e.g. Jira/Backlog ticket, User Story ID] |
 | Author | [Name] |
 | Date | [YYYY-MM-DD] |
-| Status | Draft / In Review / Approved |
+| Status | Draft |
 
 ---
 

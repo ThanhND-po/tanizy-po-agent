@@ -1,3 +1,14 @@
+---
+id: API-XXX
+title: "[Document title]"
+document_type: api-spec
+status: draft
+tags: [api-spec]
+updated: YYYY-MM-DD
+---
+
+<!-- Adapt the sample frontmatter, document_type, IDs, field names and status/labels to the target project schema; omit fields that do not apply. Apply ../references/document-metadata.md and the target project policy. draft is an example for a new draft, not a reset value. Add approval_status and an Approval Status row only when known. Replace sample IDs/dates; remove prompts and sample rows before saving. -->
+
 # API Specification: [API-XXX] - [API Name]
 
 > The Markdown tables are the primary review contract. The OpenAPI YAML in Appendix A is supplementary and must not replace business rules, field definitions, or error conditions in the tables.
@@ -9,7 +20,7 @@
 | API Spec ID | [API-XXX] |
 | Module / Domain | [Owning module or business domain] |
 | Version | [v1 / semantic version / date-based version] |
-| Status | Draft / In Review / Approved / Deprecated |
+| Status | Draft |
 | Owner | [Team or role] |
 | Last Updated | [YYYY-MM-DD] |
 | Related Feature Spec | [ID and relative link] |
@@ -31,9 +42,9 @@
 
 > List every operation before adding details. Keep this table synchronized with Section 5 and Appendix A.
 
-| Operation ID | Method | Path | Summary | Authentication | Idempotency | Success Status | Status |
-|---|---|---|---|---|---|---:|---|
-| [operationId] | GET / POST / PUT / PATCH / DELETE | [/resource/{id}] | [One-line outcome.] | [Scheme / None / TBD] | Yes / No / Conditional | [200] | Draft / In Review / Approved / Deprecated |
+| Operation ID | Method | Path | Summary | Authentication | Idempotency | Success HTTP Status | Implementation Status | Approval Status | Verification Result |
+|---|---|---|---|---|---|---:|---|---|---|
+| [operationId] | GET / POST / PUT / PATCH / DELETE | [/resource/{id}] | [One-line outcome.] | [Scheme / None / TBD] | Yes / No / Conditional | [200] | [Confirmed project delivery label] | [Known approval label; omit column if unknown] | [Actual result under project verification policy] |
 
 ## 4. Shared Contract
 
@@ -85,6 +96,9 @@
 | Field | Value |
 |---|---|
 | Operation ID | [operationId] |
+| Implementation Status | [Confirmed project delivery label] |
+| Approval Status | [Known approval label; omit row if unknown] |
+| Verification Result | [Actual result under project verification policy] |
 | Purpose | [Business outcome.] |
 | Actor / Consumer | [Caller.] |
 | Preconditions | [Required state, permission, or configuration.] |

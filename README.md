@@ -82,7 +82,7 @@ npx @thanhndpo/tanizy-po-agent --target codex --project /path/to/project \
   --skill writing-requirements
 ```
 
-Selective installation copies the selected skills and their required dependencies. Selecting `brainstorming` also installs its required `writing-requirements` dependency, which owns the shared FS template and authoring guide. The resolved dependency is shown in the install plan. Existing dependency destinations follow the same collision and `--force` rules as explicitly selected skills; review the resolved plan before refreshing them. It does not copy or overwrite the tool adapter, such as `AGENTS.md`, `CLAUDE.md`, or Antigravity rules. Use the full install once when the target project still needs those adapter files.
+Selective installation copies the selected skills and their required dependencies. Selecting `brainstorming` or `artifact-update-process` also installs `writing-requirements`, which owns the shared FS resources and document metadata contract. Selecting `generating-mockup` also installs `web-design-guidelines`, `creating-diagrams` and `shadcn-ui` for its supported modes. The resolved dependency is shown in the install plan. Existing dependency destinations follow the same collision and `--force` rules as explicitly selected skills; review the resolved plan before refreshing them. It does not copy or overwrite the tool adapter, such as `AGENTS.md`, `CLAUDE.md`, or Antigravity rules. Use the full install once when the target project still needs those adapter files.
 
 ## Update to Latest Version
 
@@ -197,6 +197,9 @@ The GitHub Actions package check validates the universal package and all generat
 - Templates describe product behavior and source-backed decisions. Screen inventories, API contracts and internal implementation remain in their appropriate artifacts.
 - Adapters locate project context through available entrypoints and project conventions. They do not prescribe a product folder layout, standards index path or validator command. Keep those locators in project-owned instructions outside managed blocks.
 - Updating the package does not automatically migrate existing Feature Specs.
+- `writing-requirements/references/document-metadata.md` defines the portable metadata contract. Read the target project policy before assigning delivery or approval: classify by type and owning path, preserve delivery on content edits, keep approval evidence tied to its revision, and synchronize current catalogs by exact link/ID without rewriting history or scope notes. Template frontmatter and `draft` are examples to adapt to the project schema, not a mandatory enum.
+- Project-owned policies, migration records and module templates remain in their project; this package does not supply a module template or replace those resources.
+- Skill instructions guide the agent; preventing invalid metadata from any editor requires the target project validator in its save/CI workflow. The installer does not enforce or rewrite project artifact values.
 
 ## Project and User-Level Skill Locations
 

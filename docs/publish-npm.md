@@ -5,16 +5,20 @@ Use this guide when releasing `@thanhndpo/tanizy-po-agent` or a generated target
 ## Release Checklist
 
 1. Update the package version in `package.json`. An npm package version cannot be reused after it has been published.
-2. Review the package contents:
+2. Run the release checks and review the package contents:
 
    ```bash
    npm run pack:check
+   npm run test:installer
+   npm run test:diagrams
+   npm run test:packages
    ```
 
-3. Build and validate target-specific packages when they are part of the release:
+   `test:packages` builds all target packages, packs actual npm tarballs, and tests installation/update in disposable projects. It checks shared resources and preserves project policy/artifacts. It does not evaluate model-generated artifact behavior.
+
+3. Validate generated target-specific package contents when they are part of the release:
 
    ```bash
-   npm run build:target-packages
    for package_dir in dist/packages/*; do
      node scripts/check-published-package.mjs "$package_dir"
    done
